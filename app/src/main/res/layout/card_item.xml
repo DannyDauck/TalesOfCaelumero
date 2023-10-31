@@ -179,16 +179,37 @@
                 android:padding="2dp">
 
                 <ImageView
+                    android:id="@+id/img_sec_cost_one"
                     android:layout_width="6dp"
                     android:layout_height="6dp"
                     app:srcCompat="@drawable/airchip" />
 
                 <ImageView
+                    android:id="@+id/img_sec_cost_two"
                     android:layout_width="6dp"
                     android:layout_height="6dp"
                     app:srcCompat="@drawable/airchip" />
 
                 <ImageView
+                    android:id="@+id/img_sec_cost_three"
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    app:srcCompat="@drawable/airchip" />
+
+                <ImageView
+                    android:id="@+id/img_sec_cost_four"
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    app:srcCompat="@drawable/airchip" />
+
+                <ImageView
+                    android:id="@+id/img_sec_cost_five"
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    app:srcCompat="@drawable/airchip" />
+
+                <ImageView
+                    android:id="@+id/img_sec_cost_six"
                     android:layout_width="6dp"
                     android:layout_height="6dp"
                     app:srcCompat="@drawable/airchip" />
@@ -196,6 +217,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/tv_sec_ability_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Fügt dem aktiven Helden des Gegners Schaden zu"

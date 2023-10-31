@@ -1,11 +1,13 @@
 package com.example.talesofcaelumora.data
 
+import com.example.trial.R
+
 class Card(
     val cardName: String,
     val cardType: String,
 
     val type: String,
-    val imgSrc: String,
+    val imgSrc: Int,
     var hp: Int,
 
     val firstAbilityName: String,
@@ -26,8 +28,8 @@ val heroDeck = listOf(
     Card(
         "Elara",
         "Hero",
-        "Air",
-        "R.drawable.elara", // Ressourcen-ID als Zeichenkette
+        "air",
+        R.drawable.elara,
         210,
         "Luftsschnitt",
         20,
@@ -41,8 +43,8 @@ val heroDeck = listOf(
     Card(
         "Kiara",
         "Hero",
-        "Fire",
-        "R.drawable.kiara", // Ressourcen-ID als Zeichenkette
+        "fire",
+        R.drawable.kiara,
         190,
         "Feuerball",
         25,
@@ -56,8 +58,8 @@ val heroDeck = listOf(
     Card(
         "Sylvan",
         "Hero",
-        "Plant",
-        "R.drawable.sylvan", // Ressourcen-ID als Zeichenkette
+        "plant",
+        R.drawable.sylvan,
         180,
         "Pflanzenwuchs",
         18,
@@ -71,8 +73,8 @@ val heroDeck = listOf(
     Card(
         "Aqua",
         "Hero",
-        "Water",
-        "R.drawable.aqua", // Ressourcen-ID als Zeichenkette
+        "water",
+        R.drawable.aqua,
         220,
         "Wasserstrahl",
         22,
@@ -86,8 +88,8 @@ val heroDeck = listOf(
     Card(
         "Flora",
         "Hero",
-        "Plant",
-        "R.drawable.flora", // Ressourcen-ID als Zeichenkette
+        "plant",
+        R.drawable.flora,
         195,
         "Blütenregen",
         24,
@@ -101,8 +103,8 @@ val heroDeck = listOf(
     Card(
         "Hydra",
         "Hero",
-        "Water",
-        "R.drawable.hydra", // Ressourcen-ID als Zeichenkette
+        "water",
+        R.drawable.hydra,
         240,
         "Wasserwoge",
         26,
