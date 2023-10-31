@@ -30,7 +30,7 @@
         app:layout_constraintTop_toTopOf="@+id/tv_cardname" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/img_card"
         android:layout_width="77dp"
         android:layout_height="66dp"
         android:layout_marginTop="12dp"
@@ -48,14 +48,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
+        app:layout_constraintTop_toBottomOf="@+id/img_card">
 
 
         <LinearLayout
+            android:id="@+id/ll_first_abiilty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/card_describtion_bg"
             android:orientation="vertical"
+            android:layout_weight="1"
             android:padding="2dp">
 
             <LinearLayout
@@ -64,53 +66,84 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_first_ability"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Luftschlag"
                     android:fontFamily="@font/alfa_slab_one"
+                    android:text="Luftschlag"
                     android:textSize="4sp"
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tv_first_ability_points"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="20"
-                    android:textSize="4sp"
                     android:fontFamily="@font/carter_one"
-                    android:textStyle="bold"
-                    android:textAlignment="viewEnd"/>
+                    android:text="20"
+                    android:textAlignment="viewEnd"
+                    android:textSize="4sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="2dp">
 
                 <ImageView
-                    android:layout_width="6dp"
-                    android:layout_height="6dp"
-                    app:srcCompat="@drawable/airchip" />
-                <ImageView
-                    android:layout_width="6dp"
-                    android:layout_height="6dp"
-                    app:srcCompat="@drawable/airchip" />
-                <ImageView
+                    android:id="@+id/img_first_cost_one"
                     android:layout_width="6dp"
                     android:layout_height="6dp"
                     app:srcCompat="@drawable/airchip" />
 
+                <ImageView
+                    android:id="@+id/img_first_cost_two"
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    app:srcCompat="@drawable/airchip" />
+
+                <ImageView
+                    android:id="@+id/img_first_cost_three"
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    app:srcCompat="@drawable/airchip" />
+
+                <ImageView
+                    android:id="@+id/img_first_cost_four"
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    app:srcCompat="@drawable/airchip" />
+
+                <ImageView
+                    android:id="@+id/img_first_cost_five"
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    app:srcCompat="@drawable/airchip" />
+
+                <ImageView
+                    android:id="@+id/img_first_cost_six"
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    app:srcCompat="@drawable/firechip" />
+
             </LinearLayout>
+
             <TextView
+                android:id="@+id/tv_first_ability_describtion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Fügt dem aktiven Helden des Gegners Schaden zu"
-                android:textSize="3sp"/>
+                android:textSize="3sp" />
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/ll_sec_ability"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/card_describtion_bg"
             android:layout_marginTop="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/card_describtion_bg"
             android:orientation="vertical"
             android:padding="2dp">
 
@@ -120,23 +153,26 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_sec_ability_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Luftschlag"
                     android:fontFamily="@font/alfa_slab_one"
+                    android:text="Luftschlag"
                     android:textSize="4sp"
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tv_sec_ability_points"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="20"
-                    android:textSize="4sp"
                     android:fontFamily="@font/carter_one"
-                    android:textStyle="bold"
-                    android:textAlignment="viewEnd"/>
+                    android:text="20"
+                    android:textAlignment="viewEnd"
+                    android:textSize="4sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -146,30 +182,33 @@
                     android:layout_width="6dp"
                     android:layout_height="6dp"
                     app:srcCompat="@drawable/airchip" />
+
                 <ImageView
                     android:layout_width="6dp"
                     android:layout_height="6dp"
                     app:srcCompat="@drawable/airchip" />
+
                 <ImageView
                     android:layout_width="6dp"
                     android:layout_height="6dp"
                     app:srcCompat="@drawable/airchip" />
 
             </LinearLayout>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Fügt dem aktiven Helden des Gegners Schaden zu"
-                android:textStyle="bold"
-                android:textSize="3sp"/>
+                android:textSize="3sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/img_card_type"
         android:layout_width="14dp"
         android:layout_height="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
+        app:layout_constraintBottom_toTopOf="@+id/img_card"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tv_hp"
         app:layout_constraintStart_toEndOf="@+id/tv_cardname"
