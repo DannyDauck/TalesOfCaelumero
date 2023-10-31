@@ -1,8 +1,8 @@
-package com.example.talesofcaelumora.ui
+package com.example.talesofcaelumora
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.trial.R
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -10,4 +10,6 @@
     <color name="water_sec">#36E4F4</color>
     <color name="plant_first">#51B31E</color>
     <color name="plant_sec">#91EE5F</color>
+    <color name="primary">#FF1268C4</color>
+    <color name="primary_night">#052C2B</color>
 </resources>

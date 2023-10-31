@@ -9,8 +9,8 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.talesofcaelumora.data.Card
-import com.example.trial.R
-import com.example.trial.databinding.CardItemBinding
+import com.example.talesofcaelumora.R
+import com.example.talesofcaelumora.databinding.CardItemBinding
 
 class SmallCardAdapter(
     private var data: List<Card>,

@@ -1,6 +1,6 @@
 package com.example.talesofcaelumora.data
 
-import com.example.trial.R
+import com.example.talesofcaelumora.R
 
 class Card(
     val cardName: String,
