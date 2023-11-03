@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph.xml"
-    app:startDestination="@id/splashScreenFragment">
+    app:startDestination="@id/battleFragment">
 
     <fragment
         android:id="@+id/testFragment"
@@ -24,4 +24,9 @@
             android:id="@+id/action_splashScreenFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/battleFragment"
+        android:name="com.example.talesofcaelumora.ui.BattleFragment"
+        android:label="fragment_battle"
+        tools:layout="@layout/fragment_battle" />
 </navigation>

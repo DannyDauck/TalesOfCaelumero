@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android">
+            <corners
+                android:topLeftRadius="12dp"
+                android:topRightRadius="6dp"
+                android:bottomRightRadius="12dp"
+                android:bottomLeftRadius="6dp"/>
+            <gradient
+                android:startColor="@color/air_first"
+                android:endColor="@color/air_sec"
+                android:type="linear"
+                android:angle="90"/>
+            <stroke android:width="4dp"
+                android:color="#da9b25"/>
+
+        </shape>
+    </item>
+    <item
+        android:drawable="@drawable/header_tales_of"
+        android:top="20dp"
+        android:height="50dp"
+        android:width="244dp">
+    </item>
+    <item
+        android:bottom="112dp"
+        android:top="110dp"
+        android:left="22dp"
+        android:right="22dp"
+        android:drawable="@drawable/caelumero_shield">
+    </item>
+    <item
+        android:top="345dp"
+        android:width="244dp"
+        android:height="50dp"
+        android:drawable="@drawable/header_caelumero">
+    </item>
+</layer-list>

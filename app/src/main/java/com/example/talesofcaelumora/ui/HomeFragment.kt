@@ -13,6 +13,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.talesofcaelumora.R
+import com.example.talesofcaelumora.data.musicVolume
 import com.example.talesofcaelumora.databinding.FragmentHomeBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -69,13 +70,14 @@ class HomeFragment : Fragment() {
         mediaPlayer?.start()
 
 
-        bnd.musicVolumeSeekBar.progress = 50    //TODO im viewModel ne float für die Lautstärken einrichten damit nicht jedesmal der Progress auf 50 gesetzt wird
+        bnd.musicVolumeSeekBar.progress = 50
         bnd.vfxVolumeSeekBar.progress = 50
         bnd.musicVolumeSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
 
                 val volume = progress / 100f
                 mediaPlayer?.setVolume(volume, volume)
+                musicVolume = volume
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -83,10 +85,20 @@ class HomeFragment : Fragment() {
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                // Nicht erforderlich
+                // muss auch hinzugefügt werden
             }
         })
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mediaPlayer?.pause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mediaPlayer?.start()
     }
 
     override fun onDestroy() {
@@ -108,6 +120,7 @@ class HomeFragment : Fragment() {
 
 
     }
+    //zewite Funtkition um Rekusivschleife zu umgehen
     private fun turnBack(view: View){
         val translation = TranslateAnimation(0f, -200f, 0f, 0f)
         translation.duration = 10000

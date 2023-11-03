@@ -39,9 +39,12 @@ class SplashScreenFragment : Fragment() {
         rotation.duration = 10000
         val rotationBack = RotateAnimation(0f, -720f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
         rotationBack.duration = 10000
+        val shieldrotation = RotateAnimation(0f, -720f, Animation.RELATIVE_TO_SELF, 0.5f,Animation.RELATIVE_TO_SELF ,0.5f)
+        shieldrotation.duration = 10000
 
         bnd.clMain.startAnimation(rotation)
-        listOf(bnd.imageView,bnd.imageView2,bnd.imageView3,bnd.imageView4).forEach { it.startAnimation(rotationBack) }
+        bnd.imgShield.startAnimation(shieldrotation)
+        listOf(bnd.imgAirchip, bnd.imgFirechip, bnd.imgWaterchip, bnd.imgPlantchip).forEach { it.startAnimation(rotationBack) }
         lifecycleScope.launch {
             delay(10000)
             rotateback()
@@ -52,19 +55,24 @@ class SplashScreenFragment : Fragment() {
         rotation.duration = 5000
         val rotationback = RotateAnimation(0f, -360f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
         rotationback.duration = 5000
+        val shieldrotation = RotateAnimation(0f, -1080f, Animation.RELATIVE_TO_SELF, 0.5f,Animation.RELATIVE_TO_SELF ,0.5f)
+        shieldrotation.duration = 7000
 
         bnd.clMain.startAnimation(rotation)
-        listOf(bnd.imageView,bnd.imageView2,bnd.imageView3,bnd.imageView4).forEach { it.startAnimation(rotationback) }
+        bnd.imgShield.startAnimation(shieldrotation)
+        listOf(bnd.imgAirchip, bnd.imgFirechip, bnd.imgWaterchip, bnd.imgPlantchip).forEach { it.startAnimation(rotationback) }
         lifecycleScope.launch {
-            delay(6000)
-            bnd.imageView4.isVisible = false
+            delay(8000)
+            bnd.imgPlantchip.isVisible = false
             delay(500)
-            bnd.imageView3.isVisible = false
+            bnd.imgFirechip.isVisible = false
             delay(500)
-            bnd.imageView2.isVisible = false
+            bnd.imgWaterchip.isVisible = false
             delay(500)
-            bnd.imageView.isVisible = false
-            delay(500)
+            bnd.imgAirchip.isVisible = false
+            delay(700)
+            bnd.imgShield.isVisible = false
+            delay(800)
             findNavController().navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToHomeFragment())
         }
 
