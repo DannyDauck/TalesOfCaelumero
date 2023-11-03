@@ -114,6 +114,37 @@ val heroDeck = listOf(
         220,
         listOf("water", "water", "water", "water"),
         "Aus der Tiefe der Meere"
+    ),
+    Card(
+        "Wald",
+        "Land",
+        "plant",
+        R.drawable.land_forest_one,
+        1,
+        "Verzaubertes Dickicht",
+        0,
+        listOf(),
+        "\"Das Verzauberte Dickicht ist ein märchenhafter Ort, an dem wundersame Blumen den Weg beleuchten und die Naturzauber Wünsche erfüllen.\"",
+        "",
+        0,
+        listOf(),
+        ""
+    ),
+    Card(
+        "Wald",
+        "Land",
+        "plant",
+        R.drawable.land_forest_two,
+        1,
+        "Silberwald",
+        0,
+        listOf(),
+        "\"Die silbernen Blätter der Bäume glänzen im Morgentau und ein magischer Glanz erlauchted den Weg. Die Naturgeister des Waldes hüten sein Geheimniss\"",
+        "",
+        0,
+        listOf(),
+        ""
     )
+
 )
 //</editor-fold>

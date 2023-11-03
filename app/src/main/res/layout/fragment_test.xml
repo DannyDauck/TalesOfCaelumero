@@ -4,31 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/caelumero"
+    android:rotationX="0"
     tools:context="com.example.talesofcaelumora.ui.TestFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv_hero_table"
-        android:layout_width="203dp"
-        android:layout_height="324dp"
-        android:layout_marginBottom="20dp"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:spanCount="2"
-        tools:itemCount="4"
-        tools:listitem="@layout/card_item" />
-
-    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_hero_table_opponent"
-        android:layout_width="198dp"
-        android:layout_height="312dp"
-        android:layout_marginTop="20dp"
-        android:rotation="180"
+        android:layout_width="698dp"
+        android:layout_height="803dp"
+        android:layout_marginTop="4dp"
+        android:rotationX="0"
+        android:scaleX="0.5"
+        android:scaleY="0.5"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.425"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:spanCount="2"

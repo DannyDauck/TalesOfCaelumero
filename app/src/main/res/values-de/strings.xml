@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tales Of Caelumora</string>
+    <string name="music_volume">Musiklautstärke</string>
+    <string name="vfx_volume">VFX Lautstärke</string>
+    <string name="close_app">App schließen</string>
+    <string name="sure_to_leave">Bist du sicher das du Caelumero verlassen möchtest?</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+</resources>

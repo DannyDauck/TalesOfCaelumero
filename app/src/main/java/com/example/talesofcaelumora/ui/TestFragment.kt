@@ -24,8 +24,7 @@ class TestFragment : Fragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        var adapter = SmallCardAdapter(heroDeck)
-        bnd.rcvHeroTable.adapter = adapter
+
 
         var opponenAdapter = SmallCardAdapter(heroDeck.shuffled())
         bnd.rcvHeroTableOpponent.adapter = opponenAdapter
