@@ -7,37 +7,13 @@
     android:background="@drawable/land_forest_two"
     tools:context=".ui.BattleFragment">
 
-    <ImageView
-        android:id="@+id/btn_turn_table"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="200dp"
-        android:layout_marginEnd="16dp"
-        android:src="@drawable/turn_table"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/txt_player_info"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:fontFamily="@font/aclonica"
-        android:text="Gegner Seite"
-        android:textColor="@color/white"
-        android:textSize="48sp"
-        android:textStyle="bold"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_battleground"
         android:layout_width="2000dp"
         android:layout_height="2000dp"
         android:background="@drawable/battleground_one"
         android:rotation="-180"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,26 +26,26 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="500dp"
             android:rotation="90"
-            android:src="@drawable/card_bg"
-            app:layout_constraintBottom_toTopOf="@+id/player_hereos"
+            android:src="@drawable/card_stack_left"
+            app:layout_constraintBottom_toTopOf="@+id/player_heroes"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/opponent_hereos" />
+            app:layout_constraintTop_toBottomOf="@+id/opponent_heroes" />
 
         <ImageView
-            android:id="@+id/oppnent_deck"
+            android:id="@+id/opponent_deck"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="500dp"
             android:rotation="-90"
-            android:src="@drawable/card_bg"
-            app:layout_constraintBottom_toTopOf="@+id/player_hereos"
+            android:src="@drawable/card_stack"
+            app:layout_constraintBottom_toTopOf="@+id/player_heroes"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/opponent_hereos" />
+            app:layout_constraintTop_toBottomOf="@+id/opponent_heroes" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/opponent_hereos"
+            android:id="@+id/opponent_heroes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="800dp"
@@ -83,20 +59,444 @@
             tools:itemCount="5"
             tools:listitem="@layout/card_item" />
 
+
+
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/player_hereos"
+            android:id="@+id/player_heroes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="800dp"
+            android:background="@drawable/seek_bar_bg"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.496"
             tools:itemCount="5"
             tools:listitem="@layout/card_item" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <LinearLayout
+        android:id="@+id/land_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/landbar_bg"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/navbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:id="@+id/air_cards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="1"
+            android:background="#44dddddd"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginBottom="4dp"
+                android:layout_weight="1"
+                android:src="@drawable/air_ico"
+                app:tint="@color/black" />
+
+            <TextView
+                android:id="@+id/txt_air_resources"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0/5"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fire_cards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="#44dddddd"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginBottom="4dp"
+                android:layout_weight="1"
+                android:src="@drawable/fire_ico"
+                app:tint="@color/black" />
+
+            <TextView
+                android:id="@+id/txt_fire_resources"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0/5"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/water_cards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="1"
+            android:background="#44dddddd"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginBottom="4dp"
+                android:layout_weight="1"
+                android:src="@drawable/water_ico"
+                app:tint="@color/black" />
+
+            <TextView
+                android:id="@+id/txt_water_resources"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0/5"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/nature_cards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="#44dddddd"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginBottom="4dp"
+                android:layout_weight="1"
+                android:src="@drawable/nature_ico"
+                app:tint="@color/black" />
+
+            <TextView
+                android:id="@+id/txt_nature_resources"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0/5"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/navbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/navbar_bg_nature"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginBottom="4dp"
+                android:layout_weight="1"
+                android:src="@drawable/home_ico"
+                app:tint="@color/smooth_gold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Home"
+                android:textColor="@color/smooth_gold"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginBottom="4dp"
+                android:layout_weight="1"
+                android:src="@drawable/home_ico"
+                app:tint="@color/smooth_gold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Home"
+                android:textColor="@color/smooth_gold"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/player_lifebar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:progress="80"
+        android:paddingRight="4dp"
+        android:paddingLeft="4dp"
+        android:background="@drawable/progressbar_shape_seconddary"
+        android:progressTint="@color/smooth_gold"
+        app:layout_constraintBottom_toTopOf="@+id/land_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_player_hp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
+        android:paddingRight="8dp"
+        android:paddingLeft="8dp"
+        android:text="250/250 HP"
+        android:background="@drawable/marquee_text_bg"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:fontFamily="@font/alfa_slab_one"
+        app:layout_constraintBottom_toTopOf="@+id/player_lifebar"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/top_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/top_bar_bg">
+        <LinearLayout
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="4dp"
+                android:layout_weight="1"
+                android:src="@drawable/chevron_left"
+                app:tint="@color/smooth_gold" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/marqueeText"
+            android:layout_width="200dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="2"
+            android:background="@drawable/marquee_text_bg"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:fontFamily="@font/aclonica"
+            android:gravity="center_vertical"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:paddingLeft="8dp"
+            android:paddingTop="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="song: Secret Of The Silverforest - Danny D."
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+        <LinearLayout
+            android:id="@+id/btn_change_song"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/btn_music_on_off_img"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="4dp"
+                android:layout_weight="1"
+                android:src="@drawable/turn_table"
+                app:tint="@color/smooth_gold" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/btn_music_on_off"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="4dp"
+                android:layout_weight="1"
+                android:src="@drawable/music_on"
+                app:tint="@color/smooth_gold" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/oppnent_lifebar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:progress="80"
+        android:paddingRight="4dp"
+        android:paddingLeft="4dp"
+        android:background="@drawable/progressbar_shape_seconddary"
+        android:progressTint="@color/smooth_gold"
+        app:layout_constraintTop_toBottomOf="@+id/top_nav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+    <TextView
+        android:id="@+id/txt_opponent_hp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
+        android:paddingRight="8dp"
+        android:paddingLeft="8dp"
+        android:text="250/250 HP"
+        android:background="@drawable/marquee_text_bg"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:fontFamily="@font/alfa_slab_one"
+        app:layout_constraintTop_toBottomOf="@+id/oppnent_lifebar"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/sidebar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:translationX="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.275">
+
+        <ImageView
+            android:id="@+id/btn_sidebar_on_off"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/slider_side_bg"
+            android:src="@drawable/chevron_left"
+            app:tint="@color/smooth_gold" />
+
+        <LinearLayout
+
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/sidebar_bg"
+            android:orientation="vertical"
+            android:paddingLeft="8dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="20dp">
+
+            <ImageView
+                android:id="@+id/btn_turn_table"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_weight="1"
+                android:src="@drawable/turn_around"
+                app:tint="@color/smooth_gold" />
+
+            <ImageView
+                android:id="@+id/btn_hand"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_weight="1"
+                android:src="@drawable/hand"
+                app:tint="@color/smooth_gold" />
+
+            <ImageView
+                android:id="@+id/btn_graveyard"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_weight="1"
+                android:src="@drawable/graveyard_ico"
+                app:tint="@color/smooth_gold" />
+        </LinearLayout>
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

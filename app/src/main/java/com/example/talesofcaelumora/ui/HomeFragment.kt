@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.animation.TranslateAnimation
 import android.widget.SeekBar
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.talesofcaelumora.R
@@ -67,15 +68,17 @@ class HomeFragment : Fragment() {
 
         mediaPlayer = MediaPlayer.create(requireContext(), R.raw.main_theme)
         mediaPlayer?.isLooping = true
+        mediaPlayer?.setVolume(musicVolume, musicVolume)
         mediaPlayer?.start()
 
 
-        bnd.musicVolumeSeekBar.progress = 50
+        bnd.musicVolumeSeekBar.progress = (musicVolume * 100).toInt()
         bnd.vfxVolumeSeekBar.progress = 50
         bnd.musicVolumeSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
 
                 val volume = progress / 100f
+                musicVolume = progress / 100f
                 mediaPlayer?.setVolume(volume, volume)
                 musicVolume = volume
             }
@@ -88,6 +91,14 @@ class HomeFragment : Fragment() {
                 // muss auch hinzugefügt werden
             }
         })
+
+
+        bnd.btnSetiings.setOnClickListener{
+            bnd.clSettings.isVisible = !bnd.clSettings.isVisible
+        }
+        bnd.btnGame.setOnClickListener{
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToBattleFragment())
+        }
 
     }
 

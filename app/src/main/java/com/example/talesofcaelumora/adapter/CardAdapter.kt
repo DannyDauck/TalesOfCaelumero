@@ -1,22 +1,19 @@
 package com.example.talesofcaelumora.adapter
 
-import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.talesofcaelumora.data.Card
 import com.example.talesofcaelumora.R
 import com.example.talesofcaelumora.databinding.CardItemBinding
 
-class SmallCardAdapter(
+class CardAdapter(
     private var data: List<Card>,
 ) :
-    RecyclerView.Adapter<SmallCardAdapter.ListHolder>() {
+    RecyclerView.Adapter<CardAdapter.ListHolder>() {
 
     inner class ListHolder(val bnd: CardItemBinding) : RecyclerView.ViewHolder(bnd.root)
 
