@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.talesofcaelumora.adapter.CardAdapter
-import com.example.talesofcaelumora.data.heroDeck
+import com.example.talesofcaelumora.data.datamodel.heroDeck
 import com.example.talesofcaelumora.databinding.FragmentTestBinding
 
 class TestFragment : Fragment() {
@@ -24,8 +24,7 @@ class TestFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        bnd.rcvHeroTableOpponent.adapter = CardAdapter(heroDeck)
 
-        var opponenAdapter = CardAdapter(heroDeck.shuffled())
-        bnd.rcvHeroTableOpponent.adapter = opponenAdapter
     }
 }

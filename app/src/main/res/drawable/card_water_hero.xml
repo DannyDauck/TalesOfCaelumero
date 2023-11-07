@@ -10,7 +10,4 @@
         android:endColor="@color/water_sec"
         android:type="linear"
         android:angle="90"/>
-    <stroke android:width="4dp"
-        android:color="@color/black"/>
-
 </shape>

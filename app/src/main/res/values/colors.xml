@@ -13,4 +13,8 @@
     <color name="primary">#FF1268C4</color>
     <color name="primary_night">#052C2B</color>
     <color name="smooth_gold">#da9b25</color>
+    <color name="good_health">#96FF03</color>
+    <color name="selcted_value_ligth">#75FA00F6</color>
+    <color name="selected_value_dark">#754E076D</color>
+    <color name="supporter_one">#728D85</color>
 </resources>

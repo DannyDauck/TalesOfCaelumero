@@ -2,250 +2,296 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="244dp"
-    android:layout_height="425dp"
-    android:background="@drawable/card_air_hero"
+    android:layout_width="248dp"
+    android:layout_height="429dp"
     android:layout_margin="8sp"
-    android:padding="12dp">
+    android:background="@drawable/card_stroke_disselected"
+    android:padding="6dp">
 
-    <TextView
-        android:id="@+id/tv_cardname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/aclonica"
-        android:text="Elionara"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_hp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/alfa_slab_one"
-        android:text="250HP"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_cardname"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_cardname" />
-
-    <ImageView
-        android:id="@+id/img_card"
-        android:layout_width="239dp"
-        android:layout_height="193dp"
-        android:layout_marginTop="1dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_cardname"
-        tools:srcCompat="@drawable/elara2" />
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:orientation="vertical"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/card_air_hero"
+        android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_card"
-        android:padding="4dp">
+        app:layout_constraintTop_toTopOf="parent">
 
+
+        <TextView
+            android:id="@+id/tv_cardname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/aclonica"
+            android:text="Elionara"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_hp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/alfa_slab_one"
+            android:text="250HP"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_cardname"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_cardname" />
+
+        <ImageView
+            android:id="@+id/img_card"
+            android:layout_width="237dp"
+            android:layout_height="193dp"
+            android:layout_marginTop="1dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.533"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_cardname"
+            tools:srcCompat="@drawable/elara2" />
 
         <LinearLayout
-            android:id="@+id/ll_first_abiilty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/card_describtion_bg"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
             android:orientation="vertical"
-            android:padding="2dp">
+            android:padding="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_card">
+
 
             <LinearLayout
+                android:id="@+id/ll_first_abiilty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_first_ability"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/alfa_slab_one"
-                    android:text="Luftschlag"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_first_ability_points"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/carter_one"
-                    android:text="20"
-                    android:textColor="@color/black"
-                    android:textAlignment="viewEnd"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_first_abiilty_costs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/card_describtion_bg"
+                android:orientation="vertical"
                 android:padding="2dp">
 
-                <ImageView
-                    android:id="@+id/img_first_cost_one"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    app:srcCompat="@drawable/airchip" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/img_first_cost_two"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    app:srcCompat="@drawable/airchip" />
+                    <TextView
+                        android:id="@+id/tv_first_ability"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/alfa_slab_one"
+                        android:text="Luftschlag"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-                <ImageView
-                    android:id="@+id/img_first_cost_three"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    app:srcCompat="@drawable/airchip" />
+                    <TextView
+                        android:id="@+id/tv_first_ability_points"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/carter_one"
+                        android:text="20"
+                        android:textAlignment="viewEnd"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-                <ImageView
-                    android:id="@+id/img_first_cost_four"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    app:srcCompat="@drawable/airchip" />
+                </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/img_first_cost_five"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    app:srcCompat="@drawable/airchip" />
+                <LinearLayout
+                    android:id="@+id/ll_first_abiilty_costs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp">
 
-                <ImageView
-                    android:id="@+id/img_first_cost_six"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    app:srcCompat="@drawable/firechip" />
+                    <ImageView
+                        android:id="@+id/img_first_cost_one"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:srcCompat="@drawable/airchip" />
 
+                    <ImageView
+                        android:id="@+id/img_first_cost_two"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:srcCompat="@drawable/airchip" />
+
+                    <ImageView
+                        android:id="@+id/img_first_cost_three"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:srcCompat="@drawable/airchip" />
+
+                    <ImageView
+                        android:id="@+id/img_first_cost_four"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:srcCompat="@drawable/airchip" />
+
+                    <ImageView
+                        android:id="@+id/img_first_cost_five"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:srcCompat="@drawable/airchip" />
+
+                    <ImageView
+                        android:id="@+id/img_first_cost_six"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:srcCompat="@drawable/firechip" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_first_ability_describtion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Fügt dem aktiven Helden des Gegners Schaden zu"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_first_ability_describtion"
+            <LinearLayout
+                android:id="@+id/ll_sec_ability"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Fügt dem aktiven Helden des Gegners Schaden zu"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="12sp" />
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/card_describtion_bg"
+                android:orientation="vertical"
+                android:padding="2dp"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_sec_ability_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/alfa_slab_one"
+                        android:text="Luftschlag"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_sec_ability_points"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/carter_one"
+                        android:text="20"
+                        android:textAlignment="viewEnd"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp">
+
+                    <ImageView
+                        android:id="@+id/img_sec_cost_one"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:srcCompat="@drawable/airchip" />
+
+                    <ImageView
+                        android:id="@+id/img_sec_cost_two"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:srcCompat="@drawable/airchip" />
+
+                    <ImageView
+                        android:id="@+id/img_sec_cost_three"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:srcCompat="@drawable/airchip" />
+
+                    <ImageView
+                        android:id="@+id/img_sec_cost_four"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:srcCompat="@drawable/airchip" />
+
+                    <ImageView
+                        android:id="@+id/img_sec_cost_five"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:srcCompat="@drawable/airchip" />
+
+                    <ImageView
+                        android:id="@+id/img_sec_cost_six"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:srcCompat="@drawable/airchip" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_sec_ability_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Fügt dem aktiven Helden des Gegners Schaden zu"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/img_card_type"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            app:layout_constraintBottom_toTopOf="@+id/img_card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tv_hp"
+            app:layout_constraintStart_toEndOf="@+id/tv_cardname"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/airchip" />
 
         <LinearLayout
-            android:id="@+id/ll_sec_ability"
+            android:id="@+id/ll_lifeinfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:layout_weight="1"
-            android:background="@drawable/card_describtion_bg"
             android:orientation="vertical"
-            android:padding="2dp"
-            android:visibility="visible">
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_hp">
 
-            <LinearLayout
+            <ProgressBar
+                android:id="@+id/lifebar"
+                style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_sec_ability_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/alfa_slab_one"
-                    android:text="Luftschlag"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_sec_ability_points"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/carter_one"
-                    android:text="20"
-                    android:textAlignment="viewEnd"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="2dp">
-
-                <ImageView
-                    android:id="@+id/img_sec_cost_one"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    app:srcCompat="@drawable/airchip" />
-
-                <ImageView
-                    android:id="@+id/img_sec_cost_two"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    app:srcCompat="@drawable/airchip" />
-
-                <ImageView
-                    android:id="@+id/img_sec_cost_three"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    app:srcCompat="@drawable/airchip" />
-
-                <ImageView
-                    android:id="@+id/img_sec_cost_four"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    app:srcCompat="@drawable/airchip" />
-
-                <ImageView
-                    android:id="@+id/img_sec_cost_five"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    app:srcCompat="@drawable/airchip" />
-
-                <ImageView
-                    android:id="@+id/img_sec_cost_six"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    app:srcCompat="@drawable/airchip" />
-
-            </LinearLayout>
+                android:layoutDirection="rtl"
+                android:progress="100"
+                android:progressTint="@color/good_health" />
 
             <TextView
-                android:id="@+id/tv_sec_ability_description"
-                android:layout_width="match_parent"
+                android:id="@+id/tv_current_hp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Fügt dem aktiven Helden des Gegners Schaden zu"
-                android:textColor="@color/black"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:layout_gravity="right"
+                android:fontFamily="@font/alfa_slab_one"
+                android:text="250HP"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
         </LinearLayout>
-    </LinearLayout>
 
-    <ImageView
-        android:id="@+id/img_card_type"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/img_card"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tv_hp"
-        app:layout_constraintStart_toEndOf="@+id/tv_cardname"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/airchip" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
