@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1070439251882",
+    "project_id": "tales-of-caelumero",
+    "storage_bucket": "tales-of-caelumero.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1070439251882:android:b34d4b9be8e79d16d975d3",
+        "android_client_info": {
+          "package_name": "com.example.talesofcaelumora"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxo4islsYmdqJcEeB5PTiQUGH-M3A19Ho"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

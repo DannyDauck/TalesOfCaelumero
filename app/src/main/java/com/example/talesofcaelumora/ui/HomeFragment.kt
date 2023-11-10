@@ -16,6 +16,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.talesofcaelumora.R
 import com.example.talesofcaelumora.data.musicVolume
 import com.example.talesofcaelumora.databinding.FragmentHomeBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -24,6 +27,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var bnd: FragmentHomeBinding
     private var mediaPlayer: MediaPlayer? = null
+    private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,6 +102,10 @@ class HomeFragment : Fragment() {
         }
         bnd.btnGame.setOnClickListener{
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToBattleFragment())
+        }
+        bnd.btnLogout.setOnClickListener {
+            Firebase.auth.signOut()
+            findNavController().navigate(R.id.loginFragment)
         }
 
     }

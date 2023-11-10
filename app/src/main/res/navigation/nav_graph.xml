@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph.xml"
-    app:startDestination="@id/splashScreenFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/testFragment"
@@ -33,4 +33,13 @@
         android:name="com.example.talesofcaelumora.ui.BattleFragment"
         android:label="fragment_battle"
         tools:layout="@layout/fragment_battle" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.talesofcaelumora.ui.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_splashScreenFragment"
+            app:destination="@id/splashScreenFragment" />
+    </fragment>
 </navigation>

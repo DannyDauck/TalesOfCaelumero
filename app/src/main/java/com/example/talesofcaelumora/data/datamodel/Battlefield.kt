@@ -22,5 +22,6 @@ class Battlefield(
 
 val battlefields = listOf(
     Battlefield("Silverforest", R.drawable.land_forest_two, R.drawable.battleground_one, R.drawable.navbar_bg_nature, R.raw.forest_battle, "Secret Of The Silverforest - Danny D. "),
-    Battlefield("Temple Of Water", R.drawable.temple_of_waterbenders, R.drawable.battleground_two, R.drawable.navbar_bg_water, R.raw.watertheme, "The Spirit Of Water - DarT music ")
+    Battlefield("Temple Of Water", R.drawable.temple_of_waterbenders, R.drawable.battleground_two, R.drawable.navbar_bg_water, R.raw.watertheme, "The Spirit Of Water - DarT music "),
+    Battlefield("Ignisaria", R.drawable.fire_battle_bg_two, R.drawable.battleground_three, R.drawable.navbar_fire, R.raw.fire_theme, "Fire Is Burning Inside Me - Danny D. ")
 )

@@ -24,7 +24,7 @@ class TestFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        bnd.rcvHeroTableOpponent.adapter = CardAdapter(heroDeck)
+        bnd.rcvHeroTableOpponent.adapter = CardAdapter(heroDeck, "", requireContext())
 
     }
 }

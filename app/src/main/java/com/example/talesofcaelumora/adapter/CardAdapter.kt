@@ -1,32 +1,43 @@
 package com.example.talesofcaelumora.adapter
 
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.talesofcaelumora.data.datamodel.Card
 import com.example.talesofcaelumora.R
 import com.example.talesofcaelumora.databinding.CardItemBinding
+import com.google.firebase.storage.FirebaseStorage
 
 class CardAdapter(
     private var data: List<Card>,
-    private var type: String? = ""
+    private var type: String = "",
+    private val context: Context
 ) :
     RecyclerView.Adapter<CardAdapter.ListHolder>() {
 
     inner class ListHolder(val bnd: CardItemBinding) : RecyclerView.ViewHolder(bnd.root)
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListHolder {
+
         val binding = CardItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ListHolder(binding)
+
     }
 
     override fun onBindViewHolder(holder: ListHolder, position: Int) {
         val card = data[position]
         holder.bnd.tvCardname.text = card.cardName
-        holder.bnd.imgCard.setImageResource(card.imgSrc)
+        Glide.with(context)
+            .load("https://firebasestorage.googleapis.com/v0/b/tales-of-caelumero.appspot.com/o/card%2Fimages%2Fcity.jpeg?alt=media&token=76c9d25a-0152-4012-8bd5-f907ac8702de&_gl=1*1fcv8wa*_ga*NjczMjA1OTkxLjE2OTkyNTU5Nzk.*_ga_CW55HF8NVT*MTY5OTUzODY0OS4yMC4xLjE2OTk1Mzk4MDMuNjAuMC4w")
+            .placeholder(R.drawable.elara)
+            .into(holder.bnd.imgCard)
         holder.bnd.tvHp.text = when (card.cardType) {
             "Hero" -> card.hp.toString() + "HP"
             "Land" -> "Land"
@@ -84,17 +95,19 @@ class CardAdapter(
             holder.bnd.tvFirstAbilityPoints.isVisible = false
             holder.bnd.tvFirstAbility.text = card.firstAbilityName
             holder.bnd.tvFirstAbilityDescribtion.text = card.firstAbilityDescription
-        } else if(card.cardType == "Supporter"){
+        } else if (card.cardType == "Supporter") {
             holder.bnd.llSecAbility.isGone = true
             holder.bnd.llFirstAbiiltyCosts.isGone = true
             holder.bnd.tvFirstAbilityPoints.isVisible = false
             holder.bnd.tvFirstAbility.text = card.firstAbilityName
             holder.bnd.tvFirstAbilityDescribtion.text = card.firstAbilityDescription
         }
-        if(type=="selection"){
+        if (type == "selection") {
             holder.bnd.root.setOnClickListener {
                 card.selected = !card.selected
-                if(card.selected)it.setBackgroundResource(R.drawable.card_stroke_selected)else it.setBackgroundResource(R.drawable.card_stroke_disselected)
+                if (card.selected) it.setBackgroundResource(R.drawable.card_stroke_selected) else it.setBackgroundResource(
+                    R.drawable.card_stroke_disselected
+                )
             }
         }
 
@@ -132,7 +145,8 @@ class CardAdapter(
             list[it].setImageResource(getChip(costs[it]))
         }
     }
-    fun update(cards: List<Card>, mode: String){
+
+    fun update(cards: List<Card>, mode: String) {
         data = cards
         type = mode
         notifyDataSetChanged()

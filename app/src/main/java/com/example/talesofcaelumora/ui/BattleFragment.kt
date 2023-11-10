@@ -51,9 +51,9 @@ class BattleFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        var playerHereos = CardAdapter(heroDeck.shuffled().subList(0, 5))
-        var opponentHereos = CardAdapter(heroDeck.shuffled().subList(0, 5))
-        var gridAdapter = CardAdapter(heroDeck.shuffled().plus(heroDeck.shuffled()),"selection")
+        var playerHereos = CardAdapter(heroDeck.shuffled().subList(0, 5), "",requireContext())
+        var opponentHereos = CardAdapter(heroDeck.shuffled().subList(0, 5), "", requireContext())
+        var gridAdapter = CardAdapter(heroDeck.shuffled().plus(heroDeck.shuffled()),"selection", requireContext())
         val battlefield = battlefields.random()
         battlefield.setBattlefield(bnd)
 

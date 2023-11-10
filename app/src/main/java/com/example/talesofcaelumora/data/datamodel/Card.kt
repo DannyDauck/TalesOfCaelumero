@@ -2,28 +2,37 @@ package com.example.talesofcaelumora.data.datamodel
 
 import com.example.talesofcaelumora.R
 
-class Card(
+//muss eine data class sein weil ansonsten die copy Funktion des GameDataApiService
+//nicht funktioniert, die automatisch die FirestoreId zuweist
+
+data class Card(
+    val id: String,
     val cardName: String,
     val cardType: String,
+    val rarity: String,
+    val releaseDate: String,
 
     val type: String,
-    val imgSrc: Int,
-    var hp: Int,
+    val imgSrc: String,
+    val hp: Int,
 
     val firstAbilityName: String,
+    val firstAbilityType: String,
     val firstAbilityPoints: Int,
     val firstAbilityCosts: List<String>,
     val firstAbilityDescription: String,
 
     val secAbilityName: String,
+    val secAbilityType: String,
     val secAbilityPoints: Int,
     val secAbilityCosts: List<String>,
     val secAbilityDescription: String,
 ) {
     var selected = false
+    var currentHp: Int = hp
 }
 
-
+/*
 //<editor-fold desc="Example">
 val heroDeck = listOf(
     Card(
@@ -165,3 +174,4 @@ val heroDeck = listOf(
 
 )
 //</editor-fold>
+*/

@@ -7,4 +7,22 @@
     <string name="sure_to_leave">Are you sure you want to leave Caelumero?</string>
     <string name="yes">yes</string>
     <string name="no">no</string>
+    <string name="client_id" translatable="false">1070439251882-h7fthb063puv7t5indum4qjtsatba15m.apps.googleusercontent.com</string>
+    <string name="home">Home</string>
+    <string name="ok">OK</string>
+
+    <!-- login screen strings -->
+    <string name="google_signin_client_not_initialized">Unable to sign in at the moment. Please try again later.</string>
+    <string name="invalid_email">Invalid email address</string>
+    <string name="password_requirements">Please use a secure password (at least 1 uppercase, 1 lowercase, 1 special character, and a minimum length of 8 characters).</string>
+    <string name="passwords_do_not_match">Passwords do not match</string>
+    <string name="existing_user_account">User account already exists</string>
+    <string name="sign_up_failed">Sign up failed</string>
+    <string name="signin_failed">Sign-in failed</string>
+    <string name="google_signin_successful">Signed in with Google account</string>
+    <string name="google_signin_failed">Failed to sign in with Google account. Please try again later.</string>
+    <string name="signin_successful">Sign-in successful</string>
+    <string name="signin_with_google_account">Sign in with Google account</string>
+    <string name="try_again_later">try again later</string>
+    <string name="signin_with_google_account_failed">sign in with google failed</string>
 </resources>
