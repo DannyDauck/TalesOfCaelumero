@@ -35,7 +35,7 @@ class CardAdapter(
         val card = data[position]
         holder.bnd.tvCardname.text = card.cardName
         Glide.with(context)
-            .load("https://firebasestorage.googleapis.com/v0/b/tales-of-caelumero.appspot.com/o/card%2Fimages%2Fcity.jpeg?alt=media&token=76c9d25a-0152-4012-8bd5-f907ac8702de&_gl=1*1fcv8wa*_ga*NjczMjA1OTkxLjE2OTkyNTU5Nzk.*_ga_CW55HF8NVT*MTY5OTUzODY0OS4yMC4xLjE2OTk1Mzk4MDMuNjAuMC4w")
+            .load(card.imgSrc)
             .placeholder(R.drawable.elara)
             .into(holder.bnd.imgCard)
         holder.bnd.tvHp.text = when (card.cardType) {
@@ -134,7 +134,7 @@ class CardAdapter(
         }
     }
 
-    fun getCosts(list: List<ImageView>, costs: List<String>) {
+    fun getCosts(list: List<ImageView>, costs: Array<String>) {
 
 
         //Sets first all invisible and then back again from the beginning costs size long to visible and get the right type chip

@@ -8,10 +8,12 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.talesofcaelumora.R
 import com.example.talesofcaelumora.databinding.FragmentSplashScreenBinding
+import com.example.talesofcaelumora.ui.viewmodel.MainViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -19,6 +21,7 @@ import kotlinx.coroutines.launch
 class SplashScreenFragment : Fragment() {
 
     private lateinit var bnd: FragmentSplashScreenBinding
+    val vm: MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,6 +33,8 @@ class SplashScreenFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        vm.getCardLibrary()
+        vm.getDateTime()
         rotate()
 
     }

@@ -13,14 +13,16 @@ import android.view.animation.Animation
 import android.view.animation.Animation.AnimationListener
 import android.view.animation.TranslateAnimation
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.talesofcaelumora.R
 import com.example.talesofcaelumora.adapter.CardAdapter
 import com.example.talesofcaelumora.ui.viewmodel.MainViewModel
 import com.example.talesofcaelumora.data.datamodel.battlefields
-import com.example.talesofcaelumora.data.datamodel.heroDeck
 import com.example.talesofcaelumora.data.musicVolume
 import com.example.talesofcaelumora.data.songList
 import com.example.talesofcaelumora.data.songTitle
@@ -51,9 +53,20 @@ class BattleFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        var playerHereos = CardAdapter(heroDeck.shuffled().subList(0, 5), "",requireContext())
-        var opponentHereos = CardAdapter(heroDeck.shuffled().subList(0, 5), "", requireContext())
-        var gridAdapter = CardAdapter(heroDeck.shuffled().plus(heroDeck.shuffled()),"selection", requireContext())
+
+       viewModel.cardLibrary.observe(viewLifecycleOwner ) {
+           if(viewModel.cardLibrary.value != null && viewModel.cardLibrary.value!!.isNotEmpty()){
+               var playerHereos = CardAdapter(viewModel.cardLibrary.value?.shuffled()!!.subList(0, 5), "",requireContext())
+               var opponentHereos = CardAdapter(viewModel.cardLibrary.value?.shuffled()!!.subList(0, 5), "", requireContext())
+               var gridAdapter = CardAdapter(viewModel.cardLibrary.value?.shuffled()!!.plus(viewModel.cardLibrary.value!!.shuffled()),"selection", requireContext())
+
+               bnd.opponentHeroes.adapter = opponentHereos
+               bnd.playerHeroes.adapter = playerHereos
+               bnd.rvGrid.adapter = gridAdapter
+           }
+       }
+        viewModel.getCardLibrary()
+
         val battlefield = battlefields.random()
         battlefield.setBattlefield(bnd)
 
@@ -63,9 +76,7 @@ class BattleFragment : Fragment() {
         mediaPlayer?.setVolume(musicVolume, musicVolume)
         mediaPlayer?.start()
 
-        bnd.opponentHeroes.adapter = opponentHereos
-        bnd.playerHeroes.adapter = playerHereos
-        bnd.rvGrid.adapter = gridAdapter
+
 
         //startet die Anfangsanimation des Spielfeldes
         firstAnimation()
@@ -120,6 +131,7 @@ class BattleFragment : Fragment() {
             bnd.gridSelection.isVisible = true
             slideOut()
         }
+
     }
 
     private fun changeSong() {
