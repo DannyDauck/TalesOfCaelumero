@@ -1,7 +1,6 @@
 package com.example.talesofcaelumora.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -12,7 +11,6 @@ import com.bumptech.glide.Glide
 import com.example.talesofcaelumora.data.datamodel.Card
 import com.example.talesofcaelumora.R
 import com.example.talesofcaelumora.databinding.CardItemBinding
-import com.google.firebase.storage.FirebaseStorage
 
 class CardAdapter(
     private var data: List<Card>,
@@ -36,7 +34,7 @@ class CardAdapter(
         holder.bnd.tvCardname.text = card.cardName
         Glide.with(context)
             .load(card.imgSrc)
-            .placeholder(R.drawable.elara)
+            .placeholder(R.drawable.card_describtion_bg)
             .into(holder.bnd.imgCard)
         holder.bnd.tvHp.text = when (card.cardType) {
             "Hero" -> card.hp.toString() + "HP"
@@ -49,11 +47,35 @@ class CardAdapter(
         //Set card background
         holder.bnd.card.setBackgroundResource(
             when (card.type) {
-                "air" -> R.drawable.card_air_hero
-                "plant" -> R.drawable.card_plant_hero
-                "fire" -> R.drawable.card_fire_hero
-                "water" -> R.drawable.card_water_hero
-                "supporter" -> R.drawable.card_supporter
+                "air" -> {
+                    if (card.rarity == "ultra rare") R.drawable.card_air_hero_ultra_rare
+                    else if (card.rarity == "rare") R.drawable.card_air_hero_rare
+                    else R.drawable.card_air_hero
+                }
+
+                "plant" -> {
+                    if (card.rarity == "ultra rare") R.drawable.card_plant_hero_ultra_rare_bg
+                    else if (card.rarity == "rare") R.drawable.card_nature_bg_rare
+                    else R.drawable.card_plant_hero
+                }
+
+                "fire" -> {
+                    if(card.rarity=="ultra rare")R.drawable.card_fire_bg_ultra_rare
+                    else if(card.rarity=="rare")R.drawable.card_fire_bg_rare
+                    else R.drawable.card_fire_hero
+                }
+                "water" -> {
+                    if (card.rarity == "ultra rare") R.drawable.card_hero_water_ultra_rare_bg
+                    else if (card.rarity == "rare") R.drawable.card_water_bg_rare
+                    else R.drawable.card_water_hero
+                }
+
+                "supporter" -> {
+                    if (card.rarity == "ultra rare") R.drawable.card_supporter_ultra_rare
+                    else if (card.rarity == "rare") R.drawable.card_supporter_rare
+                    else R.drawable.card_supporter
+                }
+
                 else -> R.drawable.card_air_hero
             }
         )
@@ -63,6 +85,28 @@ class CardAdapter(
             holder.bnd.tvFirstAbility.text = card.firstAbilityName
             holder.bnd.tvFirstAbilityPoints.text = card.firstAbilityPoints.toString()
             holder.bnd.tvFirstAbilityDescribtion.text = card.firstAbilityDescription
+            when(card.firstAbilityType){
+                "single damage" -> holder.bnd.tvFirstType.text ="SD"
+                "multi damage" -> holder.bnd.tvFirstType.text ="MD"
+                "single damage and heal" -> holder.bnd.tvFirstType.text ="SDH"
+                "multi damage and heal" -> holder.bnd.tvFirstType.text ="MDH"
+                "single heal" -> holder.bnd.tvFirstType.text = "SH"
+                "multi heal" -> holder.bnd.tvFirstType.text = "MH"
+                "single damage and protect" -> holder.bnd.tvFirstType.text =  "SDP"
+                "multi damage and protect" -> holder.bnd.tvFirstType.text = "MDP"
+                "single heal player" -> holder.bnd.tvFirstType.text = "PH"
+            }
+            when(card.secAbilityType){
+                "single damage" -> holder.bnd.tvSecType.text ="SD"
+                "multi damage" -> holder.bnd.tvSecType.text ="MD"
+                "single damage and heal" -> holder.bnd.tvSecType.text ="SDH"
+                "multi damage and heal" -> holder.bnd.tvSecType.text ="MDH"
+                "single heal" -> holder.bnd.tvSecType.text = "SH"
+                "multi heal" -> holder.bnd.tvSecType.text = "MH"
+                "single damage and protect" -> holder.bnd.tvSecType.text =  "SDP"
+                "multi damage and protect" -> holder.bnd.tvSecType.text = "MDP"
+                "single heal player" -> holder.bnd.tvSecType.text = "PH"
+            }
             getCosts(
                 listOf(
                     holder.bnd.imgFirstCostOne,
@@ -93,14 +137,18 @@ class CardAdapter(
             holder.bnd.llSecAbility.isGone = true
             holder.bnd.llFirstAbiiltyCosts.isGone = true
             holder.bnd.tvFirstAbilityPoints.isVisible = false
+            holder.bnd.tvFirstType.isVisible = false
             holder.bnd.tvFirstAbility.text = card.firstAbilityName
             holder.bnd.tvFirstAbilityDescribtion.text = card.firstAbilityDescription
         } else if (card.cardType == "Supporter") {
             holder.bnd.llSecAbility.isGone = true
             holder.bnd.llFirstAbiiltyCosts.isGone = true
             holder.bnd.tvFirstAbilityPoints.isVisible = false
+            holder.bnd.tvFirstType.isVisible = false
             holder.bnd.tvFirstAbility.text = card.firstAbilityName
-            holder.bnd.tvFirstAbilityDescribtion.text = card.firstAbilityDescription
+            holder.bnd.tvFirstAbilityDescribtion.text = card.firstAbilityDescription + "" +
+                    "\n" +
+                    "\n" + card.secAbilityDescription
         }
         if (type == "selection") {
             holder.bnd.root.setOnClickListener {
@@ -134,7 +182,7 @@ class CardAdapter(
         }
     }
 
-    fun getCosts(list: List<ImageView>, costs: Array<String>) {
+    fun getCosts(list: List<ImageView>, costs: List<String>) {
 
 
         //Sets first all invisible and then back again from the beginning costs size long to visible and get the right type chip

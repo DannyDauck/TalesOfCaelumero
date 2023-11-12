@@ -24,6 +24,9 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     var dateTimeLoadingStartTime: Long = 0
     var cardLibraryLoadingStartTime: Long = 0
 
+    //Ladefortschritt
+    val cardLoadingProgress = repo.cardLoadingProgress
+
 
     //enum Klasse für Ladestaten
     enum class LoadingStatus {
@@ -39,9 +42,12 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         getDateTime()
 
         // Ladevorgang für CardLibrary starten
-        cardLibraryLoadingStatus.value = LoadingStatus.LOADING
-        cardLibraryLoadingStartTime = System.currentTimeMillis()
-        getCardLibrary()
+        if(cardLibrary.value.isNullOrEmpty()){
+            cardLibraryLoadingStatus.value = LoadingStatus.LOADING
+            cardLibraryLoadingStartTime = System.currentTimeMillis()
+            getCardLibrary()
+        }
+
     }
 
 

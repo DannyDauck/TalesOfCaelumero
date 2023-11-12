@@ -25,4 +25,21 @@
     <string name="signin_with_google_account">Sign in with Google account</string>
     <string name="try_again_later">try again later</string>
     <string name="signin_with_google_account_failed">sign in with google failed</string>
+    <string name="forward">forward</string>
+    <string name="back">back</string>
+    <string name="air">air</string>
+    <string name="water">water</string>
+    <string name="nature">nature</string>
+    <string name="fire">fire</string>
+    <string name="legend">legend</string>
+
+    <!--Attack types -->
+    <string name="single_damage">Attack on a single enemy hero</string>
+    <string name="multi_damage">Attack on each enemy hero. If an enemy dies, excess damage hits the player. If no enemies are on the bench, your hero attacks the opponent directly for the amount of damage dealt.</string>
+    <string name="single_damage_and_heal">Attack on a single enemy hero. Heals the hero for 50% of the damage dealt.</string>
+    <string name="multi_damage_and_heal">Attack on each enemy hero. Heals the hero for 50% of the total damage dealt. If an enemy dies, excess damage hits the player. If no enemies are on the bench, your hero attacks the opponent directly for the amount of damage dealt.</string>
+    <string name="single_damage_and_protect">Attack on a single enemy hero. Protects the hero from the next incoming attack.</string>
+    <string name="multi_damage_and_protect">Attack on each enemy hero. Protects the hero from the next incoming attack. If an enemy dies, excess damage hits the player. If no enemies are on the bench, your hero attacks the opponent directly for the amount of damage dealt.</string>
+    <string name="player_heal">Heals the player</string>
+
 </resources>

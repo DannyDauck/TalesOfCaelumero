@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment_to_battleFragment"
             app:destination="@id/battleFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_libraryFragment"
+            app:destination="@id/libraryFragment" />
     </fragment>
     <fragment
         android:id="@+id/splashScreenFragment"
@@ -37,4 +40,9 @@
             android:id="@+id/action_loginFragment_to_splashScreenFragment"
             app:destination="@id/splashScreenFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/libraryFragment"
+        android:name="com.example.talesofcaelumora.ui.LibraryFragment"
+        android:label="fragment_library"
+        tools:layout="@layout/fragment_library" />
 </navigation>

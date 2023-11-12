@@ -107,6 +107,9 @@ class HomeFragment : Fragment() {
             Firebase.auth.signOut()
             findNavController().navigate(R.id.loginFragment)
         }
+        bnd.btnLibrary.setOnClickListener {
+            findNavController().navigate(R.id.libraryFragment)
+        }
 
     }
 

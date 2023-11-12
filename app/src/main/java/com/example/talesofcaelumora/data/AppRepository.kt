@@ -24,6 +24,12 @@ class AppRepository(
     val cardLibrary : LiveData<List<Card>>
         get() = _cardLibrary
 
+    private val _cardLoadingProgress = MutableLiveData<List<Int>>(listOf(gameDataApiService.loaded,gameDataApiService.progress))
+    val cardLoadingProgress: LiveData<List<Int>>
+        get() = _cardLoadingProgress
+
+
+
     suspend fun getDateTime(){
         Log.d(TAG, "Request time data from api")
         try{
@@ -39,7 +45,13 @@ class AppRepository(
     }
     suspend fun getCardLibrary(){
         Log.d(TAG, "fetching card library data from GameDataApiService")
-        val cards = gameDataApiService.getAllCards()
+        val cards = gameDataApiService.getAllCards(setProgress)
         _cardLibrary.value = cards
+    }
+    var setProgress = { loaded: Int, progress: Int ->
+        setProgress(loaded, progress)
+    }
+    fun setProgress(loaded: Int, progress: Int){
+        _cardLoadingProgress.value = listOf(loaded, progress)
     }
 }

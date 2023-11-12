@@ -24,4 +24,19 @@
     <string name="signin_with_google_account">Mit Google-Konto anmelden</string>
     <string name="try_again_later">versuche es später erneut</string>
     <string name="signin_with_google_account_failed">Einloggen mit Google fehlgeschlagen</string>
+    <string name="forward">weiter</string>
+    <string name="back">zurück</string>
+    <string name="air">Luft</string>
+    <string name="water">Wasser</string>
+    <string name="nature">Natur</string>
+    <string name="fire">Feuer</string>
+    <string name="legend">Legend</string>
+    <!-- Attack types -->
+    <string name="single_damage">Attacke auf einen einzelnen Held des Gegners</string>
+    <string name="multi_damage">Attacke auf jeden Held des Gegners.  Stirbt ein Gegner trifft der überschüssige Schaden den Spieler. Ist kein Gegner auf der Bank greift dein Held den gegnerischen Spieler direkt in Höhe des Schadens</string>
+    <string name="single_damage_and_heal">Attacke auf einen einzelnen Held des Gegners. Heilt den Helden um 50% des ausgeteilten Schadens.</string>
+    <string name="multi_damage_and_heal">Attacke auf einen jeden Held des Gegners. Heilt den Helden um 50% des komplett ausgeteilten Schadens. Stirbt ein Gegner trifft der überschüssige Schaden den Spieler. Ist kein Gegner auf der Bank greift dein Held den gegnerischen Spieler direkt in Höhe des Schadens</string>
+    <string name="single_damage_and_protect">Attacke auf einen einzelnen Held des Gegners. Schützt den Helden vor dem nächsten Angriff.</string>
+    <string name="multi_damage_and_protect">Attacke auf einen jeden Held des Gegners. Schützt den Helden vor dem nächsten Angriff. Stirbt ein Gegner trifft der überschüssige Schaden den Spieler. Ist kein Gegner auf der Bank greift dein Held den gegnerischen Spieler direkt in Höhe des Schadens</string>
+    <string name="player_heal">Heilt den Spieler</string>
 </resources>

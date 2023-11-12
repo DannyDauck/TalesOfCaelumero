@@ -30,8 +30,7 @@
             app:layout_constraintBottom_toTopOf="@+id/player_heroes"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/opponent_heroes"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/opponent_heroes" />
 
         <ImageView
             android:id="@+id/opponent_deck"
@@ -119,8 +118,7 @@
                 android:text="0/5"
                 android:textColor="@color/black"
                 android:textSize="12sp"
-                tools:ignore=",HardcodedText"
-                />
+                tools:ignore=",HardcodedText" />
         </LinearLayout>
 
         <LinearLayout
@@ -151,7 +149,7 @@
                 android:text="0/5"
                 android:textColor="@color/black"
                 android:textSize="12sp"
-                tools:ignore=",HardcodedText"/>
+                tools:ignore=",HardcodedText" />
         </LinearLayout>
 
         <LinearLayout
@@ -182,7 +180,7 @@
                 android:text="0/5"
                 android:textColor="@color/black"
                 android:textSize="12sp"
-                tools:ignore=",HardcodedText"/>
+                tools:ignore=",HardcodedText" />
         </LinearLayout>
 
         <LinearLayout
@@ -211,7 +209,7 @@
                 android:text="0/5"
                 android:textColor="@color/black"
                 android:textSize="12sp"
-                tools:ignore=",HardcodedText"/>
+                tools:ignore=",HardcodedText" />
         </LinearLayout>
     </LinearLayout>
 
@@ -226,6 +224,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
+            android:id="@+id/btn_legend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -235,19 +234,20 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/img_legend"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginBottom="4dp"
                 android:layout_weight="1"
                 android:contentDescription="Button for navigation"
-                android:src="@drawable/home_ico"
+                android:src="@drawable/baseline_menu_book_24"
                 app:tint="@color/smooth_gold"
                 tools:ignore="ImageContrastCheck" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/home"
+                android:text="@string/legend"
                 android:textColor="@color/smooth_gold"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -313,7 +313,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/player_lifebar"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore=",HardcodedText"/>
+        tools:ignore=",HardcodedText" />
 
     <LinearLayout
         android:id="@+id/top_nav"
@@ -341,8 +341,7 @@
                 android:layout_height="40dp"
                 android:layout_marginBottom="4dp"
                 android:layout_weight="1"
-                android:src="@drawable/chevron_left"
-                 />
+                android:src="@drawable/chevron_left" />
 
 
         </LinearLayout>
@@ -385,8 +384,7 @@
                 android:layout_height="40dp"
                 android:layout_marginBottom="4dp"
                 android:layout_weight="1"
-                android:src="@drawable/turn_table"
-                 />
+                android:src="@drawable/turn_table" />
 
         </LinearLayout>
 
@@ -406,8 +404,7 @@
                 android:layout_height="40dp"
                 android:layout_marginBottom="4dp"
                 android:layout_weight="1"
-                android:src="@drawable/music_on"
-                 />
+                android:src="@drawable/music_on" />
 
 
         </LinearLayout>
@@ -423,10 +420,10 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/progressbar_shape_seconddary"
+        android:layoutDirection="rtl"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
         android:progress="80"
-        android:layoutDirection="rtl"
         android:progressTint="@color/good_health"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -450,7 +447,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/oppnent_lifebar"
-        tools:ignore=",HardcodedText"/>
+        tools:ignore=",HardcodedText" />
 
     <LinearLayout
         android:id="@+id/sidebar"
@@ -469,8 +466,7 @@
             android:layout_height="48dp"
             android:layout_weight="1"
             android:background="@drawable/slider_side_bg"
-            android:src="@drawable/chevron_left"
-             />
+            android:src="@drawable/chevron_left" />
 
         <LinearLayout
 
@@ -489,8 +485,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:layout_weight="1"
-                android:src="@drawable/turn_around"
-                 />
+                android:src="@drawable/turn_around" />
 
             <ImageView
                 android:id="@+id/btn_hand"
@@ -499,9 +494,8 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:layout_weight="1"
-                android:src="@drawable/hand"
                 android:contentDescription="Button for your hand"
-                 />
+                android:src="@drawable/hand" />
 
             <ImageView
                 android:id="@+id/btn_graveyard"
@@ -510,9 +504,8 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:layout_weight="1"
-                android:src="@drawable/graveyard_ico"
                 android:contentDescription="Button for your graveyard"
-                 />
+                android:src="@drawable/graveyard_ico" />
         </LinearLayout>
     </LinearLayout>
 
@@ -526,7 +519,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_opponent_hp"
-        tools:visibility="invisible">
+        tools:visibility="visible">
 
         <TextView
             android:id="@+id/txt_grid_recycler_header_shadow"
@@ -543,7 +536,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore=",HardcodedText"/>
+            tools:ignore=",HardcodedText" />
 
 
         <TextView
@@ -560,7 +553,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore=",HardcodedText,VisualLintOverlap"/>
+            tools:ignore=",HardcodedText,VisualLintOverlap" />
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -574,12 +567,13 @@
             android:backgroundTint="#88dddddd"
             android:scaleX="0.25"
             android:scaleY="0.25"
+            android:visibility="invisible"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toTopOf="@id/btn_ok_grid"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txt_grid_recycler_header"
-            app:layout_constraintVertical_bias="0.507"
+            app:layout_constraintVertical_bias="0.51"
             app:spanCount="4"
             tools:itemCount="10"
             tools:listitem="@layout/card_item"
@@ -638,10 +632,199 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_grid_recycler_header"
+            app:layout_constraintVertical_bias="0.495"
             tools:itemCount="10"
             tools:listitem="@layout/card_item"
             tools:visibility="invisible" />
+
+        <ScrollView
+            android:id="@+id/sv_legend"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/btn_ok_grid"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_grid_recycler_header">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="7dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingLeft="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/alfa_slab_one"
+                    android:text="SD - single damage"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="@font/aclonica"
+                    android:text="@string/single_damage"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/alfa_slab_one"
+                    android:text="MD - multi damage"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="@font/aclonica"
+                    android:text="@string/multi_damage"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/alfa_slab_one"
+                    android:text="SDH - single damage and heal"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="@font/aclonica"
+                    android:text="@string/single_damage_and_heal"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/alfa_slab_one"
+                    android:text="MDH - multi damage and heal"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="@font/aclonica"
+                    android:text="@string/multi_damage_and_heal"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/alfa_slab_one"
+                    android:text="SDP - single damage and protect"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="@font/aclonica"
+                    android:text="@string/single_damage_and_protect"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/alfa_slab_one"
+                    android:text="MDP - multi damage and protect"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="@font/aclonica"
+                    android:text="@string/multi_damage_and_protect"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/alfa_slab_one"
+                    android:text="PH - player heal"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="@font/aclonica"
+                    android:text="@string/player_heal"
+                    android:textSize="16dp" />
+
+
+            </LinearLayout>
+        </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_landselection"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_player_hp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txt_player_hp"
+        app:layout_constraintTop_toTopOf="@+id/txt_player_hp"
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@+id/land_select_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/colorlesschip" />
+
+        <ImageView
+            android:id="@+id/land_select_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/colorlesschip" />
+
+        <ImageView
+            android:id="@+id/land_select_three"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/colorlesschip" />
+
+        <ImageView
+            android:id="@+id/land_select_four"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/colorlesschip" />
+
+        <ImageView
+            android:id="@+id/land_select_five"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/colorlesschip" />
+
+        <ImageView
+            android:id="@+id/land_select_six"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/colorlesschip" />
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

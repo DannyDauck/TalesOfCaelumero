@@ -33,8 +33,13 @@ class SplashScreenFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        vm.getCardLibrary()
         vm.getDateTime()
+        vm.cardLoadingProgress.observe(viewLifecycleOwner) { progress ->
+            //Aktualisiert die Progressbar je nach Fortschritt der zu ladenden CardLibrary
+            if(progress[0] !=0 && progress[1] != 0) bnd.pbLoadingProgress.progress = ((progress[0] * 100)/progress[1])
+            bnd.txtProgress.text = progress[0].toString() + "von " + progress[1] + " geladen"
+        }
+
         rotate()
 
     }
@@ -80,6 +85,5 @@ class SplashScreenFragment : Fragment() {
             delay(800)
             findNavController().navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToHomeFragment())
         }
-
     }
 }

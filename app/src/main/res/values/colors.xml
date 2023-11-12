@@ -17,4 +17,7 @@
     <color name="selcted_value_ligth">#75FA00F6</color>
     <color name="selected_value_dark">#754E076D</color>
     <color name="supporter_one">#728D85</color>
+    <color name="progress_bar_normal_progress">#909997</color>
+    <color name="bottom_bar_selected_ico">#80FFFFFF</color>
+    <color name="nothing">#00F0F0F0</color>
 </resources>

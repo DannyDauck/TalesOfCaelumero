@@ -37,7 +37,7 @@ class BattleFragment : Fragment() {
     private lateinit var bnd: FragmentBattleBinding
     private var mediaPlayer: MediaPlayer? = null
 
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +54,7 @@ class BattleFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-       viewModel.cardLibrary.observe(viewLifecycleOwner ) {
+       //viewModel.cardLibrary.observe(viewLifecycleOwner ) {
            if(viewModel.cardLibrary.value != null && viewModel.cardLibrary.value!!.isNotEmpty()){
                var playerHereos = CardAdapter(viewModel.cardLibrary.value?.shuffled()!!.subList(0, 5), "",requireContext())
                var opponentHereos = CardAdapter(viewModel.cardLibrary.value?.shuffled()!!.subList(0, 5), "", requireContext())
@@ -64,8 +64,8 @@ class BattleFragment : Fragment() {
                bnd.playerHeroes.adapter = playerHereos
                bnd.rvGrid.adapter = gridAdapter
            }
-       }
-        viewModel.getCardLibrary()
+      // }
+        //viewModel.getCardLibrary()
 
         val battlefield = battlefields.random()
         battlefield.setBattlefield(bnd)
@@ -104,6 +104,7 @@ class BattleFragment : Fragment() {
         //Sidebar
         bnd.btnSidebarOnOff.setOnClickListener {
             if(!bnd.gridSelection.isVisible)slideOut()
+            bnd.svLegend.isVisible = false
         }
         bnd.btnOkGrid.setOnClickListener {
             bnd.gridSelection.isVisible = false
@@ -130,6 +131,18 @@ class BattleFragment : Fragment() {
         bnd.btnGraveyard.setOnClickListener {
             bnd.gridSelection.isVisible = true
             slideOut()
+        }
+        lifecycleScope.launch {
+            delay(6000)
+            bnd.marqueeText.text = bnd.marqueeText.text.toString()
+            bnd.marqueeText.isSelected = true
+        }
+        bnd.btnLegend.setOnClickListener {
+            bnd.svLegend.isVisible = !bnd.svLegend.isVisible
+            bnd.txtGridRecyclerHeader.text = getString(R.string.legend)
+            bnd.txtGridRecyclerHeaderShadow.text = getString(R.string.legend)
+            bnd.gridSelection.isVisible = bnd.svLegend.isVisible
+            if(bnd.svLegend.isVisible)bnd.btnLegend.setBackgroundResource(R.color.bottom_bar_selected_ico) else bnd.btnLegend.setBackgroundResource(R.color.nothing)
         }
 
     }
@@ -190,6 +203,8 @@ class BattleFragment : Fragment() {
         })
 
         bnd.sidebar.startAnimation(translation)
+
+
 
     }
     private fun firstAnimation(){
