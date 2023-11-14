@@ -31,7 +31,7 @@ data class Card(
     var selected: Boolean,
     var currentHp: Int,
     var protected: Boolean,
-    var used: Boolean
+    var used: Boolean,
 ) {
 
     constructor(map: Map<String, Any>) : this(

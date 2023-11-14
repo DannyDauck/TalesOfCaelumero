@@ -39,4 +39,7 @@
     <string name="single_damage_and_protect">Attacke auf einen einzelnen Held des Gegners. Schützt den Helden vor dem nächsten Angriff.</string>
     <string name="multi_damage_and_protect">Attacke auf einen jeden Held des Gegners. Schützt den Helden vor dem nächsten Angriff. Stirbt ein Gegner trifft der überschüssige Schaden den Spieler. Ist kein Gegner auf der Bank greift dein Held den gegnerischen Spieler direkt in Höhe des Schadens</string>
     <string name="player_heal">Heilt den Spieler</string>
+    <string name="load_image_sources">Lade fehlende Bilddateien</string>
+    <string name="from"> von </string>
+    <string name="image_resources_loaded">" Bilddateien geladen"</string>
 </resources>

@@ -39,9 +39,10 @@ class GameDataApiService() {
             emptyList()
         }
         //Werte wieder zurücksetzen weil sonst beim aktualisieren wieder aufgezählt wird
+    }
+    fun resetProgress(){
         progress = 0
         loaded = 0
-
     }
 
 }

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.talesofcaelumora.data.AppRepository
 import com.example.talesofcaelumora.data.remote.DateTimeApiService
 import com.example.talesofcaelumora.data.remote.GameDataApiService
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application): AndroidViewModel(application) {
@@ -65,5 +66,10 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
             cardLibraryLoadingStatus.value = LoadingStatus.SUCCESS
         }
     }
-
+    fun resetGameApiProgress(){
+        viewModelScope.launch {
+            delay(200)
+            repo.resetGameApiServiceProgress()
+        }
+    }
 }

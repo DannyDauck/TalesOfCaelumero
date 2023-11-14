@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.talesofcaelumora.data.datamodel.Card
 import com.example.talesofcaelumora.R
 import com.example.talesofcaelumora.databinding.CardItemBinding
+import java.io.File
 
 class CardAdapter(
     private var data: List<Card>,
@@ -33,7 +34,7 @@ class CardAdapter(
         val card = data[position]
         holder.bnd.tvCardname.text = card.cardName
         Glide.with(context)
-            .load(card.imgSrc)
+            .load(File(context.filesDir, "images/${card.id}.jpeg"))
             .placeholder(R.drawable.card_describtion_bg)
             .into(holder.bnd.imgCard)
         holder.bnd.tvHp.text = when (card.cardType) {

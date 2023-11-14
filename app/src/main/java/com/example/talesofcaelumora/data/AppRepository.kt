@@ -7,6 +7,7 @@ import com.example.talesofcaelumora.data.datamodel.Card
 import com.example.talesofcaelumora.data.datamodel.TimeData
 import com.example.talesofcaelumora.data.remote.DateTimeApiService
 import com.example.talesofcaelumora.data.remote.GameDataApiService
+import kotlinx.coroutines.delay
 import java.lang.Exception
 import java.time.LocalDateTime
 
@@ -53,5 +54,8 @@ class AppRepository(
     }
     fun setProgress(loaded: Int, progress: Int){
         _cardLoadingProgress.value = listOf(loaded, progress)
+    }
+    fun resetGameApiServiceProgress(){
+        gameDataApiService.resetProgress()
     }
 }

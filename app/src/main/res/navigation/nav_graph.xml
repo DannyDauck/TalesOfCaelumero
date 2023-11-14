@@ -45,4 +45,9 @@
         android:name="com.example.talesofcaelumora.ui.LibraryFragment"
         android:label="fragment_library"
         tools:layout="@layout/fragment_library" />
+    <fragment
+        android:id="@+id/testFragment"
+        android:name="com.example.talesofcaelumora.ui.TestFragment"
+        android:label="fragment_test"
+        tools:layout="@layout/fragment_test" />
 </navigation>

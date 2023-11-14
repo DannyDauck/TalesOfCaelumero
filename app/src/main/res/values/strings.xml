@@ -41,5 +41,8 @@
     <string name="single_damage_and_protect">Attack on a single enemy hero. Protects the hero from the next incoming attack.</string>
     <string name="multi_damage_and_protect">Attack on each enemy hero. Protects the hero from the next incoming attack. If an enemy dies, excess damage hits the player. If no enemies are on the bench, your hero attacks the opponent directly for the amount of damage dealt.</string>
     <string name="player_heal">Heals the player</string>
+    <string name="load_image_sources">Load missing image sources</string>
+    <string name="from"> from </string>
+    <string name="image_resources_loaded"> image resources loaded</string>
 
 </resources>

@@ -144,7 +144,6 @@ class BattleFragment : Fragment() {
             bnd.gridSelection.isVisible = bnd.svLegend.isVisible
             if(bnd.svLegend.isVisible)bnd.btnLegend.setBackgroundResource(R.color.bottom_bar_selected_ico) else bnd.btnLegend.setBackgroundResource(R.color.nothing)
         }
-
     }
 
     private fun changeSong() {
