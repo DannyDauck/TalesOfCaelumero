@@ -60,7 +60,7 @@ data class Card(
         selected = map["selected"] as Boolean,
         currentHp = (map["current_hp"] as Long).toInt(),
         protected = false,
-        used = false
+        used = false,
     )
 
 

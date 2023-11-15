@@ -1,18 +1,33 @@
 package com.example.talesofcaelumora.data.datamodel
 
+import android.util.Log
 import com.example.talesofcaelumora.R
+import com.example.talesofcaelumora.ui.viewmodel.MainViewModel
+import java.lang.Exception
 
 class Player(
     val uid: String,
     var name: String,
     var level: Int,
-) {
+
+    ) {
 
     var hp: Int = 150
     var exp: Int = 0
 
+    //Variable für alle Karten die der Spieler gesammelt hat
+    var bag = listOf<String>()
+
+    //Variable die den Höchstwert des Bags angibt
+    var bagMaxSize = 50
+
+    var maxLand = 5
+
+    var maxBank = 3
+
     //initialisiert ein leeres Deck, wird im onBoarding befüllt
-    var deck: List<String> = listOf()
+    var deck : List<String> ?= initialDeckAir
+    var maxDeckSize = 30
 
     //setzt die Home Arena per default erstmal auf "Wassertemple"
     var homeArena: Battlefield = Battlefield(
@@ -26,10 +41,39 @@ class Player(
 
 
     var character: Int = R.drawable.elara_solo
+
+    fun returnDeck(library: List<Card>): MutableList<Card> {
+        Log.d("Player", "Try to fetch deck")
+        var list: MutableList<Card> = mutableListOf()
+        initialDeckAir.forEach { entry ->
+            Log.d("Player", entry)
+            try{
+                list.add(library.filter{ card -> card.id == entry }.first())
+                Log.d("Player", "succesful added")
+            }catch (e: Exception){
+                Log.d("Player", entry + "wurde nicht gefunden")
+            }
+
+        }
+        return list
+    }
+
 }
 
+var examplePlayerDanny = Player(
+    "ExamplePLayerDanny",
+    "Danny",
+    1
+)
 
-val initialDeck = listOf(
+var examplePlayerElara = Player(
+    "ExcamplePlayerElara",
+    "Elara",
+    1
+)
+
+
+val initialDeckAir = listOf(
     //lands
     "land_air_city_WjW0scCoqxkirUNr8BVb",
     "land_air_city_WjW0scCoqxkirUNr8BVb",
@@ -63,5 +107,4 @@ val initialDeck = listOf(
     "supporter_sandra_XML3SJrrV03qUi9TQnSD",
     "supporter_temple_cp_LjYwR5M5oCp3oV6Hfpnq",
     "supporter_temple_cp_LjYwR5M5oCp3oV6Hfpnq"
-
-    )
+)

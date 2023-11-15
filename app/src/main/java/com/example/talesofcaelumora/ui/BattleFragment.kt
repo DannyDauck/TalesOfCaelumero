@@ -5,6 +5,7 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,8 +22,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.talesofcaelumora.R
 import com.example.talesofcaelumora.adapter.CardAdapter
+import com.example.talesofcaelumora.data.datamodel.Battle
 import com.example.talesofcaelumora.ui.viewmodel.MainViewModel
 import com.example.talesofcaelumora.data.datamodel.battlefields
+import com.example.talesofcaelumora.data.datamodel.examplePlayerDanny
+import com.example.talesofcaelumora.data.datamodel.examplePlayerElara
 import com.example.talesofcaelumora.data.musicVolume
 import com.example.talesofcaelumora.data.songList
 import com.example.talesofcaelumora.data.songTitle
@@ -36,11 +40,16 @@ class BattleFragment : Fragment() {
 
     private lateinit var bnd: FragmentBattleBinding
     private var mediaPlayer: MediaPlayer? = null
+    private var battleId = "no battle set"
 
     private val viewModel: MainViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        arguments?.let {
+            //Battle Id beim eröffnen des Battles abfragen
+            battleId = it.getString("battle").toString()
+        }
     }
 
     override fun onCreateView(
@@ -54,21 +63,46 @@ class BattleFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-       //viewModel.cardLibrary.observe(viewLifecycleOwner ) {
-           if(viewModel.cardLibrary.value != null && viewModel.cardLibrary.value!!.isNotEmpty()){
-               var playerHereos = CardAdapter(viewModel.cardLibrary.value?.shuffled()!!.subList(0, 5), "",requireContext())
-               var opponentHereos = CardAdapter(viewModel.cardLibrary.value?.shuffled()!!.subList(0, 5), "", requireContext())
-               var gridAdapter = CardAdapter(viewModel.cardLibrary.value?.shuffled()!!.plus(viewModel.cardLibrary.value!!.shuffled()),"selection", requireContext())
 
-               bnd.opponentHeroes.adapter = opponentHereos
-               bnd.playerHeroes.adapter = playerHereos
-               bnd.rvGrid.adapter = gridAdapter
-           }
-      // }
+        //viewModel.cardLibrary.observe(viewLifecycleOwner ) {
+        if (viewModel.cardLibrary.value != null && viewModel.cardLibrary.value!!.isNotEmpty()) {
+            Log.d("BattleFragment", viewModel.cardLibrary.value.toString())
+            var exampleBattle = Battle(examplePlayerDanny, examplePlayerElara, battlefields.random(), viewModel.cardLibrary.value!!)
+            viewModel.setCurrentBattle(exampleBattle)
+
+            var playerHereos = CardAdapter(
+                viewModel.currentBattle.value!!.playerOneHand,
+                "",
+                requireContext()
+            )
+            var opponentHereos = CardAdapter(
+                viewModel.currentBattle.value!!.playerTwoBank,
+                "",
+                requireContext()
+            )
+            var gridAdapter = CardAdapter(
+                viewModel.cardLibrary.value?.shuffled()!!
+                    .plus(viewModel.cardLibrary.value!!.shuffled()), "selection", requireContext()
+            )
+
+            bnd.opponentHeroes.adapter = opponentHereos
+            bnd.playerHeroes.adapter = playerHereos
+            bnd.rvGrid.adapter = gridAdapter
+
+            fun updateHeroAdapters(){
+                opponentHereos.update(viewModel.currentBattle.value!!.playerTwoBank)
+                playerHereos.update(viewModel.currentBattle.value!!.playerTwoBank)
+            }
+            viewModel.currentBattle.observe(viewLifecycleOwner){
+                updateHeroAdapters()
+            }
+            viewModel.currentBattle.value!!.start(bnd)
+        }
+        // }
         //viewModel.getCardLibrary()
 
-        val battlefield = battlefields.random()
-        battlefield.setBattlefield(bnd)
+        val battlefield = viewModel.currentBattle.value!!.battlefield
+
 
         //Backgroundmusic
         mediaPlayer = MediaPlayer.create(requireContext(), battlefield.music)
@@ -77,11 +111,8 @@ class BattleFragment : Fragment() {
         mediaPlayer?.start()
 
 
-
         //startet die Anfangsanimation des Spielfeldes
-        firstAnimation()
-
-
+        //firstAnimation()
 
 
         //Top-Navigation
@@ -103,7 +134,7 @@ class BattleFragment : Fragment() {
 
         //Sidebar
         bnd.btnSidebarOnOff.setOnClickListener {
-            if(!bnd.gridSelection.isVisible)slideOut()
+            if (!bnd.gridSelection.isVisible) slideOut()
             bnd.svLegend.isVisible = false
         }
         bnd.btnOkGrid.setOnClickListener {
@@ -117,7 +148,8 @@ class BattleFragment : Fragment() {
             // (switched also einfach zwischen beiden hin und her)
 
             //stellt sicher das die Rotation auf 180 oder 0 steht, z.B. nach der firstAnimation steht sie auf 720
-            bnd.clBattleground.rotation = bnd.clBattleground.rotation%360-(bnd.clBattleground.rotation%180)
+            bnd.clBattleground.rotation =
+                bnd.clBattleground.rotation % 360 - (bnd.clBattleground.rotation % 180)
 
             if (bnd.clBattleground.rotation > 0f) {
                 bnd.clBattleground.rotation = 0f
@@ -142,7 +174,9 @@ class BattleFragment : Fragment() {
             bnd.txtGridRecyclerHeader.text = getString(R.string.legend)
             bnd.txtGridRecyclerHeaderShadow.text = getString(R.string.legend)
             bnd.gridSelection.isVisible = bnd.svLegend.isVisible
-            if(bnd.svLegend.isVisible)bnd.btnLegend.setBackgroundResource(R.color.bottom_bar_selected_ico) else bnd.btnLegend.setBackgroundResource(R.color.nothing)
+            if (bnd.svLegend.isVisible) bnd.btnLegend.setBackgroundResource(R.color.bottom_bar_selected_ico) else bnd.btnLegend.setBackgroundResource(
+                R.color.nothing
+            )
         }
     }
 
@@ -162,15 +196,19 @@ class BattleFragment : Fragment() {
         lifecycleScope.launch {
             delay(5000)
             viewModel.getDateTime()
-            var dateTimeString = viewModel.dateTime.value?.datetime?.substring(0,16)
+            var dateTimeString = viewModel.dateTime.value?.datetime?.substring(0, 16)
             val dateTime = LocalDateTime.parse(dateTimeString)
             //bnd.marqueeText.text = bnd.marqueeText.text.toString() + " " + dateTimeString
-            bnd.marqueeText.text = songTitle[random] + "   Es ist jetzt " + dateTime.hour + " Uhr " + dateTime.minute + " am " + dateTime.dayOfMonth + ". " + dateTime.month + "  im Jahr "+ dateTime.year.plus(-1647)+"des Windes in Caelumero"
+            bnd.marqueeText.text =
+                songTitle[random] + "   Es ist jetzt " + dateTime.hour + " Uhr " + dateTime.minute + " am " + dateTime.dayOfMonth + ". " + dateTime.month + "  im Jahr " + dateTime.year.plus(
+                    -1647
+                ) + "des Windes in Caelumero"
 
         }
 
     }
-    fun slideOut(){
+
+    fun slideOut() {
         //Die translationX entspricht nicht der in android studio angegebenen,
         // und variiert je nach Handymodell und Bildschirmauflösung,  deswegen so:
         val movement = if (bnd.sidebar.translationX == resources.displayMetrics.density * 80f) {
@@ -206,7 +244,10 @@ class BattleFragment : Fragment() {
 
 
     }
-    private fun firstAnimation(){
+
+
+    //später entfernen wenn die Funktion in der Battle-Klassev implementiert ist
+    private fun firstAnimation() {
         val scaleXAnimator = ObjectAnimator.ofFloat(bnd.clBattleground, "scaleX", 0.25f)
         val scaleYAnimator = ObjectAnimator.ofFloat(bnd.clBattleground, "scaleY", 0.2f)
         val rotateAnimation = ObjectAnimator.ofFloat(bnd.clBattleground, "rotationX", 40f)
@@ -238,7 +279,6 @@ class BattleFragment : Fragment() {
 
         animatorSet.start()
     }
-
 
 
     override fun onPause() {

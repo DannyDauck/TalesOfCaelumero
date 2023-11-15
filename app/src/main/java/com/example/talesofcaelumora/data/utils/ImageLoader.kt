@@ -5,7 +5,6 @@ import android.util.Log
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import java.io.File
-import java.util.concurrent.Callable
 import java.util.concurrent.Executors
 
 
