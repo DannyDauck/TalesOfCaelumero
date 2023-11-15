@@ -42,4 +42,5 @@
     <string name="load_image_sources">Lade fehlende Bilddateien</string>
     <string name="from"> von </string>
     <string name="image_resources_loaded">" Bilddateien geladen"</string>
+    <string name="stack_was_shuffeld">Decks werden gemischt</string>
 </resources>

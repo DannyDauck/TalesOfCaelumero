@@ -108,7 +108,7 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.loginFragment)
         }
         bnd.btnLibrary.setOnClickListener {
-            findNavController().navigate(R.id.testFragment)
+            findNavController().navigate(R.id.libraryFragment)
         }
 
     }

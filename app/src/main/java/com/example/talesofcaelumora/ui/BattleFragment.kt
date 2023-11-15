@@ -1,8 +1,5 @@
 package com.example.talesofcaelumora.ui
 
-import android.animation.Animator
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
@@ -15,9 +12,6 @@ import android.view.animation.Animation.AnimationListener
 import android.view.animation.TranslateAnimation
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.talesofcaelumora.R
@@ -30,17 +24,23 @@ import com.example.talesofcaelumora.data.datamodel.examplePlayerElara
 import com.example.talesofcaelumora.data.musicVolume
 import com.example.talesofcaelumora.data.songList
 import com.example.talesofcaelumora.data.songTitle
+import com.example.talesofcaelumora.data.utils.BattleCallback
 import com.example.talesofcaelumora.databinding.FragmentBattleBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
 
-class BattleFragment : Fragment() {
+class BattleFragment : Fragment(), BattleCallback {
 
     private lateinit var bnd: FragmentBattleBinding
     private var mediaPlayer: MediaPlayer? = null
     private var battleId = "no battle set"
+    private lateinit var exampleBattle: Battle
+    private lateinit var playerHeroes: CardAdapter
+    private lateinit var opponentHeroes: CardAdapter
+    private lateinit var rvHorizontal: CardAdapter
+    private lateinit var rvGrid: CardAdapter
 
     private val viewModel: MainViewModel by activityViewModels()
 
@@ -67,36 +67,60 @@ class BattleFragment : Fragment() {
         //viewModel.cardLibrary.observe(viewLifecycleOwner ) {
         if (viewModel.cardLibrary.value != null && viewModel.cardLibrary.value!!.isNotEmpty()) {
             Log.d("BattleFragment", viewModel.cardLibrary.value.toString())
-            var exampleBattle = Battle(examplePlayerDanny, examplePlayerElara, battlefields.random(), viewModel.cardLibrary.value!!)
+            exampleBattle = Battle(
+                examplePlayerDanny,
+                examplePlayerElara,
+                battlefields.random(),
+                viewModel.cardLibrary.value!!
+            )
+            exampleBattle.playerOneCurrentHp = 60
+            exampleBattle.setBattleCallback(this)
             viewModel.setCurrentBattle(exampleBattle)
 
-            var playerHereos = CardAdapter(
+            playerHeroes = CardAdapter(
                 viewModel.currentBattle.value!!.playerOneHand,
                 "",
                 requireContext()
             )
-            var opponentHereos = CardAdapter(
+            opponentHeroes = CardAdapter(
                 viewModel.currentBattle.value!!.playerTwoBank,
                 "",
                 requireContext()
             )
-            var gridAdapter = CardAdapter(
+            rvGrid = CardAdapter(
                 viewModel.cardLibrary.value?.shuffled()!!
                     .plus(viewModel.cardLibrary.value!!.shuffled()), "selection", requireContext()
             )
+            rvHorizontal = CardAdapter(
+                listOf(), "", requireContext()
+            )
 
-            bnd.opponentHeroes.adapter = opponentHereos
-            bnd.playerHeroes.adapter = playerHereos
-            bnd.rvGrid.adapter = gridAdapter
+            bnd.opponentHeroes.adapter = opponentHeroes
+            bnd.playerHeroes.adapter = playerHeroes
+            bnd.rvGrid.adapter = rvGrid
+            bnd.rvHorizontal.adapter = rvHorizontal
 
-            fun updateHeroAdapters(){
-                opponentHereos.update(viewModel.currentBattle.value!!.playerTwoBank)
-                playerHereos.update(viewModel.currentBattle.value!!.playerTwoBank)
+            fun updateHeroAdapters() {
+                opponentHeroes.update(viewModel.currentBattle.value!!.playerTwoBank)
+                playerHeroes.update(viewModel.currentBattle.value!!.playerTwoBank)
             }
-            viewModel.currentBattle.observe(viewLifecycleOwner){
+
+            fun updateLifebars() {
+                bnd.playerLifebar.progress =
+                    viewModel.currentBattle.value!!.playerOneMaxHp / 100 * viewModel.currentBattle.value!!.playerOneCurrentHp
+                bnd.oppnentLifebar.progress =
+                    viewModel.currentBattle.value!!.playerTwoMaxHp / 100 * viewModel.currentBattle.value!!.playerTwoCurrentHp
+                bnd.txtPlayerHp.text =
+                    viewModel.currentBattle.value!!.playerOneCurrentHp.toString() + "/" + viewModel.currentBattle.value!!.playerOneMaxHp + "HP"
+                bnd.txtOpponentHp.text =
+                    viewModel.currentBattle.value!!.playerTwoCurrentHp.toString() + "/" + viewModel.currentBattle.value!!.playerTwoMaxHp + "HP"
+            }
+            viewModel.currentBattle.observe(viewLifecycleOwner) {
                 updateHeroAdapters()
+                updateLifebars()
+                rvHorizontal.update(viewModel.currentBattle.value!!.playerOneHand)
             }
-            viewModel.currentBattle.value!!.start(bnd)
+            viewModel.currentBattle.value!!.setUpBattleField(bnd)
         }
         // }
         //viewModel.getCardLibrary()
@@ -109,11 +133,6 @@ class BattleFragment : Fragment() {
         mediaPlayer?.isLooping = true
         mediaPlayer?.setVolume(musicVolume, musicVolume)
         mediaPlayer?.start()
-
-
-        //startet die Anfangsanimation des Spielfeldes
-        //firstAnimation()
-
 
         //Top-Navigation
         bnd.btnMusicOnOff.setOnClickListener {
@@ -242,42 +261,44 @@ class BattleFragment : Fragment() {
         bnd.sidebar.startAnimation(translation)
 
 
+    }
+
+    fun getPlayerHand() {
+        exampleBattle.playerOneStack.shuffle()
+        bnd.marqueeText.text = "Kartendeck wurde gemischt"
+        lifecycleScope.launch {
+            delay(1000)
+            exampleBattle.getCard(exampleBattle.playerOneStack, exampleBattle.playerOneHand)
+            rvHorizontal.update(exampleBattle.playerOneHand)
+            delay(1000)
+            exampleBattle.getCard(exampleBattle.playerOneStack, exampleBattle.playerOneHand)
+            rvHorizontal.update(exampleBattle.playerOneHand)
+            delay(1000)
+            exampleBattle.getCard(exampleBattle.playerOneStack, exampleBattle.playerOneHand)
+            rvHorizontal.update(exampleBattle.playerOneHand)
+            delay(1000)
+            exampleBattle.getCard(exampleBattle.playerOneStack, exampleBattle.playerOneHand)
+            rvHorizontal.update(exampleBattle.playerOneHand)
+            delay(1000)
+            exampleBattle.getCard(exampleBattle.playerOneStack, exampleBattle.playerOneHand)
+            rvHorizontal.update(exampleBattle.playerOneHand)
+            delay(2000)
+            checkFirstPlayerHandForHeroes()
+        }
 
     }
 
-
-    //später entfernen wenn die Funktion in der Battle-Klassev implementiert ist
-    private fun firstAnimation() {
-        val scaleXAnimator = ObjectAnimator.ofFloat(bnd.clBattleground, "scaleX", 0.25f)
-        val scaleYAnimator = ObjectAnimator.ofFloat(bnd.clBattleground, "scaleY", 0.2f)
-        val rotateAnimation = ObjectAnimator.ofFloat(bnd.clBattleground, "rotationX", 40f)
-        val turnTable = ObjectAnimator.ofFloat(bnd.clBattleground, "rotation", 360f)
-
-        val animatorSet = AnimatorSet()
-        animatorSet.playTogether(scaleXAnimator, scaleYAnimator, rotateAnimation, turnTable)
-        animatorSet.duration = 5000
-
-        animatorSet.addListener(object : Animator.AnimatorListener {
-            //man muss alle Methoden implementieren auch wenn sie nicht verwqendet werden.
-            //Die EndMethode cleared die Animation auf dem Battleground und löst den MarqueeTextb aus
-            override fun onAnimationStart(animation: Animator) {
-
+    fun checkFirstPlayerHandForHeroes() {
+        if (exampleBattle.playerOneHand.filter { it.cardType == "Hero" }.isEmpty()) {
+            bnd.marqueeText.text =
+                "Erste Spielerhand enthielt keinen Helden. Karten kommen zurück in den Stapel. Stapel wurde gemischt"
+            lifecycleScope.launch {
+                delay(3000)
+                exampleBattle.playerHandToStack()
+                rvHorizontal.update(exampleBattle.playerOneHand)
+                getPlayerHand()
             }
-
-            override fun onAnimationEnd(animation: Animator) {
-
-                bnd.clBattleground.clearAnimation()
-                bnd.marqueeText.isSelected = true
-            }
-
-            override fun onAnimationCancel(animation: Animator) {
-            }
-
-            override fun onAnimationRepeat(animation: Animator) {
-            }
-        })
-
-        animatorSet.start()
+        }
     }
 
 
@@ -295,5 +316,18 @@ class BattleFragment : Fragment() {
         super.onDestroy()
         mediaPlayer?.stop()
         mediaPlayer?.release()
+    }
+
+    override fun getPlayerOneHand() {
+        getPlayerHand()
+    }
+
+    override fun updateUI() {
+        playerHeroes.update(exampleBattle.playerOneBank)
+        opponentHeroes.update(exampleBattle.playerTwoBank)
+        bnd.txtAirResources.text = exampleBattle.playerOneLands.filter { it.type == "Air" }.size.toString() + "/" + exampleBattle.playerOneMaxLand
+        bnd.txtWaterResources.text = exampleBattle.playerOneLands.filter { it.type == "Water" }.size.toString() + "/" + exampleBattle.playerOneMaxLand
+        bnd.txtFireResources.text = exampleBattle.playerOneLands.filter { it.type == "Fire" }.size.toString() + "/" + exampleBattle.playerOneMaxLand
+        bnd.txtNatureResources.text = exampleBattle.playerOneLands.filter { it.type == "Plant" }.size.toString() + "/" + exampleBattle.playerOneMaxLand
     }
 }

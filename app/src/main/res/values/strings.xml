@@ -44,5 +44,6 @@
     <string name="load_image_sources">Load missing image sources</string>
     <string name="from"> from </string>
     <string name="image_resources_loaded"> image resources loaded</string>
+    <string name="stack_was_shuffeld">Decks werden gemischt</string>
 
 </resources>

@@ -3,7 +3,11 @@ package com.example.talesofcaelumora.data.datamodel
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import androidx.core.view.isVisible
+import com.example.talesofcaelumora.adapter.CardAdapter
+import com.example.talesofcaelumora.data.utils.BattleCallback
 import com.example.talesofcaelumora.databinding.FragmentBattleBinding
+import com.example.talesofcaelumora.ui.viewmodel.MainViewModel
 
 class Battle(
     var id: String,
@@ -72,9 +76,12 @@ class Battle(
     //wenn true ist der derzeiteige Spieler playerOne, wenn false playerTwo
     val currentPlayer = true
     private lateinit var bnd: FragmentBattleBinding
+    private lateinit var battleCallback: BattleCallback
     var battleStarted = false
 
-    fun start(binding: FragmentBattleBinding): Int {
+    fun setUpBattleField(
+        binding: FragmentBattleBinding,
+    ): Int {
         bnd = binding
         battlefield.setBattlefield(bnd)
         if (battleStarted) {
@@ -101,7 +108,15 @@ class Battle(
                 override fun onAnimationEnd(animation: Animator) {
 
                     bnd.clBattleground.clearAnimation()
+                    bnd.txtGridRecyclerHeader.text = "Spielerhand"
+                    bnd.txtGridRecyclerHeaderShadow.text = "Spielerhand"
                     bnd.marqueeText.isSelected = true
+                    bnd.rvHorizontal.isVisible = true
+                    bnd.gridSelection.isVisible = true
+                    bnd.svLegend.isVisible = false
+                    battleStarted = true
+                    battleCallback.getPlayerOneHand()
+
                 }
 
                 override fun onAnimationCancel(animation: Animator) {
@@ -115,8 +130,16 @@ class Battle(
         }
         return battlefield.music
     }
+    fun getCard(stack: MutableList<Card>, hand: MutableList<Card>){
+        hand.add(stack.removeFirst())
+    }
+    fun playerHandToStack(){
+        playerOneStack.addAll(playerOneHand)
+        playerOneHand.removeAll(playerOneHand)
+        playerOneStack.shuffle()
+    }
+    fun setBattleCallback(callback: BattleCallback) {
+        this.battleCallback = callback
+    }
+
 }
-
-
-
-

@@ -41,7 +41,6 @@ class Player(
 
 
     var character: Int = R.drawable.elara_solo
-
     fun returnDeck(library: List<Card>): MutableList<Card> {
         Log.d("Player", "Try to fetch deck")
         var list: MutableList<Card> = mutableListOf()

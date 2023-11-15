@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.talesofcaelumora.data.AppRepository
 import com.example.talesofcaelumora.data.datamodel.Battle
+import com.example.talesofcaelumora.data.datamodel.Card
 import com.example.talesofcaelumora.data.datamodel.battlefields
 import com.example.talesofcaelumora.data.datamodel.examplePlayerDanny
 import com.example.talesofcaelumora.data.datamodel.examplePlayerElara
@@ -83,5 +84,15 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     }
     fun setCurrentBattle(battle: Battle){
         _currentBattle.value = battle
+    }
+    fun getPlayerCard(){
+        viewModelScope.launch{
+            delay(1000)
+            _currentBattle.value!!.playerOneHand.add(_currentBattle.value!!.playerOneStack.removeFirst())
+        }
+
+    }
+    fun getPlayerHand(){
+        while (_currentBattle.value!!.playerOneHand.size<5 && _currentBattle.value!!.playerOneHand.filter { it.cardType == "Hero" }.isEmpty())getPlayerCard()
     }
 }
