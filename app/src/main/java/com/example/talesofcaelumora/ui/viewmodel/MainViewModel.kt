@@ -27,6 +27,10 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     val currentBattle: LiveData<Battle>
         get() = _currentBattle
 
+    private var _currentCard = MutableLiveData<Card>()
+    val currentCard : LiveData<Card>
+        get() = _currentCard
+
     // Ladestatusvariablen
     val dateTimeLoadingStatus = MutableLiveData<LoadingStatus>()
     val cardLibraryLoadingStatus = MutableLiveData<LoadingStatus>()
@@ -62,7 +66,9 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     }
 
 
-
+    fun setCurrentCard(card: Card){
+        _currentCard.value = card
+    }
 
     fun getDateTime(){
         viewModelScope.launch {

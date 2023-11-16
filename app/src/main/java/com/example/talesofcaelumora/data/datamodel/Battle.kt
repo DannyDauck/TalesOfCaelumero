@@ -3,6 +3,7 @@ package com.example.talesofcaelumora.data.datamodel
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.widget.Toast
 import androidx.core.view.isVisible
 import com.example.talesofcaelumora.adapter.CardAdapter
 import com.example.talesofcaelumora.data.utils.BattleCallback
@@ -140,6 +141,38 @@ class Battle(
     }
     fun setBattleCallback(callback: BattleCallback) {
         this.battleCallback = callback
+    }
+    fun sortCards(){
+        if(playerOneHand.filter { it.selected&&it.cardType=="Hero" }.size + playerOneBank.size > playerOneMaxBank)
+            battleCallback.throwToast("Du hast nicht genug Platz auf deiner Helden Bank")
+        else if(playerOneHand.filter{it.selected&&it.cardType=="Land"&&it.type=="water"}.size+playerOneLands.filter { it.type=="water" }.size>playerOneMaxLand)
+            battleCallback.throwToast("Du hast nicht genug Platz für Wasserresourcen")
+        else if(playerOneHand.filter{it.selected&&it.cardType=="Land"&&it.type=="air"}.size+playerOneLands.filter { it.type=="air" }.size>playerOneMaxLand)
+            battleCallback.throwToast("Du hast nicht genug Platz für Luftresourcen")
+        else if(playerOneHand.filter{it.selected&&it.cardType=="Land"&&it.type=="fire"}.size+playerOneLands.filter { it.type=="fire" }.size>playerOneMaxLand)
+            battleCallback.throwToast("Du hast nicht genug Platz für Feuerresourcen")
+        else if(playerOneHand.filter{it.selected&&it.cardType=="Land"&&it.type=="plant"}.size+playerOneLands.filter { it.type=="plant" }.size>playerOneMaxLand)
+            battleCallback.throwToast("Du hast nicht genug Platz für Naturresourcen")
+        else{
+            //braucht die Variable, weil sofortiges entfernen aus der Hand die forEach-Schleife zum Absturz bringt
+            var listToRemove = mutableListOf<Card>()
+            playerOneHand.filter { card -> card.selected }.forEach{
+                if(it.cardType=="Hero"){
+                    it.selected = false
+                    playerOneBank.add(it)
+                    listToRemove.add(it)
+                }
+                if(it.cardType=="Land"){
+                    it.selected = false
+                    playerOneLands.add(it)
+                    listToRemove.add(it)
+                }
+
+            }
+            playerOneHand.removeAll(listToRemove)
+            playerOneLands = playerOneLands.sortedBy { it.type }.toMutableList()
+            battleCallback.updateUI()
+        }
     }
 
 }

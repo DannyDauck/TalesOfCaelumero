@@ -152,6 +152,9 @@ class CardAdapter(
                     "\n" + card.secAbilityDescription
         }
         if (type == "selection") {
+            if (card.selected) holder.bnd.root.setBackgroundResource(R.drawable.card_stroke_selected) else holder.bnd.root.setBackgroundResource(
+                R.drawable.card_stroke_disselected
+            )
             holder.bnd.root.setOnClickListener {
                 card.selected = !card.selected
                 if (card.selected) it.setBackgroundResource(R.drawable.card_stroke_selected) else it.setBackgroundResource(
@@ -166,8 +169,9 @@ class CardAdapter(
         return data.size
     }
 
-    fun update(list: List<Card>) {
+    fun update(list: List<Card>, typeChange: String = "not inserted") {
         data = list
+        if(typeChange!="not inserted")type = typeChange
         notifyDataSetChanged()
 
     }
@@ -195,9 +199,8 @@ class CardAdapter(
         }
     }
 
-    fun update(cards: List<Card>, mode: String) {
-        data = cards
-        type = mode
+    fun changeType(typeChange: String){
+        type = typeChange
         notifyDataSetChanged()
     }
 }

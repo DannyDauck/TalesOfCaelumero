@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.Animation.AnimationListener
 import android.view.animation.TranslateAnimation
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -41,6 +42,7 @@ class BattleFragment : Fragment(), BattleCallback {
     private lateinit var opponentHeroes: CardAdapter
     private lateinit var rvHorizontal: CardAdapter
     private lateinit var rvGrid: CardAdapter
+    private lateinit var rvSingle: CardAdapter
 
     private val viewModel: MainViewModel by activityViewModels()
 
@@ -64,6 +66,51 @@ class BattleFragment : Fragment(), BattleCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
 
+        var filledHandThisRound = false
+
+        bnd.btnOkGrid.setOnClickListener {
+            bnd.gridSelection.isVisible = false
+            if (bnd.txtGridRecyclerHeader.text.toString() == "Spielerhand") {
+                exampleBattle.sortCards()
+            } else if (bnd.txtGridRecyclerHeader.text.toString() == "Landresourcen") {
+                if (exampleBattle.playerOneLands.filter { it.selected }.size > 6) throwToast("Bitte wähle maximal 6 Landresouren")
+                else {
+                    val selectedRes = listOf(
+                        bnd.landSelectOne,
+                        bnd.landSelectTwo,
+                        bnd.landSelectThree,
+                        bnd.landSelectFour,
+                        bnd.landSelectFive,
+                        bnd.landSelectSix
+                    )
+                    selectedRes.forEach {
+                        it.isVisible = false
+                    }
+                    repeat(exampleBattle.playerOneLands.filter { it.selected }.size) { index ->
+                        selectedRes[index].setImageResource(
+                            when (exampleBattle.playerOneLands.filter { card -> card.selected }[index].type) {
+                                "fire" -> R.drawable.firechip
+                                "water" -> R.drawable.waterchip
+                                "air" -> R.drawable.airchip
+                                "plant" -> R.drawable.plantchip
+                                //kann nicht passieren
+                                else -> R.drawable.colorlesschip
+                            }
+                        )
+                        selectedRes[index].isVisible = true
+                    }
+                    bnd.llLandselection.isVisible = true
+                }
+            } else if (bnd.txtGridRecyclerHeader.text == getString(R.string.legend)) {
+                bnd.svLegend.isVisible = false
+                if (bnd.svLegend.isVisible) bnd.btnLegend.setBackgroundResource(R.color.bottom_bar_selected_ico) else bnd.btnLegend.setBackgroundResource(
+                    R.color.nothing
+                )
+
+            }
+        }
+
+
         //viewModel.cardLibrary.observe(viewLifecycleOwner ) {
         if (viewModel.cardLibrary.value != null && viewModel.cardLibrary.value!!.isNotEmpty()) {
             Log.d("BattleFragment", viewModel.cardLibrary.value.toString())
@@ -77,28 +124,7 @@ class BattleFragment : Fragment(), BattleCallback {
             exampleBattle.setBattleCallback(this)
             viewModel.setCurrentBattle(exampleBattle)
 
-            playerHeroes = CardAdapter(
-                viewModel.currentBattle.value!!.playerOneHand,
-                "",
-                requireContext()
-            )
-            opponentHeroes = CardAdapter(
-                viewModel.currentBattle.value!!.playerTwoBank,
-                "",
-                requireContext()
-            )
-            rvGrid = CardAdapter(
-                viewModel.cardLibrary.value?.shuffled()!!
-                    .plus(viewModel.cardLibrary.value!!.shuffled()), "selection", requireContext()
-            )
-            rvHorizontal = CardAdapter(
-                listOf(), "", requireContext()
-            )
 
-            bnd.opponentHeroes.adapter = opponentHeroes
-            bnd.playerHeroes.adapter = playerHeroes
-            bnd.rvGrid.adapter = rvGrid
-            bnd.rvHorizontal.adapter = rvHorizontal
 
             fun updateHeroAdapters() {
                 opponentHeroes.update(viewModel.currentBattle.value!!.playerTwoBank)
@@ -121,12 +147,58 @@ class BattleFragment : Fragment(), BattleCallback {
                 rvHorizontal.update(viewModel.currentBattle.value!!.playerOneHand)
             }
             viewModel.currentBattle.value!!.setUpBattleField(bnd)
+            viewModel.currentCard.observe(viewLifecycleOwner) {
+                if (it != null) {
+                    rvSingle.update(listOf(it))
+                    bnd.gridSelection.isVisible = false
+                    bnd.bigCard.isVisible = true
+                }
+            }
         }
-        // }
-        //viewModel.getCardLibrary()
+        bnd.btnSingleCardOk.setOnClickListener {
+            bnd.bigCard.isVisible = false
+            bnd.gridSelection.isVisible = true
+        }
+
+        bnd.btnDetailView.setOnClickListener {
+            if (bnd.txtGridRecyclerHeader.text == "Spielerhand") {
+                if (exampleBattle.playerOneHand.filter { it.selected }.size == 1) {
+                    viewModel.setCurrentCard(exampleBattle.playerOneHand.filter { it.selected }
+                        .first())
+                } else throwToast("Bitte wähle für die Detailansicht nur eine Karte aus")
+            }
+        }
+
+        //Erste Initialisierung der Adapter und Zuweisung
+        playerHeroes = CardAdapter(
+            viewModel.currentBattle.value!!.playerOneHand,
+            "",
+            requireContext()
+        )
+        opponentHeroes = CardAdapter(
+            viewModel.currentBattle.value!!.playerTwoBank,
+            "",
+            requireContext()
+        )
+        rvGrid = CardAdapter(
+            viewModel.cardLibrary.value?.shuffled()!!
+                .plus(viewModel.cardLibrary.value!!.shuffled()), "selection", requireContext()
+        )
+        rvHorizontal = CardAdapter(
+            listOf(), "", requireContext()
+        )
+        rvSingle = CardAdapter(
+            listOf(), "", requireContext()
+        )
+
+        bnd.opponentHeroes.adapter = opponentHeroes
+        bnd.playerHeroes.adapter = playerHeroes
+        bnd.rvGrid.adapter = rvGrid
+        bnd.rvHorizontal.adapter = rvHorizontal
+        bnd.rvSingleCard.adapter = rvSingle
+
 
         val battlefield = viewModel.currentBattle.value!!.battlefield
-
 
         //Backgroundmusic
         mediaPlayer = MediaPlayer.create(requireContext(), battlefield.music)
@@ -151,14 +223,14 @@ class BattleFragment : Fragment(), BattleCallback {
             changeSong()
         }
 
+
         //Sidebar
         bnd.btnSidebarOnOff.setOnClickListener {
             if (!bnd.gridSelection.isVisible) slideOut()
             bnd.svLegend.isVisible = false
         }
-        bnd.btnOkGrid.setOnClickListener {
-            bnd.gridSelection.isVisible = false
-        }
+
+
         bnd.btnTurnTable.setOnClickListener {
 
             //keine weitere Rotation mehr, geht zu sehr auf die Performance!!!
@@ -176,22 +248,45 @@ class BattleFragment : Fragment(), BattleCallback {
                 bnd.clBattleground.rotation = 180f
             }
         }
-        bnd.landBar.setOnClickListener {
-            bnd.gridSelection.isVisible = true
-        }
+
         bnd.btnGraveyard.setOnClickListener {
-            bnd.gridSelection.isVisible = true
+            bnd.txtGridRecyclerHeader.text = "Friedhof"
+            bnd.txtGridRecyclerHeaderShadow.text = "Friedhof"
+            if (exampleBattle.playerOneGraveyard.isEmpty()) throwToast("Dein Friedhof ist noch leer")
+            else {
+                rvGrid.update(exampleBattle.playerOneGraveyard)
+                rvGrid.changeType("")
+                bnd.gridSelection.isVisible = true
+            }
             slideOut()
         }
-        lifecycleScope.launch {
-            delay(6000)
-            bnd.marqueeText.text = bnd.marqueeText.text.toString()
-            bnd.marqueeText.isSelected = true
+        bnd.btnHand.setOnClickListener {
+            bnd.txtGridRecyclerHeader.text = "Spielerhand"
+            bnd.txtGridRecyclerHeaderShadow.text = "Spielerhand"
+            rvHorizontal.update(exampleBattle.playerOneHand, "selection")
+            bnd.rvGrid.isVisible = false
+            bnd.rvHorizontal.isVisible = true
+            bnd.gridSelection.isVisible = true
         }
+
+
+        //Landbar
+        bnd.landBar.setOnClickListener {
+            bnd.rvHorizontal.isVisible = false
+            bnd.txtGridRecyclerHeader.text = "Landresourcen"
+            bnd.txtGridRecyclerHeaderShadow.text = "Landresourcen"
+            rvGrid.update(exampleBattle.playerOneLands)
+            bnd.rvGrid.isVisible = true
+            bnd.gridSelection.isVisible = true
+        }
+
+        //BottomNavigation
         bnd.btnLegend.setOnClickListener {
             bnd.svLegend.isVisible = !bnd.svLegend.isVisible
             bnd.txtGridRecyclerHeader.text = getString(R.string.legend)
             bnd.txtGridRecyclerHeaderShadow.text = getString(R.string.legend)
+            bnd.rvHorizontal.isVisible = false
+            bnd.rvGrid.isVisible = false
             bnd.gridSelection.isVisible = bnd.svLegend.isVisible
             if (bnd.svLegend.isVisible) bnd.btnLegend.setBackgroundResource(R.color.bottom_bar_selected_ico) else bnd.btnLegend.setBackgroundResource(
                 R.color.nothing
@@ -265,7 +360,6 @@ class BattleFragment : Fragment(), BattleCallback {
 
     fun getPlayerHand() {
         exampleBattle.playerOneStack.shuffle()
-        bnd.marqueeText.text = "Kartendeck wurde gemischt"
         lifecycleScope.launch {
             delay(1000)
             exampleBattle.getCard(exampleBattle.playerOneStack, exampleBattle.playerOneHand)
@@ -282,7 +376,7 @@ class BattleFragment : Fragment(), BattleCallback {
             delay(1000)
             exampleBattle.getCard(exampleBattle.playerOneStack, exampleBattle.playerOneHand)
             rvHorizontal.update(exampleBattle.playerOneHand)
-            delay(2000)
+            delay(4000)
             checkFirstPlayerHandForHeroes()
         }
 
@@ -290,15 +384,14 @@ class BattleFragment : Fragment(), BattleCallback {
 
     fun checkFirstPlayerHandForHeroes() {
         if (exampleBattle.playerOneHand.filter { it.cardType == "Hero" }.isEmpty()) {
-            bnd.marqueeText.text =
-                "Erste Spielerhand enthielt keinen Helden. Karten kommen zurück in den Stapel. Stapel wurde gemischt"
+            throwToast("Erste Hand enthielt keinen Helden. Hand kommt zurück in den Stapel")
             lifecycleScope.launch {
                 delay(3000)
                 exampleBattle.playerHandToStack()
                 rvHorizontal.update(exampleBattle.playerOneHand)
                 getPlayerHand()
             }
-        }
+        } else rvHorizontal.changeType("selection")
     }
 
 
@@ -325,9 +418,24 @@ class BattleFragment : Fragment(), BattleCallback {
     override fun updateUI() {
         playerHeroes.update(exampleBattle.playerOneBank)
         opponentHeroes.update(exampleBattle.playerTwoBank)
-        bnd.txtAirResources.text = exampleBattle.playerOneLands.filter { it.type == "Air" }.size.toString() + "/" + exampleBattle.playerOneMaxLand
-        bnd.txtWaterResources.text = exampleBattle.playerOneLands.filter { it.type == "Water" }.size.toString() + "/" + exampleBattle.playerOneMaxLand
-        bnd.txtFireResources.text = exampleBattle.playerOneLands.filter { it.type == "Fire" }.size.toString() + "/" + exampleBattle.playerOneMaxLand
-        bnd.txtNatureResources.text = exampleBattle.playerOneLands.filter { it.type == "Plant" }.size.toString() + "/" + exampleBattle.playerOneMaxLand
+        bnd.txtAirResources.text =
+            exampleBattle.playerOneLands.filter { it.type == "air" }.size.toString() + "/" + exampleBattle.playerOneMaxLand
+        bnd.txtWaterResources.text =
+            exampleBattle.playerOneLands.filter { it.type == "water" }.size.toString() + "/" + exampleBattle.playerOneMaxLand
+        bnd.txtFireResources.text =
+            exampleBattle.playerOneLands.filter { it.type == "fire" }.size.toString() + "/" + exampleBattle.playerOneMaxLand
+        bnd.txtNatureResources.text =
+            exampleBattle.playerOneLands.filter { it.type == "plant" }.size.toString() + "/" + exampleBattle.playerOneMaxLand
     }
+
+    override fun throwToast(string: String) {
+        //Ein richtiger Toast braucht zu lange zum laden, von dem abgesehen ist das auffälliger und passt besser ins Design
+        bnd.txtToast.text = string
+        bnd.txtToast.isVisible = true
+        lifecycleScope.launch {
+            delay(1000)
+            bnd.txtToast.isVisible = false
+        }
+    }
+
 }
