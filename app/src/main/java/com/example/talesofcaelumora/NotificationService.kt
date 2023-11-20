@@ -1,6 +1,7 @@
 package com.example.talesofcaelumora;
 
 import android.Manifest
+import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -38,14 +39,13 @@ class NotificationService : JobIntentService() {
             NotificationManagerCompat.from(this)
 
         // Erstelle einen NotificationChannel für Android Oreo und höher
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 "default",
                 "Channel name",
                 NotificationManager.IMPORTANCE_DEFAULT
             )
             notificationManager.createNotificationChannel(channel)
-        }
+
 
         // Erstelle die Benachrichtigung
         val notification = NotificationCompat.Builder(this, "default")
@@ -63,9 +63,11 @@ class NotificationService : JobIntentService() {
                 Manifest.permission.POST_NOTIFICATIONS
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-
-            return
-
+            ActivityCompat.requestPermissions(
+                Activity(),
+                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                POST_DELAY_REQUEST
+            )
             return
         }else{Log.d("NofSer", "alles ok")}
         notificationManager.notify(1, notification)

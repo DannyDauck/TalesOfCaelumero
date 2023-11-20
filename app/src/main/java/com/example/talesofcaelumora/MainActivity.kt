@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
             )
             return
 
-        }else{Log.d("NofSer", "alles ok")}
+        }else{Log.d("MA", "Permission for post notifications granted")}
 
 
         //Die Methode ist zwar veraltet, funktioniert aber trotzdem einwandfrei.
@@ -73,18 +73,18 @@ class MainActivity : AppCompatActivity() {
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-
+        NotificationService.enqueueWork(this, intent)
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val triggerTime = SystemClock.elapsedRealtime() + 60 * 1000  // 60 Sekunden in Millisekunden
         alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerTime, pendingIntent)
-
-
         startService(intent)
+
+
         super.onDestroy()
     }
 
     override fun onPause() {
-
+        Log.d("MAonPause", "onPause getsartet")
         val intent = Intent(this, NotificationService::class.java)
         val pendingIntent = PendingIntent.getService(
             this,
@@ -92,6 +92,9 @@ class MainActivity : AppCompatActivity() {
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
+        Log.d("MA", intent.toString())
+        Log.d("MA", pendingIntent.toString())
+        NotificationService.enqueueWork(this, intent)
 
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val triggerTime = SystemClock.elapsedRealtime() + 60 * 1000  // 60 Sekunden in Millisekunden
@@ -101,10 +104,4 @@ class MainActivity : AppCompatActivity() {
 
         super.onPause()
     }
-
-
-
-
-
-
 }
