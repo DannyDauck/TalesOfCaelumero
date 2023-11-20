@@ -433,7 +433,7 @@ class BattleFragment : Fragment(), BattleCallback {
         bnd.txtToast.text = string
         bnd.txtToast.isVisible = true
         lifecycleScope.launch {
-            delay(1000)
+            delay(3000)
             bnd.txtToast.isVisible = false
         }
     }
