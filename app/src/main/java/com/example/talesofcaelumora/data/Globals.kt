@@ -3,7 +3,6 @@ package com.example.talesofcaelumora.data
 import android.media.MediaPlayer
 import com.example.talesofcaelumora.R
 
-const val POST_DELAY_REQUEST = 2001
 //media player values
 var musicVolume = 0.8f
 val songList = listOf(R.raw.main_theme, R.raw.forest_battle, R.raw.watertheme, R.raw.fire_theme)

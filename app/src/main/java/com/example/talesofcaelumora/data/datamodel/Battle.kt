@@ -164,7 +164,7 @@ class Battle(
                 }
                 if(it.cardType=="Land"){
                     it.selected = false
-                    playerOneLands.add(it)
+                    playerOneLands.add(it.toCard())
                     listToRemove.add(it)
                 }
 

@@ -2,37 +2,45 @@ package com.example.talesofcaelumora
 
 
 import android.Manifest
-import android.app.AlarmManager
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.TaskStackBuilder
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.os.SystemClock
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-
-import androidx.navigation.findNavController
-import com.example.talesofcaelumora.data.POST_DELAY_REQUEST
-import com.example.talesofcaelumora.ui.LoginFragmentDirections
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.lifecycle.lifecycleScope
+import com.example.talesofcaelumora.data.datamodel.AlarmItem
+import com.example.talesofcaelumora.data.utils.NotificationAlarmScheduler
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 
 
 class MainActivity : AppCompatActivity() {
 
+
+    val POST_NOTIFICATIONS = 2001
+    private lateinit var scheduler: NotificationAlarmScheduler
+
     private lateinit var firebaseAuth: FirebaseAuth
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-
-        //fragt ab ob die Berechtigung für Nachrichten erteilt ist
+        scheduler = NotificationAlarmScheduler(this)
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.POST_NOTIFICATIONS
@@ -41,12 +49,9 @@ class MainActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                POST_DELAY_REQUEST
+                POST_NOTIFICATIONS
             )
-            return
-
-        }else{Log.d("MA", "Permission for post notifications granted")}
-
+        }
 
         //Die Methode ist zwar veraltet, funktioniert aber trotzdem einwandfrei.
         //Alternative wäre der WindowsInsetsController, der läuft aber auch erst ab API 30
@@ -65,43 +70,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-
-        val intent = Intent(this, NotificationService::class.java)
-        val pendingIntent = PendingIntent.getService(
-            this,
-            0,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-        NotificationService.enqueueWork(this, intent)
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val triggerTime = SystemClock.elapsedRealtime() + 60 * 1000  // 60 Sekunden in Millisekunden
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerTime, pendingIntent)
-        startService(intent)
-
-
+        //sendNotification("Schau doch mal wieder vor vorbei", 1)
         super.onDestroy()
+
+
     }
+
 
     override fun onPause() {
-        Log.d("MAonPause", "onPause getsartet")
-        val intent = Intent(this, NotificationService::class.java)
-        val pendingIntent = PendingIntent.getService(
-            this,
-            0,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-        Log.d("MA", intent.toString())
-        Log.d("MA", pendingIntent.toString())
-        NotificationService.enqueueWork(this, intent)
-
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val triggerTime = SystemClock.elapsedRealtime() + 60 * 1000  // 60 Sekunden in Millisekunden
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerTime, pendingIntent)
-
-        startService(intent)
-
+        sendNotification("Du warst schon lange nicht mehr in Caelumero", 1)
         super.onPause()
     }
+
+
+    fun sendNotification(text: String? = null, afterMinutes: Long = 1) {
+        Log.d("MainActivity", "sendNotification startet")
+        val alarmItem = AlarmItem(
+            LocalDateTime.now().plusMinutes(afterMinutes),
+            text ?: "Du warst lange nicht mehr in Caelumero"
+        )
+        alarmItem.let(scheduler::schedule)
+    }
+
 }
+

@@ -63,5 +63,33 @@ data class Card(
         used = false,
     )
 
-
+    fun toCard(): Card {
+        // Create a new instance of Card and copy all properties
+        return Card(
+            id = this.id,
+            cardName = this.cardName,
+            cardType = this.cardType,
+            rarity = this.rarity,
+            releaseDate = this.releaseDate,
+            type = this.type,
+            imgSrc = this.imgSrc,
+            hp = this.hp,
+            firstAbilityName = this.firstAbilityName,
+            firstAbilityType = this.firstAbilityType,
+            firstAbilityPoints = this.firstAbilityPoints,
+            firstAbilityCosts = this.firstAbilityCosts.toList(), // Create a new list to avoid reference sharing
+            firstAbilityDescription = this.firstAbilityDescription,
+            secAbilityName = this.secAbilityName,
+            secAbilityType = this.secAbilityType,
+            secAbilityPoints = this.secAbilityPoints,
+            secAbilityCosts = this.secAbilityCosts.toList(), // Create a new list to avoid reference sharing
+            secAbilityDescription = this.secAbilityDescription,
+            selected = this.selected,
+            currentHp = this.currentHp,
+            protected = this.protected,
+            used = this.used
+        )
+    }
 }
+
+

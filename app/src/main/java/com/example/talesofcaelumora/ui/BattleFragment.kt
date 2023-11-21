@@ -386,7 +386,7 @@ class BattleFragment : Fragment(), BattleCallback {
         if (exampleBattle.playerOneHand.filter { it.cardType == "Hero" }.isEmpty()) {
             throwToast("Erste Hand enthielt keinen Helden. Hand kommt zurück in den Stapel")
             lifecycleScope.launch {
-                delay(3000)
+                delay(2000)
                 exampleBattle.playerHandToStack()
                 rvHorizontal.update(exampleBattle.playerOneHand)
                 getPlayerHand()

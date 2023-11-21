@@ -38,8 +38,6 @@ class Player(
         R.raw.watertheme,
         "The Spirit Of Water - DarT music "
     )
-
-
     var character: Int = R.drawable.elara_solo
     fun returnDeck(library: List<Card>): MutableList<Card> {
         Log.d("Player", "Try to fetch deck")
@@ -47,7 +45,7 @@ class Player(
         initialDeckAir.forEach { entry ->
             Log.d("Player", entry)
             try{
-                list.add(library.filter{ card -> card.id == entry }.first())
+                list.add(library.filter{ card -> card.id == entry }.first().toCard())
                 Log.d("Player", "succesful added")
             }catch (e: Exception){
                 Log.d("Player", entry + "wurde nicht gefunden")
