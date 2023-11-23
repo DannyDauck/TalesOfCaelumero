@@ -3,6 +3,7 @@ package com.example.talesofcaelumora.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.TranslateAnimation
 import android.widget.ImageView
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
@@ -21,6 +22,8 @@ class CardAdapter(
     RecyclerView.Adapter<CardAdapter.ListHolder>() {
 
     inner class ListHolder(val bnd: CardItemBinding) : RecyclerView.ViewHolder(bnd.root)
+    private var animationList = mutableListOf<Card>()
+    private var density = 1f
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListHolder {
@@ -43,8 +46,18 @@ class CardAdapter(
             "Supporter" -> "S"
             else -> ""
         }
-        holder.bnd.imgCardType.setImageResource(getChip(card.type))
+        if(card.selected&&!type.contains("single card")){
+            holder.bnd.root.scaleY = 1.07f
+            holder.bnd.root.scaleX = 1.07f
+        }else{
+            holder.bnd.root.scaleX = 1.0f
+            holder.bnd.root.scaleY = 1.0f
+        }
 
+        holder.bnd.root.setOnClickListener {
+
+        }
+        holder.bnd.imgCardType.setImageResource(getChip(card.type))
         //Set card background
         holder.bnd.card.setBackgroundResource(
             when (card.type) {
@@ -61,10 +74,11 @@ class CardAdapter(
                 }
 
                 "fire" -> {
-                    if(card.rarity=="ultra rare")R.drawable.card_fire_bg_ultra_rare
-                    else if(card.rarity=="rare")R.drawable.card_fire_bg_rare
+                    if (card.rarity == "ultra rare") R.drawable.card_fire_bg_ultra_rare
+                    else if (card.rarity == "rare") R.drawable.card_fire_bg_rare
                     else R.drawable.card_fire_hero
                 }
+
                 "water" -> {
                     if (card.rarity == "ultra rare") R.drawable.card_hero_water_ultra_rare_bg
                     else if (card.rarity == "rare") R.drawable.card_water_bg_rare
@@ -81,30 +95,34 @@ class CardAdapter(
             }
         )
         if (card.cardType == "Hero") {
+            holder.bnd.llSecAbility.isGone = false
+            holder.bnd.llFirstAbiiltyCosts.isGone = false
+            holder.bnd.tvFirstAbilityPoints.isVisible = true
+            holder.bnd.tvFirstType.isVisible = true
 
             //First Ability
             holder.bnd.tvFirstAbility.text = card.firstAbilityName
             holder.bnd.tvFirstAbilityPoints.text = card.firstAbilityPoints.toString()
             holder.bnd.tvFirstAbilityDescribtion.text = card.firstAbilityDescription
-            when(card.firstAbilityType){
-                "single damage" -> holder.bnd.tvFirstType.text ="SD"
-                "multi damage" -> holder.bnd.tvFirstType.text ="MD"
-                "single damage and heal" -> holder.bnd.tvFirstType.text ="SDH"
-                "multi damage and heal" -> holder.bnd.tvFirstType.text ="MDH"
+            when (card.firstAbilityType) {
+                "single damage" -> holder.bnd.tvFirstType.text = "SD"
+                "multi damage" -> holder.bnd.tvFirstType.text = "MD"
+                "single damage and heal" -> holder.bnd.tvFirstType.text = "SDH"
+                "multi damage and heal" -> holder.bnd.tvFirstType.text = "MDH"
                 "single heal" -> holder.bnd.tvFirstType.text = "SH"
                 "multi heal" -> holder.bnd.tvFirstType.text = "MH"
-                "single damage and protect" -> holder.bnd.tvFirstType.text =  "SDP"
+                "single damage and protect" -> holder.bnd.tvFirstType.text = "SDP"
                 "multi damage and protect" -> holder.bnd.tvFirstType.text = "MDP"
                 "single heal player" -> holder.bnd.tvFirstType.text = "PH"
             }
-            when(card.secAbilityType){
-                "single damage" -> holder.bnd.tvSecType.text ="SD"
-                "multi damage" -> holder.bnd.tvSecType.text ="MD"
-                "single damage and heal" -> holder.bnd.tvSecType.text ="SDH"
-                "multi damage and heal" -> holder.bnd.tvSecType.text ="MDH"
+            when (card.secAbilityType) {
+                "single damage" -> holder.bnd.tvSecType.text = "SD"
+                "multi damage" -> holder.bnd.tvSecType.text = "MD"
+                "single damage and heal" -> holder.bnd.tvSecType.text = "SDH"
+                "multi damage and heal" -> holder.bnd.tvSecType.text = "MDH"
                 "single heal" -> holder.bnd.tvSecType.text = "SH"
                 "multi heal" -> holder.bnd.tvSecType.text = "MH"
-                "single damage and protect" -> holder.bnd.tvSecType.text =  "SDP"
+                "single damage and protect" -> holder.bnd.tvSecType.text = "SDP"
                 "multi damage and protect" -> holder.bnd.tvSecType.text = "MDP"
                 "single heal player" -> holder.bnd.tvSecType.text = "PH"
             }
@@ -151,29 +169,88 @@ class CardAdapter(
                     "\n" +
                     "\n" + card.secAbilityDescription
         }
-        if (type == "selection") {
-            if (card.selected) holder.bnd.root.setBackgroundResource(R.drawable.card_stroke_selected) else holder.bnd.root.setBackgroundResource(
-                R.drawable.card_stroke_disselected
-            )
+        if (type.contains("selection")) {
+
             holder.bnd.root.setOnClickListener {
                 card.selected = !card.selected
-                if (card.selected) it.setBackgroundResource(R.drawable.card_stroke_selected) else it.setBackgroundResource(
-                    R.drawable.card_stroke_disselected
-                )
+                if (card.selected||animationList.contains(card)) {
+                    it.scaleX = 1.07f
+                    it.scaleY = 1.07f
+                }
+                else {
+
+                    it.scaleX = 1.0f
+                    it.scaleY = 1.0f
+                }
             }
         }
+        if(type.contains("onesel")){
+            if(data.filter { it.selected }.size > 1){
+                data.forEach { it.selected = false }
+            }
+            holder.bnd.root.setOnClickListener {
+                card.selected = !card.selected
+                if (card.selected||animationList.contains(card)) {
+                    it.scaleX = 1.07f
+                    it.scaleY = 1.07f
+                }
+                else {
+
+                    it.scaleX = 1.0f
+                    it.scaleY = 1.0f
+                }
+                data.forEach { data -> if(data!=card){
+                    data.selected = false
+                } }
+                internUpdate()
+            }
+        }
+
+        if(type.contains("progressbar") && card.cardType == "Hero"){
+            holder.bnd.tvCurrentHp.text = card.currentHp.toString()
+            holder.bnd.lifebar.progress = card.currentHp*100/card.hp
+            holder.bnd.llLifeinfo.isVisible = true
+            holder.bnd.imgCard.setOnClickListener {
+                holder.bnd.llLifeinfo.isVisible = !holder.bnd.llLifeinfo.isVisible
+            }
+        }else holder.bnd.llLifeinfo.isVisible = false
+        if(animationList.contains(card)){
+            val translation = TranslateAnimation(0f,0f,  density * -429f, density *429f)
+            translation.duration = 1000
+            holder.bnd.animationBg.isVisible = true
+            holder.bnd.hitBg.isVisible=true
+            if(type.contains("recognize hit")){
+                translation.duration = 2000
+
+                holder.bnd.hitBg.startAnimation(translation)
+            } else holder.bnd.animationBg.startAnimation(translation)
+            animationList.remove(card)
+        }else {
+            holder.bnd.animationBg.isVisible = false
+            holder.bnd.hitBg.isVisible = false
+        }
+
 
     }
 
     override fun getItemCount(): Int {
         return data.size
     }
+    private fun internUpdate(){
+        notifyDataSetChanged()
+    }
 
     fun update(list: List<Card>, typeChange: String = "not inserted") {
+
         data = list
-        if(typeChange!="not inserted")type = typeChange
+        if (typeChange != "not inserted") type = typeChange
         notifyDataSetChanged()
 
+    }
+    fun startAnimation(list: List<Card>, dens: Float){
+        animationList = list.toMutableList()
+        density = dens
+        notifyDataSetChanged()
     }
 
     fun getChip(type: String): Int {
@@ -199,7 +276,7 @@ class CardAdapter(
         }
     }
 
-    fun changeType(typeChange: String){
+    fun changeType(typeChange: String) {
         type = typeChange
         notifyDataSetChanged()
     }

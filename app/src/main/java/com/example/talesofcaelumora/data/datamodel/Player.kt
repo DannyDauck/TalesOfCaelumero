@@ -26,7 +26,7 @@ class Player(
     var maxBank = 3
 
     //initialisiert ein leeres Deck, wird im onBoarding befüllt
-    var deck : List<String> ?= initialDeckAir
+    var deck : List<String> = initialDeckAir
     var maxDeckSize = 30
 
     //setzt die Home Arena per default erstmal auf "Wassertemple"

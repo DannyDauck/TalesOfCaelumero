@@ -9,6 +9,7 @@ import com.example.talesofcaelumora.adapter.CardAdapter
 import com.example.talesofcaelumora.data.utils.BattleCallback
 import com.example.talesofcaelumora.databinding.FragmentBattleBinding
 import com.example.talesofcaelumora.ui.viewmodel.MainViewModel
+import kotlinx.coroutines.delay
 
 class Battle(
     var id: String,
@@ -76,6 +77,7 @@ class Battle(
 
     //wenn true ist der derzeiteige Spieler playerOne, wenn false playerTwo
     val currentPlayer = true
+    var round = 0
     private lateinit var bnd: FragmentBattleBinding
     private lateinit var battleCallback: BattleCallback
     var battleStarted = false
@@ -116,6 +118,8 @@ class Battle(
                     bnd.gridSelection.isVisible = true
                     bnd.svLegend.isVisible = false
                     battleStarted = true
+                    bnd.clBattleground.rotation = 0f
+                    battleCallback.updateLifebars()
                     battleCallback.getPlayerOneHand()
 
                 }
@@ -132,7 +136,7 @@ class Battle(
         return battlefield.music
     }
     fun getCard(stack: MutableList<Card>, hand: MutableList<Card>){
-        hand.add(stack.removeFirst())
+        hand.add(stack.removeFirst().toCard())
     }
     fun playerHandToStack(){
         playerOneStack.addAll(playerOneHand)
@@ -159,7 +163,7 @@ class Battle(
             playerOneHand.filter { card -> card.selected }.forEach{
                 if(it.cardType=="Hero"){
                     it.selected = false
-                    playerOneBank.add(it)
+                    playerOneBank.add(it.toCard())
                     listToRemove.add(it)
                 }
                 if(it.cardType=="Land"){
@@ -173,6 +177,49 @@ class Battle(
             playerOneLands = playerOneLands.sortedBy { it.type }.toMutableList()
             battleCallback.updateUI()
         }
+    }
+    fun startFirstAbility(target: List<Card>, actionCard: Card){
+        if(target.isEmpty()){
+            if(round%2==1)playerOneCurrentHp -= minOf(actionCard.firstAbilityPoints, playerOneCurrentHp)
+            else playerTwoCurrentHp -= minOf(actionCard.firstAbilityPoints, playerTwoCurrentHp)
+            battleCallback.updateLifebars()
+            battleCallback.doActionReset()
+
+        }else{
+            target.forEach { card ->
+                var rest = 0
+                //checken ob der Angriff mehr Schaden zufügt als die GegnerKarte hat
+                if(card.currentHp<getDamage(card, actionCard,actionCard.firstAbilityPoints))rest = getDamage(card, actionCard,actionCard.firstAbilityPoints)-card.currentHp
+                card.currentHp -= minOf(getDamage(card, actionCard,actionCard.firstAbilityPoints), card.currentHp)
+
+            }
+            battleCallback.startRecyclerAnimation(target)
+            battleCallback.doActionReset()
+        }
+    }
+    fun getDamage(target: Card, actionCard: Card, points: Int): Int{
+        //List die Klassevor- und nachteile aus
+        var damage = points
+        val damageIncrease = points/20
+        when(actionCard.type){
+            "fire" -> when(target.type){
+                "air" -> damage += damageIncrease
+                "water" -> damage -= damageIncrease
+            }
+            "water" -> when(target.type){
+                "fire" -> damage += damageIncrease
+                "plant" -> damage -= damageIncrease
+            }
+            "plant" -> when(target.type){
+                "water" -> damage += damageIncrease
+                "air" -> damage -= damageIncrease
+            }
+            "air" -> when(target.type){
+                "plant" -> damage += damageIncrease
+                "fire" -> damage -= damageIncrease
+            }
+        }
+        return damage
     }
 
 }

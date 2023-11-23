@@ -5,13 +5,27 @@
     android:layout_width="248dp"
     android:layout_height="429dp"
     android:layout_margin="8sp"
-    android:background="@drawable/card_stroke_disselected"
-    android:padding="6dp">
+    android:background="@drawable/card_stroke_disselected">
+
+    <View
+        android:id="@+id/hit_bg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/hit_bg"
+        android:translationY="429dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="6dp"
         android:background="@drawable/card_air_hero"
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -89,19 +103,19 @@
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         android:textStyle="bold" />
+
                     <TextView
                         android:id="@+id/tv_first_type"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
                         android:fontFamily="@font/carter_one"
                         android:text="NV"
                         android:textAlignment="viewEnd"
                         android:textColor="@color/black"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginLeft="8dp"
                         android:textSize="16sp"
                         android:textStyle="bold" />
-
 
 
                     <TextView
@@ -122,7 +136,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="1dp">
-
 
 
                     <ImageView
@@ -174,7 +187,6 @@
             </LinearLayout>
 
 
-
             <LinearLayout
                 android:id="@+id/ll_sec_ability"
                 android:layout_width="match_parent"
@@ -204,12 +216,12 @@
                         android:id="@+id/tv_sec_type"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
                         android:fontFamily="@font/carter_one"
                         android:text="NV"
                         android:textAlignment="viewEnd"
                         android:textColor="@color/black"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginLeft="8dp"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -300,7 +312,8 @@
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_hp">
+            app:layout_constraintTop_toBottomOf="@+id/tv_hp"
+            tools:visibility="visible">
 
             <ProgressBar
                 android:id="@+id/lifebar"
@@ -316,7 +329,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
+                android:background="#444444"
                 android:fontFamily="@font/alfa_slab_one"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:text="250HP"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
@@ -335,4 +351,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <View
+        android:id="@+id/animation_bg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/animation_bg"
+        android:translationY="429dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

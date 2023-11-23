@@ -43,6 +43,10 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     val cardLoadingProgress = repo.cardLoadingProgress
 
 
+    var target = listOf<Card>()
+    var actionCard: Card? = null
+
+
     //enum Klasse für Ladestaten
     enum class LoadingStatus {
         LOADING,
@@ -101,4 +105,5 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     fun getPlayerHand(){
         while (_currentBattle.value!!.playerOneHand.size<5 && _currentBattle.value!!.playerOneHand.filter { it.cardType == "Hero" }.isEmpty())getPlayerCard()
     }
+
 }

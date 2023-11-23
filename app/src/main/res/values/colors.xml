@@ -20,4 +20,5 @@
     <color name="progress_bar_normal_progress">#909997</color>
     <color name="bottom_bar_selected_ico">#80FFFFFF</color>
     <color name="nothing">#00F0F0F0</color>
+    <color name="middle_health">#FF9800</color>
 </resources>
