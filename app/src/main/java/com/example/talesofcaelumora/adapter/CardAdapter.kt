@@ -1,8 +1,13 @@
 package com.example.talesofcaelumora.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.Animation.AnimationListener
+import android.view.animation.RotateAnimation
+import android.view.animation.ScaleAnimation
 import android.view.animation.TranslateAnimation
 import android.widget.ImageView
 import androidx.core.view.isGone
@@ -54,9 +59,21 @@ class CardAdapter(
             holder.bnd.root.scaleY = 1.0f
         }
 
-        holder.bnd.root.setOnClickListener {
+        if(card.protected == true){
+            Log.d("Adapter", "protecta animation läuft")
+            holder.bnd.protectBg.isVisible = true
+            val animation = RotateAnimation(0f,360f,0.5f,0.5f)
+            animation.duration = 4000
+            animation.repeatCount = Animation.INFINITE
+            holder.bnd.protectBg.startAnimation(animation)
+        }else holder.bnd.protectBg.isVisible = false
 
-        }
+        holder.bnd.clUsed.isVisible = card.used
+
+        //löscht onClickListener falls vorhanden
+        holder.bnd.root.setOnClickListener(null)
+
+
         holder.bnd.imgCardType.setImageResource(getChip(card.type))
         //Set card background
         holder.bnd.card.setBackgroundResource(
@@ -113,7 +130,7 @@ class CardAdapter(
                 "multi heal" -> holder.bnd.tvFirstType.text = "MH"
                 "single damage and protect" -> holder.bnd.tvFirstType.text = "SDP"
                 "multi damage and protect" -> holder.bnd.tvFirstType.text = "MDP"
-                "single heal player" -> holder.bnd.tvFirstType.text = "PH"
+                "player heal" -> holder.bnd.tvFirstType.text = "PH"
             }
             when (card.secAbilityType) {
                 "single damage" -> holder.bnd.tvSecType.text = "SD"
@@ -124,7 +141,7 @@ class CardAdapter(
                 "multi heal" -> holder.bnd.tvSecType.text = "MH"
                 "single damage and protect" -> holder.bnd.tvSecType.text = "SDP"
                 "multi damage and protect" -> holder.bnd.tvSecType.text = "MDP"
-                "single heal player" -> holder.bnd.tvSecType.text = "PH"
+                "player heal" -> holder.bnd.tvSecType.text = "PH"
             }
             getCosts(
                 listOf(
@@ -169,7 +186,9 @@ class CardAdapter(
                     "\n" +
                     "\n" + card.secAbilityDescription
         }
-        if (type.contains("selection")) {
+
+
+        if (type.contains("selection")&&!card.used) {
 
             holder.bnd.root.setOnClickListener {
                 card.selected = !card.selected
@@ -184,7 +203,22 @@ class CardAdapter(
                 }
             }
         }
-        if(type.contains("onesel")){
+        if (type.contains("untap")&&card.used) {
+
+            holder.bnd.root.setOnClickListener {
+                card.selected = !card.selected
+                if (card.selected||animationList.contains(card)) {
+                    it.scaleX = 1.07f
+                    it.scaleY = 1.07f
+                }
+                else {
+
+                    it.scaleX = 1.0f
+                    it.scaleY = 1.0f
+                }
+            }
+        }
+        if(type.contains("onesel")&&!card.used){
             if(data.filter { it.selected }.size > 1){
                 data.forEach { it.selected = false }
             }
@@ -213,7 +247,11 @@ class CardAdapter(
             holder.bnd.imgCard.setOnClickListener {
                 holder.bnd.llLifeinfo.isVisible = !holder.bnd.llLifeinfo.isVisible
             }
-        }else holder.bnd.llLifeinfo.isVisible = false
+        }else{
+            holder.bnd.llLifeinfo.isVisible = false
+            //entfernt onClickListener
+            holder.bnd.imgCard.setOnClickListener(null)
+        }
         if(animationList.contains(card)){
             val translation = TranslateAnimation(0f,0f,  density * -429f, density *429f)
             translation.duration = 1000
@@ -221,9 +259,12 @@ class CardAdapter(
             holder.bnd.hitBg.isVisible=true
             if(type.contains("recognize hit")){
                 translation.duration = 2000
-
                 holder.bnd.hitBg.startAnimation(translation)
-            } else holder.bnd.animationBg.startAnimation(translation)
+            }else if(type.contains("heal")){
+                translation.duration = 2000
+                holder.bnd.healBg.startAnimation(translation)
+            }else
+                holder.bnd.animationBg.startAnimation(translation)
             animationList.remove(card)
         }else {
             holder.bnd.animationBg.isVisible = false
@@ -250,6 +291,12 @@ class CardAdapter(
     fun startAnimation(list: List<Card>, dens: Float){
         animationList = list.toMutableList()
         density = dens
+        notifyDataSetChanged()
+    }
+    fun removeFromeDataset(card: Card){
+        var newData = data.toMutableList()
+        newData.remove(card)
+        data = newData
         notifyDataSetChanged()
     }
 

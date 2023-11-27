@@ -15,18 +15,22 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.talesofcaelumora.R
 import com.example.talesofcaelumora.data.musicVolume
+import com.example.talesofcaelumora.data.utils.SoundManager
+import com.example.talesofcaelumora.data.vfxVolume
 import com.example.talesofcaelumora.databinding.FragmentHomeBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 
 class HomeFragment : Fragment() {
 
     private lateinit var bnd: FragmentHomeBinding
     private var mediaPlayer: MediaPlayer? = null
+    private lateinit var soundManager: SoundManager
     private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +63,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        soundManager = SoundManager.getInstance(requireContext().applicationContext)
         bnd = FragmentHomeBinding.inflate(inflater, container,false)
 
 
@@ -77,7 +82,7 @@ class HomeFragment : Fragment() {
 
 
         bnd.musicVolumeSeekBar.progress = (musicVolume * 100).toInt()
-        bnd.vfxVolumeSeekBar.progress = 50
+        bnd.vfxVolumeSeekBar.progress = (vfxVolume*100).toInt()
         bnd.musicVolumeSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
 
@@ -88,12 +93,28 @@ class HomeFragment : Fragment() {
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                //muss zugefügt werden auch wenn nichts macht
+
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                // muss auch hinzugefügt werden
+
             }
+        })
+        bnd.vfxVolumeSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                vfxVolume = bnd.vfxVolumeSeekBar.progress.toFloat()/100
+                soundManager.setVolume()
+
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                soundManager.playSound(R.raw.sort_cards)
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                soundManager.playSound(R.raw.sort_cards)
+            }
+
         })
 
 

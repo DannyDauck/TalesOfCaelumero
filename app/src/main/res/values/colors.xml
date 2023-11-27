@@ -4,6 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="air_first">#7B9794</color>
     <color name="air_sec" >#AAD5E9</color>
+    <color name="air_sec_dark" >#77a2c6</color>
     <color name="fire_first">#F34336</color>
     <color name="fire_sec">#F5685E</color>
     <color name="water_first">#2D8BF0</color>

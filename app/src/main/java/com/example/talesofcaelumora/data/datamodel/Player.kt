@@ -9,7 +9,7 @@ class Player(
     val uid: String,
     var name: String,
     var level: Int,
-
+    var character: Int? = R.drawable.elara_solo,
     ) {
 
     var hp: Int = 150
@@ -25,8 +25,10 @@ class Player(
 
     var maxBank = 3
 
+    var deck: List<String> = initialDeckAir
+
     //initialisiert ein leeres Deck, wird im onBoarding befüllt
-    var deck : List<String> = initialDeckAir
+
     var maxDeckSize = 30
 
     //setzt die Home Arena per default erstmal auf "Wassertemple"
@@ -38,7 +40,7 @@ class Player(
         R.raw.watertheme,
         "The Spirit Of Water - DarT music "
     )
-    var character: Int = R.drawable.elara_solo
+
     fun returnDeck(library: List<Card>): MutableList<Card> {
         Log.d("Player", "Try to fetch deck")
         var list: MutableList<Card> = mutableListOf()

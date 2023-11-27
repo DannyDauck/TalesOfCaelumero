@@ -91,6 +91,12 @@ class Battle(
             bnd.clBattleground.scaleX = 0.25f
             bnd.clBattleground.scaleY = 0.2f
             bnd.clBattleground.rotationX = 40f
+            bnd.clBattleground.rotation = 0f
+            bnd.svLegend.isVisible = false
+            bnd.gridSelection.isVisible = false
+            bnd.bigCard.isVisible = false
+            battleCallback.updateLifebars()
+            battleCallback.updateUI()
         } else {
             val scaleXAnimator = ObjectAnimator.ofFloat(bnd.clBattleground, "scaleX", 0.25f)
             val scaleYAnimator = ObjectAnimator.ofFloat(bnd.clBattleground, "scaleY", 0.2f)
@@ -113,7 +119,6 @@ class Battle(
                     bnd.clBattleground.clearAnimation()
                     bnd.txtGridRecyclerHeader.text = "Spielerhand"
                     bnd.txtGridRecyclerHeaderShadow.text = "Spielerhand"
-                    bnd.marqueeText.isSelected = true
                     bnd.rvHorizontal.isVisible = true
                     bnd.gridSelection.isVisible = true
                     bnd.svLegend.isVisible = false
@@ -178,22 +183,35 @@ class Battle(
             battleCallback.updateUI()
         }
     }
-    fun startFirstAbility(target: List<Card>, actionCard: Card){
+    fun startAbility(target: List<Card>, actionCard: Card, type: Int){
+        //flips the abilities if the second ability is used
+        val flipCard = if(type==1)actionCard else actionCard.flipAbility()
         if(target.isEmpty()){
-            if(round%2==1)playerOneCurrentHp -= minOf(actionCard.firstAbilityPoints, playerOneCurrentHp)
-            else playerTwoCurrentHp -= minOf(actionCard.firstAbilityPoints, playerTwoCurrentHp)
+            if(round%2==1)playerOneCurrentHp -= minOf(flipCard.firstAbilityPoints, playerOneCurrentHp)
+            else playerTwoCurrentHp -= minOf(flipCard.firstAbilityPoints, playerTwoCurrentHp)
             battleCallback.updateLifebars()
             battleCallback.doActionReset()
 
         }else{
+            var heal = 0
+
             target.forEach { card ->
                 var rest = 0
-                //checken ob der Angriff mehr Schaden zufügt als die GegnerKarte hat
-                if(card.currentHp<getDamage(card, actionCard,actionCard.firstAbilityPoints))rest = getDamage(card, actionCard,actionCard.firstAbilityPoints)-card.currentHp
-                card.currentHp -= minOf(getDamage(card, actionCard,actionCard.firstAbilityPoints), card.currentHp)
-
+                //checken ob der Angriff mehr Schaden zufügt als die GegnerKarte hat oder die Gegnerkarte protected ist
+                if(!card.protected){
+                    if(card.currentHp<getDamage(card, actionCard,flipCard.firstAbilityPoints)) rest += getDamage(card, actionCard,flipCard.firstAbilityPoints)-card.currentHp
+                    card.currentHp -= minOf(getDamage(card, actionCard,flipCard.firstAbilityPoints), card.currentHp)
+                    if(rest!=0){
+                        playerTwoCurrentHp -= minOf(rest, playerTwoCurrentHp)
+                        battleCallback.updateLifebars()
+                    }
+                    if(flipCard.firstAbilityType.contains("heal"))heal += getDamage(card, actionCard,flipCard.firstAbilityPoints)/2
+                }else card.protected = false
             }
-            battleCallback.startRecyclerAnimation(target)
+            battleCallback.startRecyclerAnimation(target, type)
+            if(flipCard.firstAbilityType.contains("protect"))  actionCard.protected = true
+            actionCard.used = true
+            if(heal!=0 && flipCard.firstAbilityType == "single damage and heal")actionCard.currentHp += minOf(heal, playerOneMaxHp-playerOneCurrentHp)
             battleCallback.doActionReset()
         }
     }
@@ -221,5 +239,6 @@ class Battle(
         }
         return damage
     }
+
 
 }

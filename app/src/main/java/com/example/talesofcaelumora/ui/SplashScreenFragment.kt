@@ -2,20 +2,19 @@ package com.example.talesofcaelumora.ui
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
-import android.widget.ImageView
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.talesofcaelumora.R
-import com.example.talesofcaelumora.data.datamodel.Card
 import com.example.talesofcaelumora.data.utils.ImageLoader
+import com.example.talesofcaelumora.data.utils.SoundManager
 import com.example.talesofcaelumora.databinding.FragmentSplashScreenBinding
 import com.example.talesofcaelumora.ui.viewmodel.MainViewModel
 import kotlinx.coroutines.delay
@@ -26,6 +25,7 @@ class SplashScreenFragment : Fragment() {
 
     private lateinit var bnd: FragmentSplashScreenBinding
     private lateinit var imageLoader: ImageLoader
+    private lateinit var soundManager: SoundManager
     val vm: MainViewModel by activityViewModels()
     var libraryLoaded = false
     var imagesLoaded = false
@@ -39,11 +39,13 @@ class SplashScreenFragment : Fragment() {
     ): View? {
         bnd = FragmentSplashScreenBinding.inflate(inflater, container, false)
         imageLoader  = ImageLoader(requireContext())
+
         return bnd.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         vm.getDateTime()
+        soundManager = SoundManager.getInstance(requireContext())
         vm.cardLoadingProgress.observe(viewLifecycleOwner) { progress ->
             //Aktualisiert die Progressbar je nach Fortschritt der zu ladenden CardLibrary,
             // indem Fall nur durch 50 weil der nächste Schritt die Bilder lädt, die genauso viel sind wie Cards
@@ -97,6 +99,7 @@ class SplashScreenFragment : Fragment() {
         shieldrotation.duration = 10000
 
         bnd.clMain.startAnimation(rotation)
+
         bnd.imgShield.startAnimation(shieldrotation)
         listOf(bnd.imgAirchip, bnd.imgFirechip, bnd.imgWaterchip, bnd.imgPlantchip).forEach { it.startAnimation(rotationBack) }
         lifecycleScope.launch {
@@ -114,17 +117,25 @@ class SplashScreenFragment : Fragment() {
 
         bnd.clMain.startAnimation(rotation)
         bnd.imgShield.startAnimation(shieldrotation)
+        soundManager.playSound(R.raw.rusty_wheel)
         listOf(bnd.imgAirchip, bnd.imgFirechip, bnd.imgWaterchip, bnd.imgPlantchip).forEach { it.startAnimation(rotationback) }
         lifecycleScope.launch {
-            delay(8000)
+            delay(6705)
+            soundManager.playSound(R.raw.wooden_wheel)
+            delay(1000)
+            soundManager.playSound(R.raw.snap_in)
             bnd.imgPlantchip.isVisible = false
             delay(500)
+            soundManager.playSound(R.raw.snap_in)
             bnd.imgFirechip.isVisible = false
             delay(500)
+            soundManager.playSound(R.raw.snap_in)
             bnd.imgWaterchip.isVisible = false
             delay(500)
+            soundManager.playSound(R.raw.snap_in)
             bnd.imgAirchip.isVisible = false
             delay(700)
+            soundManager.playSound(R.raw.snap_in)
             bnd.imgShield.isVisible = false
             delay(800)
             animationPlayed = true

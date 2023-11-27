@@ -8,7 +8,7 @@ interface BattleCallback {
     fun throwToast(string: String)
     fun updateLifebars()
     fun doActionReset()
-    fun startRecyclerAnimation(targets: List<Card>)
+    fun startRecyclerAnimation(targets: List<Card>, type: Int?)
 
 
 }

@@ -90,6 +90,33 @@ data class Card(
             used = this.used
         )
     }
+        fun flipAbility(): Card {
+            return Card(
+                id = this.id,
+                cardName = this.cardName,
+                cardType = this.cardType,
+                rarity = this.rarity,
+                releaseDate = this.releaseDate,
+                type = this.type,
+                imgSrc = this.imgSrc,
+                hp = this.hp,
+                firstAbilityName = this.secAbilityName,
+                firstAbilityType = this.secAbilityType,
+                firstAbilityPoints = this.secAbilityPoints,
+                firstAbilityCosts = this.secAbilityCosts.toList(),
+                firstAbilityDescription = this.secAbilityDescription,
+                secAbilityName = this.firstAbilityName,
+                secAbilityType = this.firstAbilityType,
+                secAbilityPoints = this.firstAbilityPoints,
+                secAbilityCosts = this.firstAbilityCosts.toList(),
+                secAbilityDescription = this.firstAbilityDescription,
+                selected = this.selected,
+                currentHp = this.currentHp,
+                protected = this.protected,
+                used = this.used
+            )
+
+    }
 }
 
 

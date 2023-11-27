@@ -13,6 +13,7 @@ import com.example.talesofcaelumora.data.datamodel.examplePlayerDanny
 import com.example.talesofcaelumora.data.datamodel.examplePlayerElara
 import com.example.talesofcaelumora.data.remote.DateTimeApiService
 import com.example.talesofcaelumora.data.remote.GameDataApiService
+import com.example.talesofcaelumora.data.utils.SoundManager
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -22,6 +23,8 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     val dateTime = repo.dateTime
     val cardLibrary = repo.cardLibrary
+
+
 
     private var _currentBattle = MutableLiveData<Battle>()
     val currentBattle: LiveData<Battle>
@@ -41,6 +44,8 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     //Ladefortschritt
     val cardLoadingProgress = repo.cardLoadingProgress
+
+
 
 
     var target = listOf<Card>()
@@ -86,24 +91,10 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
             cardLibraryLoadingStatus.value = LoadingStatus.SUCCESS
         }
     }
-    fun resetGameApiProgress(){
-        viewModelScope.launch {
-            delay(200)
-            repo.resetGameApiServiceProgress()
-        }
-    }
+
     fun setCurrentBattle(battle: Battle){
         _currentBattle.value = battle
     }
-    fun getPlayerCard(){
-        viewModelScope.launch{
-            delay(1000)
-            _currentBattle.value!!.playerOneHand.add(_currentBattle.value!!.playerOneStack.removeFirst())
-        }
 
-    }
-    fun getPlayerHand(){
-        while (_currentBattle.value!!.playerOneHand.size<5 && _currentBattle.value!!.playerOneHand.filter { it.cardType == "Hero" }.isEmpty())getPlayerCard()
-    }
 
 }

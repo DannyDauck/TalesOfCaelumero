@@ -13,7 +13,7 @@
         android:top="6dp">
         <shape>
             <gradient
-                android:startColor="@color/air_sec"
+                android:startColor="@color/air_first"
                 android:endColor="#222222"/>
         </shape>
     </item>
