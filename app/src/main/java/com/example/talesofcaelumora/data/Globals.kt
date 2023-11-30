@@ -13,5 +13,13 @@ val songTitle = listOf(
     "The Spirit Of Water - DarT music",
     "Fire Is Burning Inside Me - Danny D."
 )
+val characters = listOf<Int>(
+    R.drawable.male_character_water,
+    R.drawable.female_character_cutted,
+    R.drawable.male_air_character_removebg_preview,
+    R.drawable.female_air_2_removebg_preview,
+    R.drawable.male_fire_character_removebg_preview,
+    R.drawable.female_water_character_2
+)
 
 //All game specific classes list are in the classes file!!

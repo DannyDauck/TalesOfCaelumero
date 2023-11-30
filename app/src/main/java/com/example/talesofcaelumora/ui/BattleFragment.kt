@@ -71,8 +71,6 @@ class BattleFragment : Fragment(), BattleCallback {
         savedInstanceState: Bundle?
     ): View? {
         bnd = FragmentBattleBinding.inflate(inflater, container, false)
-
-
         return bnd.root
     }
 
@@ -181,11 +179,15 @@ class BattleFragment : Fragment(), BattleCallback {
         //<editor-fold desc="First settings when start">
         if (viewModel.cardLibrary.value != null && viewModel.cardLibrary.value!!.isNotEmpty()) {
             Log.d("BattleFragment", viewModel.cardLibrary.value.toString())
+            viewModel.getDateTime()
             exampleBattle = Battle(
                 examplePlayerDanny,
                 examplePlayerElara,
                 battlefields.random(),
+                viewModel.dateTime.value!!.datetime.substring(0,16),
+                requireContext(),
                 viewModel.cardLibrary.value!!
+
             )
 
             setUpExampleBattle()
@@ -417,7 +419,7 @@ class BattleFragment : Fragment(), BattleCallback {
         }
         bnd.btnBack.setOnClickListener {
             soundManager.playSound(R.raw.button_click)
-            findNavController().popBackStack()
+            findNavController().navigate(BattleFragmentDirections.actionBattleFragmentToHomeFragment())
         }
         bnd.btnChangeSong.setOnClickListener {
             soundManager.playSound(R.raw.button_click)
@@ -611,17 +613,14 @@ class BattleFragment : Fragment(), BattleCallback {
                         }
                     }
                 }
+                var removeList = mutableListOf<Card>()
                 cardList = cardList.filter { it.selected }
                 repeat(listToCheck.filter { it == "colorless" }.size) {
                     cardList[it].selected = false
                     cardList[it].used = true
+                    removeList.add(cardList[it])
                 }
                 if (ability == 2) {
-                    val removeList = if (currentPlayer == 0f) exampleBattle.playerOneLands.filter {
-                        it.used
-                    } else exampleBattle.playerTwoLands.filter {
-                        it.used
-                    }
                     if (currentPlayer == 0f) {
                         exampleBattle.playerOneLands.removeAll(removeList)
                         removeList.forEach { it.used = false }
@@ -632,7 +631,6 @@ class BattleFragment : Fragment(), BattleCallback {
                         removeList.forEach { it.used = false}
                         exampleBattle.playerTwoGraveyard.addAll(removeList)
                     }
-
                 }
                 updateSelectedLands()
             }

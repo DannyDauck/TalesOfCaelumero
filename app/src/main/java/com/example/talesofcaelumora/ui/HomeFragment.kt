@@ -29,9 +29,8 @@ import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 class HomeFragment : Fragment() {
 
     private lateinit var bnd: FragmentHomeBinding
-    private var mediaPlayer: MediaPlayer? = null
     private lateinit var soundManager: SoundManager
-    private lateinit var firebaseAuth: FirebaseAuth
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +43,7 @@ class HomeFragment : Fragment() {
                 val builder = AlertDialog.Builder(requireContext())
                 builder.setTitle(R.string.close_app)
                 builder.setMessage(R.string.sure_to_leave)
-                builder.setPositiveButton(R.string.yes) { dialog, which ->
+                builder.setPositiveButton(R.string.yes) { _, which ->
                     requireActivity().finish()
                 }
                 builder.setNegativeButton(R.string.no) { dialog, which ->
@@ -59,37 +58,32 @@ class HomeFragment : Fragment() {
 
 
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        soundManager = SoundManager.getInstance(requireContext().applicationContext)
-        bnd = FragmentHomeBinding.inflate(inflater, container,false)
-
-
+        bnd = FragmentHomeBinding.inflate(inflater, container, false)
         return bnd.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         startTurning(bnd.imgBg)
-
-
-        mediaPlayer = MediaPlayer.create(requireContext(), R.raw.main_theme)
-        mediaPlayer?.isLooping = true
-        mediaPlayer?.setVolume(musicVolume, musicVolume)
-        mediaPlayer?.start()
-
+        val theme = R.raw.main_theme
+        soundManager = SoundManager.getInstance(requireContext())
+        soundManager.startRadio(R.raw.main_theme)
 
         bnd.musicVolumeSeekBar.progress = (musicVolume * 100).toInt()
-        bnd.vfxVolumeSeekBar.progress = (vfxVolume*100).toInt()
+        bnd.vfxVolumeSeekBar.progress = (vfxVolume * 100).toInt()
+
         bnd.musicVolumeSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
 
                 val volume = progress / 100f
                 musicVolume = progress / 100f
-                mediaPlayer?.setVolume(volume, volume)
                 musicVolume = volume
+                soundManager.setRadioVolume()
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -100,9 +94,9 @@ class HomeFragment : Fragment() {
 
             }
         })
-        bnd.vfxVolumeSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+        bnd.vfxVolumeSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                vfxVolume = bnd.vfxVolumeSeekBar.progress.toFloat()/100
+                vfxVolume = bnd.vfxVolumeSeekBar.progress.toFloat() / 100
                 soundManager.setVolume()
 
             }
@@ -118,10 +112,10 @@ class HomeFragment : Fragment() {
         })
 
 
-        bnd.btnSetiings.setOnClickListener{
+        bnd.btnSetiings.setOnClickListener {
             bnd.clSettings.isVisible = !bnd.clSettings.isVisible
         }
-        bnd.btnGame.setOnClickListener{
+        bnd.btnGame.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToBattleFragment())
         }
         bnd.btnLogout.setOnClickListener {
@@ -129,31 +123,32 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.loginFragment)
         }
         bnd.btnLibrary.setOnClickListener {
-            findNavController().navigate(R.id.libraryFragment)
+            findNavController().navigate(R.id.introFragment)
         }
+
 
     }
 
     override fun onPause() {
         super.onPause()
-        mediaPlayer?.pause()
+        soundManager.pause()
     }
 
     override fun onResume() {
         super.onResume()
-        mediaPlayer?.start()
+        soundManager.resume()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mediaPlayer?.release()
+        soundManager.release()
     }
 
-    private fun startTurning(view: View){
+    private fun startTurning(view: View) {
         val translation = TranslateAnimation(0f, 200f, 0f, 0f)
         translation.duration = 10000
 
-        lifecycleScope.launch{
+        lifecycleScope.launch {
             view.startAnimation(translation)
             delay(10000)
             view.translationX += 200f
@@ -163,12 +158,13 @@ class HomeFragment : Fragment() {
 
 
     }
+
     //zewite Funtkition um Rekusivschleife zu umgehen
-    private fun turnBack(view: View){
+    private fun turnBack(view: View) {
         val translation = TranslateAnimation(0f, -200f, 0f, 0f)
         translation.duration = 10000
 
-        lifecycleScope.launch{
+        lifecycleScope.launch {
 
             view.startAnimation(translation)
             delay(10000)

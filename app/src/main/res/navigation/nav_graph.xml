@@ -25,12 +25,23 @@
         <action
             android:id="@+id/action_splashScreenFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_splashScreenFragment_to_introFragment"
+            app:destination="@id/introFragment" />
     </fragment>
     <fragment
         android:id="@+id/battleFragment"
         android:name="com.example.talesofcaelumora.ui.BattleFragment"
         android:label="fragment_battle"
-        tools:layout="@layout/fragment_battle" />
+        tools:layout="@layout/fragment_battle" >
+        <action
+            android:id="@+id/action_battleFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@animator/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.talesofcaelumora.ui.LoginFragment"
@@ -50,4 +61,37 @@
         android:name="com.example.talesofcaelumora.ui.TestFragment"
         android:label="fragment_test"
         tools:layout="@layout/fragment_test" />
+    <fragment
+        android:id="@+id/playerBuilderFragment"
+        android:name="com.example.talesofcaelumora.ui.PlayerBuilderFragment"
+        android:label="fragment_player_builder"
+        tools:layout="@layout/fragment_player_builder" >
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_playerBuilderFragment_to_initilaDeckChooseFragment"
+            app:destination="@id/initilaDeckChooseFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/introFragment"
+        android:name="com.example.talesofcaelumora.ui.IntroFragment"
+        android:label="fragment_intro"
+        tools:layout="@layout/fragment_intro" >
+        <action
+            android:id="@+id/action_introFragment_to_playerBuilderFragment"
+            app:destination="@id/playerBuilderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/initilaDeckChooseFragment"
+        android:name="com.example.talesofcaelumora.ui.InitialDeckChooseFragment"
+        android:label="fragment_initila_deck_choose"
+        tools:layout="@layout/fragment_initila_deck_choose" >
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="character"
+            app:argType="integer" />
+    </fragment>
 </navigation>

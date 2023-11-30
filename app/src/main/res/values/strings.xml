@@ -45,5 +45,13 @@
     <string name="from"> from </string>
     <string name="image_resources_loaded"> image resources loaded</string>
     <string name="stack_was_shuffeld">Decks werden gemischt</string>
+    <string name="battle_ends_in">Battle ends in:</string>
+    <string name="new_battle">new battle</string>
+    <string name="battle_history">battle history</string>
+    <string name="new_multi_battle">new multi battle</string>
+    <string name="choose_a_character">Choose a character</string>
+    <string name="on_boarding_one">Hello and welcome to Caelumero!\nI am Elara, and I will help you navigate in our world. But first, it would be nice if you could tell me your name.\n\nPlease enter your name in the field above.\n\n</string>
+    <string name="on_boarding_two">%s! A fantastic name!! Now, choose a character that suits you. You can adjust your name and character later at any time under your profile settings.\n\nChoose and confirm with Ok\n\n</string>
+    <string name="player_confirm_deck">\n\n\"I choose the %s deck\"\n\n</string>
 
 </resources>

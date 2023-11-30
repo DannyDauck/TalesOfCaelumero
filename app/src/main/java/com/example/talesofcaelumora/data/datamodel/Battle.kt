@@ -3,6 +3,7 @@ package com.example.talesofcaelumora.data.datamodel
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.widget.Toast
 import androidx.core.view.isVisible
 import com.example.talesofcaelumora.adapter.CardAdapter
@@ -14,8 +15,11 @@ import kotlinx.coroutines.delay
 class Battle(
     var id: String,
     var battlefield: Battlefield,
+    var lastMove: String,
     var playerOne: String,
     var playerTwo: String,
+    val playerOneCharacter: Int,
+    val playerTwoCharacter: Int,
     var playerOneName: String,
     var playerTwoName: String,
     var playerOneStack: MutableList<Card>,
@@ -38,6 +42,7 @@ class Battle(
     var playerTwoMaxLand: Int,
     val playerOneLevel: Int,
     val playerTwoLevel: Int,
+    val context: Context
 
     ) {
 
@@ -45,12 +50,17 @@ class Battle(
         playerOnePlayer: Player,
         playerTwoPlayer: Player,
         battlefieldIn: Battlefield,
+        time: String,
+        context: Context,
         library: List<Card>
     ) : this(
         id = playerOnePlayer.uid + "_vs_" + playerTwoPlayer.uid,
         battlefield = battlefieldIn,
+        lastMove = time,
         playerOne = playerOnePlayer.uid,
         playerTwo = playerTwoPlayer.uid,
+        playerOneCharacter =playerOnePlayer.character!!,
+        playerTwoCharacter =playerTwoPlayer.character!!,
         playerOneName = playerOnePlayer.name,
         playerTwoName = playerTwoPlayer.name,
         playerOneStack = playerOnePlayer.returnDeck(library),
@@ -73,6 +83,7 @@ class Battle(
         playerTwoMaxLand = playerTwoPlayer.maxLand,
         playerOneLevel = playerOnePlayer.level,
         playerTwoLevel = playerTwoPlayer.level,
+        context = context
     )
 
     //wenn true ist der derzeiteige Spieler playerOne, wenn false playerTwo
@@ -86,7 +97,7 @@ class Battle(
         binding: FragmentBattleBinding,
     ): Int {
         bnd = binding
-        battlefield.setBattlefield(bnd)
+        battlefield.setBattlefield(context, bnd)
         if (battleStarted) {
             bnd.clBattleground.scaleX = 0.25f
             bnd.clBattleground.scaleY = 0.2f

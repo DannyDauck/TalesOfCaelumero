@@ -43,4 +43,12 @@
     <string name="from"> von </string>
     <string name="image_resources_loaded">" Bilddateien geladen"</string>
     <string name="stack_was_shuffeld">Decks werden gemischt</string>
+    <string name="battle_ends_in">Kampf läuft ab in:</string>
+    <string name="new_battle">new battle</string>
+    <string name="battle_history">battle history</string>
+    <string name="new_multi_battle">new multi battle</string>
+    <string name="choose_a_character">Choose a character</string>
+    <string name="on_boarding_one">Hallo und Willkommen in Caelumero!\n\nIch bin Elara und werde dir helfen dich in unserer Welt zurecht zu finden. aber zuerst wäre es schön, wenn du mir einmal verräts, wie du heisst.\n\nBitte gib jetzt deinen Namen in das Feld oben ein\n\n\n</string>
+    <string name="on_boarding_two">"%s?! Ein toller Name!! Wähle jetzt noch einen Charakter der zu dir passt. Du kannst deinen Namen und den Charakter später jederzeit unter Profil wieder anpassen.\n\nWähle und bestätige mit Ok\n\n"</string>
+    <string name="player_confirm_deck">\"Ich habe mich für das %s Deck entschieden\"</string>
 </resources>

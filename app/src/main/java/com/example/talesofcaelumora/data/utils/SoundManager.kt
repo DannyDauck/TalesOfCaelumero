@@ -22,6 +22,7 @@ class SoundManager private constructor(val context: Context) {
     init {
 
         createNewSoundPool()
+        createMediaPlayer()
         loadSound(R.raw.hit)
         loadSound(R.raw.card_flip)
         loadSound(R.raw.sort_cards)
@@ -32,7 +33,11 @@ class SoundManager private constructor(val context: Context) {
         loadSound(R.raw.button_click)
         loadSound(R.raw.message_in)
         loadSound(R.raw.wooden_wheel_reversd)
+        loadSound(R.raw.typewriter)
     }
+
+
+
     companion object {
         private var instance: SoundManager? = null
 
@@ -44,7 +49,14 @@ class SoundManager private constructor(val context: Context) {
         }
     }
 
+    private fun createMediaPlayer() {
+        //instanziiert den ersten MediaPLayer
+        radio = MediaPlayer.create(context.applicationContext, R.raw.main_theme)
+        radio.setVolume(musicVolume, musicVolume)
+    }
+
     private fun createNewSoundPool() {
+        //instanziiert den ersten SoundPool
         val audioAttributes = AudioAttributes.Builder()
             .setUsage(AudioAttributes.USAGE_GAME)
             .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
@@ -70,6 +82,9 @@ class SoundManager private constructor(val context: Context) {
     fun setVolume(){
         soundPool.setVolume(0,vfxVolume, vfxVolume)
     }
+    fun setRadioVolume(){
+        radio.setVolume(musicVolume, musicVolume)
+    }
     fun pause(){
         radio.pause()
     }
@@ -78,7 +93,7 @@ class SoundManager private constructor(val context: Context) {
     }
     fun changeSong(){
 
-        if(radio!= null)radio.release()
+        radio.release()
         var random = songList.indices.random()
         radio = MediaPlayer.create(context, songList[random])
         radio.setVolume(musicVolume, musicVolume)
@@ -88,14 +103,15 @@ class SoundManager private constructor(val context: Context) {
         radio.start()
         song = songTitle[random]
     }
-    fun startRadio(songId: Int){
-        radio = MediaPlayer.create(context, songId)
+    fun startRadio(songId:Int){
+        radio.stop()
+        radio.release()
+        radio = MediaPlayer.create(context.applicationContext, songId)
         radio.setVolume(musicVolume, musicVolume)
         radio.setOnCompletionListener {
             changeSong()
         }
         radio.start()
-        song = songTitle[songList.indexOf(songId)]
     }
 
     fun release() {

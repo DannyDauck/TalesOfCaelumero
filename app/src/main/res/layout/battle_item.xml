@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:paddingLeft="24dp"
+    android:paddingRight="24dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:layout_height="158dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:id="@+id/card_stroke"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/battle_card_bg"
+            android:backgroundTint="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <View
+            android:id="@+id/active_bg"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:background="@drawable/protect_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:background="@drawable/battle_card_bg"
+            android:backgroundTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/img_battleField"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:layout_marginStart="63dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="63dp"
+        android:alpha="0.6"
+        android:scaleType="centerCrop"
+        android:src="@drawable/temple_of_waterbenders"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/battle_counter_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/aclonica"
+        android:text="@string/battle_ends_in"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_battle_counter_shadow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:layout_marginLeft="2dp"
+        android:text="20h 36min 14 sec"
+        android:fontFamily="@font/aclonica"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/battle_counter_header"
+        app:layout_constraintStart_toStartOf="@+id/battle_counter_header"
+        app:layout_constraintTop_toBottomOf="@+id/battle_counter_header" />
+
+    <TextView
+        android:id="@+id/txt_battle_counter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="20h 36min 14 sec"
+        android:fontFamily="@font/aclonica"
+        android:textColor="@color/water_sec"
+        app:layout_constraintEnd_toEndOf="@+id/battle_counter_header"
+        app:layout_constraintStart_toStartOf="@+id/battle_counter_header"
+        app:layout_constraintTop_toBottomOf="@+id/battle_counter_header" />
+
+
+
+
+    <ImageView
+        android:id="@+id/img_character_player_one"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:rotationY="180"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/female_character_cutted" />
+
+    <ImageView
+        android:id="@+id/img_character_player_two"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
+        app:srcCompat="@drawable/male_character_water" />
+
+    <TextView
+        android:id="@+id/player_one_name"
+        android:text="You"
+        app:layout_constraintEnd_toStartOf="@+id/vs"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_battleField"
+        style="@style/player_is_not_on_turn" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/alfa_slab_one"
+        android:text="vs."
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="2dp"
+        android:gravity="center"
+        android:textSize="16dp"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_battleField" />
+    <TextView
+        android:id="@+id/vs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="vs."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_battleField"
+         />
+
+    <TextView
+        android:id="@+id/player_two_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/aclonica"
+        android:gravity="center"
+        android:text="Tomarro"
+        android:textSize="16dp"
+        android:textColor="@color/smooth_gold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/vs"
+        app:layout_constraintTop_toBottomOf="@+id/img_battleField" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/battle_finished"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/battle_card_bg"
+        android:backgroundTint="#77dddddd">
+        <TextView
+            android:id="@+id/txt_win_or_loose_shadow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="gewonnen"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/black"
+            android:fontFamily="@font/alfa_slab_one"
+            android:textAllCaps="true"
+            android:textSize="48sp"
+            android:rotation="-12"/>
+
+
+        <TextView
+            android:id="@+id/txt_win_or_loose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="gewonnen"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/smooth_gold"
+            android:fontFamily="@font/alfa_slab_one"
+            android:textAllCaps="true"
+            android:textSize="48sp"
+            android:rotation="-12"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
