@@ -19,7 +19,7 @@ import com.example.talesofcaelumora.ui.viewmodel.MainViewModel
 import java.io.File
 import javax.sql.DataSource
 
-
+//TODO löschen nach Präsentation
 class TestFragment : Fragment() {
     private lateinit var bnd: FragmentTestBinding
     private val vm: MainViewModel by activityViewModels()
@@ -34,56 +34,14 @@ class TestFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        var index = 0
-        val maxIndex = vm.cardLibrary.value!!.size-1
-        val TAG = "Test"
-
-        val imagePath = "images/${vm.cardLibrary.value!![index].id}.jpeg"
-        Log.d(TAG, "${vm.cardLibrary.value}")
-
-        Glide.with(requireContext())
-            .load(File(requireContext().filesDir, imagePath))
-            .listener(object : RequestListener<Drawable?> {
 
 
-                override fun onResourceReady(
-                    resource: Drawable?,
-                    model: Any?,
-                    target: com.bumptech.glide.request.target.Target<Drawable?>?,
-                    dataSource: com.bumptech.glide.load.DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    return false
-                }
-
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: Target<Drawable?>?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    Log.d("Glide", "Fehler beim laden der Datei")
-                    return false
-                }
-
-            })
-            .into(bnd.img)
-
-        bnd.btnImgBack.setOnClickListener {
-            if(index>0){
-                index--
-                Glide.with(requireContext())
-                    .load(File(requireContext().filesDir,"images/${vm.cardLibrary.value!![index].id}.jpeg"))
-                    .into(bnd.img)
-            }
+        vm.dateTime.observe(viewLifecycleOwner){
+            bnd.txtTimeApi.text = it.datetime.toString()
         }
-        bnd.btnImgForward.setOnClickListener {
-            if(index<maxIndex){
-                index++
-                Glide.with(requireContext())
-                    .load(File(requireContext().filesDir,"images/${vm.cardLibrary.value!![index].id}.jpeg"))
-                    .into(bnd.img)
-            }
+        vm.getDateTime()
+        bnd.btnUpdateTime.setOnClickListener {
+            vm.getDateTime()
         }
         bnd.btnBack.setOnClickListener {
             findNavController().popBackStack()

@@ -2,7 +2,6 @@ package com.example.talesofcaelumora.data.datamodel
 
 import android.util.Log
 import com.example.talesofcaelumora.R
-import com.example.talesofcaelumora.ui.viewmodel.MainViewModel
 import java.lang.Exception
 
 
@@ -163,6 +162,7 @@ class Player(
     var character: Int = R.drawable.elara_solo,
     var deck: List<String> = initialDeckAir,
     val titles: List<String> = listOf("Rooky"),
+    var currentTitle: String = "",
     var lastCard: String = "",
     var hp: Int = 150,
     var exp: Int = 0,
@@ -186,8 +186,30 @@ class Player(
         R.drawable.navbar_bg_water,
         R.raw.watertheme,
         "The Spirit Of Water - DarT music "
-    )
+    ),
+    var balance: Int = 0
     ) {
+
+    constructor(map: Map<String, Any>) : this(
+        uid = map["uid"] as String,
+        name = map["name"] as String,
+        level = (map["level"] as Long).toInt(),
+        character = (map["character"] as Long).toInt(),
+        deck = (map["deck"] as List<*>).map { it as String },
+        titles = (map["titles"] as List<*>).map { it as String },
+        currentTitle = map["currentTitle"] as String,
+        lastCard = map["lastCard"] as String,
+        hp = (map["hp"] as Long).toInt(),
+        exp = (map["exp"] as Long).toInt(),
+        bag = (map["bag"] as List<*>).map { it as String },
+        bagMaxSize = (map["bagMaxSize"] as Long).toInt(),
+        maxLand = (map["maxLand"] as Long).toInt(),
+        maxBank = (map["maxBank"] as Long).toInt(),
+        maxDeckSize = (map["maxDeckSize"] as Long).toInt(),
+        homeArena = Battlefield(map["homeArena"] as Map<String, Any>),
+        balance = (map["balance"] as Long).toInt()
+    )
+
     fun returnDeck(library: List<Card>): MutableList<Card> {
         Log.d("Player", "Try to fetch deck")
         var list: MutableList<Card> = mutableListOf()
@@ -216,6 +238,7 @@ fun convertPlayerLocalToPlayer(playerEntity: PlayerLocal): Player {
         character = playerEntity.character,
         deck = playerEntity.deck,
         titles = playerEntity.titles,
+        currentTitle = playerEntity.currentTitle,
         lastCard = playerEntity.lastCard,
         hp = playerEntity.hp,
         exp = playerEntity.exp,
@@ -224,7 +247,8 @@ fun convertPlayerLocalToPlayer(playerEntity: PlayerLocal): Player {
         maxLand = playerEntity.maxLand,
         maxBank = playerEntity.maxBank,
         maxDeckSize = playerEntity.maxDeckSize,
-        homeArena = playerEntity.homeArena
+        homeArena = playerEntity.homeArena,
+        balance = playerEntity.balance
     )
 }
 

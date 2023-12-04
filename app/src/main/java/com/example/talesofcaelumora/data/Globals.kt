@@ -22,4 +22,6 @@ val characters = listOf<Int>(
     R.drawable.female_water_character_2
 )
 
+const val OFFSET_1900_TO_1970 = 2208988800000L
+
 //All game specific classes list are in the classes file!!

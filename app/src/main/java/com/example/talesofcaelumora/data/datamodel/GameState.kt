@@ -16,4 +16,7 @@ data class GameState(
     var ignisaria: Int = 1,
     var marinaHaven: Int = 1,
     var verdantHaven: Int = 1,
+    var achievements: List<String> = listOf(),
+    var musicVolume: Float = 0.8f,
+    var vfxVolume: Float = 0.7f
 )

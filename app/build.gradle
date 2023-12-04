@@ -85,4 +85,7 @@ dependencies {
     //Gson import
     implementation 'com.google.code.gson:gson:2.8.9'
 
+    //NTP implementation
+    implementation 'commons-net:commons-net:3.7'
+
 }

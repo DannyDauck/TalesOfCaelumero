@@ -20,8 +20,13 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.lifecycleScope
+import com.example.talesofcaelumora.data.AppRepository
 import com.example.talesofcaelumora.data.datamodel.AlarmItem
+import com.example.talesofcaelumora.data.datamodel.GameState
+import com.example.talesofcaelumora.data.local.GameStateDatabase
 import com.example.talesofcaelumora.data.utils.NotificationAlarmScheduler
+import com.example.talesofcaelumora.data.utils.SoundManager
+import com.example.talesofcaelumora.ui.viewmodel.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -33,11 +38,13 @@ class MainActivity : AppCompatActivity() {
 
     val POST_NOTIFICATIONS = 2001
     private lateinit var scheduler: NotificationAlarmScheduler
-
     private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var gameStateDataBase: GameStateDatabase
+    private lateinit var soundManager: SoundManager
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        gameStateDataBase = GameStateDatabase.getInstance(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         scheduler = NotificationAlarmScheduler(this)
@@ -66,11 +73,16 @@ class MainActivity : AppCompatActivity() {
                         or View.SYSTEM_UI_FLAG_FULLSCREEN
                         or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 )
+    }
 
+    override fun onStart() {
+        soundManager = SoundManager.getInstance(this)
+        super.onStart()
     }
 
     override fun onDestroy() {
         //sendNotification("Schau doch mal wieder vor vorbei", 1)
+        soundManager.release()
         super.onDestroy()
 
 
@@ -78,6 +90,7 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onPause() {
+        soundManager.pause()
         sendNotification("Du warst schon lange nicht mehr in Caelumero", 1)
         super.onPause()
     }

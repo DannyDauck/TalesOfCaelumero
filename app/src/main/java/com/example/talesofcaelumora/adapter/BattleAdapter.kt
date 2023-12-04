@@ -1,6 +1,7 @@
 package com.example.talesofcaelumora.adapter
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,10 +11,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.talesofcaelumora.R
 import com.example.talesofcaelumora.data.datamodel.Battle
 import com.example.talesofcaelumora.data.datamodel.Card
 import com.example.talesofcaelumora.databinding.BattleItemBinding
+import java.io.File
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -41,7 +44,14 @@ class BattleAdapter(
 
     override fun onBindViewHolder(holder: BattleViewHolder, position: Int) {
         val battle = data[position]
-        bnd.imgBattleField.setImageResource(battle.battlefield.background)
+        val path = File(
+            context.filesDir,
+            "images/${battle.battlefield.background}.jpeg"
+        ).absolutePath
+        val drawable = Drawable.createFromPath(path)
+        Glide.with(context)
+            .load(drawable)
+            .into(bnd.imgBattleField)
         bnd.imgCharacterPlayerOne.setImageResource(battle.playerOneCharacter)
         bnd.imgCharacterPlayerTwo.setImageResource(battle.playerTwoCharacter)
         bnd.playerOneName.text = battle.playerOneName

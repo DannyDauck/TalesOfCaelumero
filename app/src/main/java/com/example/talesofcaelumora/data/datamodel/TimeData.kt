@@ -3,6 +3,6 @@ package com.example.talesofcaelumora.data.datamodel
 import java.time.LocalDateTime
 
 class TimeData(
-    val datetime: String
+    var datetime: String
 ) {
 }

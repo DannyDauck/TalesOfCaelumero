@@ -13,10 +13,16 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.talesofcaelumora.R
+import com.example.talesofcaelumora.data.datamodel.GameState
+import com.example.talesofcaelumora.data.musicVolume
 import com.example.talesofcaelumora.data.utils.ImageLoader
 import com.example.talesofcaelumora.data.utils.SoundManager
+import com.example.talesofcaelumora.data.vfxVolume
 import com.example.talesofcaelumora.databinding.FragmentSplashScreenBinding
 import com.example.talesofcaelumora.ui.viewmodel.MainViewModel
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -27,6 +33,7 @@ class SplashScreenFragment : Fragment() {
     private lateinit var imageLoader: ImageLoader
     private lateinit var soundManager: SoundManager
     val vm: MainViewModel by activityViewModels()
+    private lateinit var firebaseAuth: FirebaseAuth
     var libraryLoaded = false
     var imagesLoaded = false
     var animationPlayed = false
@@ -37,6 +44,7 @@ class SplashScreenFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        firebaseAuth = com.google.firebase.ktx.Firebase.auth
         bnd = FragmentSplashScreenBinding.inflate(inflater, container, false)
         imageLoader  = ImageLoader(requireContext())
 
@@ -44,7 +52,9 @@ class SplashScreenFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        vm.getDateTime()
+        vm.getGameState(firebaseAuth.uid.toString())
+        vm.getPlayer(firebaseAuth.uid.toString())
+        Log.d("SplashScreen", "current Firebase UID: ${firebaseAuth.uid}")
         soundManager = SoundManager.getInstance(requireContext())
         vm.cardLoadingProgress.observe(viewLifecycleOwner) { progress ->
             //Aktualisiert die Progressbar je nach Fortschritt der zu ladenden CardLibrary,
@@ -64,6 +74,7 @@ class SplashScreenFragment : Fragment() {
                 Log.d("Library", library.size.toString())
                 libraryLoaded = true
                 var progressCounter = 0
+                imageLoader.loadIfNotExist("temple_of_the_waterbenders", "https://firebasestorage.googleapis.com/v0/b/tales-of-caelumero.appspot.com/o/card%2Fimages%2Ftemple_of_waterbenders.jpeg?alt=media&token=8e5ebff9-b7b1-4fd9-a8a3-80ab473d8e01")
                 library.forEach {
                     imageLoader.loadIfNotExist(it.id,it.imgSrc)
                     progressCounter++
@@ -77,13 +88,18 @@ class SplashScreenFragment : Fragment() {
                         //delay um sicherzustellen das er das Bild fertig lädt
                         lifecycleScope.launch {
                             delay(500)
-                            findNavController().navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToHomeFragment())
+                            if(vm.player.value != null){
+                                musicVolume = vm.gameState.value!!.musicVolume
+                                vfxVolume = vm.gameState.value!!.vfxVolume
+                                soundManager.setRadioVolume()
+                                findNavController().navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToHomeFragment())
+                            }
+                            else findNavController().navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToIntroFragment())
                         }
 
                     }
                 }
             }
-
         }
 
         rotate()
@@ -140,7 +156,39 @@ class SplashScreenFragment : Fragment() {
             delay(800)
             animationPlayed = true
             if(imagesLoaded && libraryLoaded && animationPlayed){
-                findNavController().navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToHomeFragment())
+                lifecycleScope.launch {
+                    delay(500)
+                    if(vm.player.value != null){
+
+                        musicVolume = vm.gameState.value!!.musicVolume
+                        vfxVolume = vm.gameState.value!!.vfxVolume
+                        soundManager.setRadioVolume()
+                        findNavController().navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToHomeFragment())
+                    }
+                    else{
+                        vm.getFirebasePlayer(firebaseAuth.uid!!)
+                        lifecycleScope.launch{
+                            //Überprüfen ob in der Lokalen Datenbank ein Player
+                            //besteht wenn nicht abfragen ob bereits ein FirebasePlayer besteht
+                            //,wenn ja erstellt es einen Lokalen Spieler mit leerem Gamestate
+                            //, wenn nicht beginnt das OnBoarding
+                            delay(1500)
+                            if(vm.player.value==null){
+                                findNavController().navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToIntroFragment())
+                            }
+                            else if(vm.gameState.value==null){
+                                val gS = GameState(
+                                    firebaseAuth.currentUser!!.uid,
+                                    true
+                                )
+                                gS.achievements =
+                                    gS.achievements.plus(getString(R.string.first_day_in_Caelumero))
+                                vm.upsertGameState(gS)
+                                findNavController().navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToHomeFragment())
+                            }
+                        }
+                    }
+                }
             }
 
         }

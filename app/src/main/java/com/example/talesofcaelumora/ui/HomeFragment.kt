@@ -11,18 +11,28 @@ import android.view.animation.TranslateAnimation
 import android.widget.SeekBar
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.talesofcaelumora.R
+import com.example.talesofcaelumora.data.OFFSET_1900_TO_1970
 import com.example.talesofcaelumora.data.musicVolume
 import com.example.talesofcaelumora.data.utils.SoundManager
 import com.example.talesofcaelumora.data.vfxVolume
 import com.example.talesofcaelumora.databinding.FragmentHomeBinding
+import com.example.talesofcaelumora.ui.viewmodel.MainViewModel
+import com.google.android.material.shape.CornerFamily
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.apache.commons.net.ntp.NTPUDPClient
+import java.net.InetAddress
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.ZoneOffset
 import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 
@@ -30,6 +40,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var bnd: FragmentHomeBinding
     private lateinit var soundManager: SoundManager
+    private var night = false
+    private val vm: MainViewModel by activityViewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +49,6 @@ class HomeFragment : Fragment() {
 
 
         //verhindert das die App wieder in den Lade-/SplashScreen springt und fragt stattdessen ob der User die App beenden möchte
-
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 val builder = AlertDialog.Builder(requireContext())
@@ -63,13 +74,46 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        night = (LocalTime.now().hour < 8 || LocalTime.now().hour > 19)
         bnd = FragmentHomeBinding.inflate(inflater, container, false)
         return bnd.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        startTurning(bnd.imgBg)
+        bnd.imgFreeCard.shapeAppearanceModel = bnd.imgFreeCard.shapeAppearanceModel.toBuilder()
+            .setBottomRightCorner(CornerFamily.ROUNDED, 80f)
+            .setBottomLeftCorner(CornerFamily.ROUNDED, 30f)
+            .setTopRightCorner(CornerFamily.ROUNDED, 30f)
+            .setTopLeftCorner(CornerFamily.ROUNDED, 80f)
+            .build()
+        bnd.imgFreeCardLayer.shapeAppearanceModel = bnd.imgFreeCard.shapeAppearanceModel.toBuilder()
+            .setBottomRightCorner(CornerFamily.ROUNDED, 80f)
+            .setBottomLeftCorner(CornerFamily.ROUNDED, 30f)
+            .setTopRightCorner(CornerFamily.ROUNDED, 30f)
+            .setTopLeftCorner(CornerFamily.ROUNDED, 80f)
+            .build()
+
+        bnd.imgBgNigth.isVisible = night
+        bnd.imgBgNigthForeground.isVisible = night
+        vm.startCountdown()
+        vm.countdownText.observe(viewLifecycleOwner){
+            bnd.txtFreeCardCounter.text = it
+            bnd.txtFreeCardCounterShadow.text = it
+            if(it==getString(R.string.now_available)){
+                bnd.imgFreeCardLayer.isVisible = false
+                bnd.chipFreeCard.setOnClickListener{
+                    vm.setNewLastCard()
+                    vm.getFreeCards(20)
+                    findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToGettingCardsFragment())
+                }
+            }else{
+                bnd.chipFreeCard.setOnClickListener(null)
+                bnd.imgFreeCardLayer.isVisible = true
+            }
+        }
+
+        if (night) startTurning(bnd.imgBgNigth) else startTurning(bnd.imgBg)
         val theme = R.raw.main_theme
         soundManager = SoundManager.getInstance(requireContext())
         soundManager.startRadio(R.raw.main_theme)
@@ -123,7 +167,7 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.loginFragment)
         }
         bnd.btnLibrary.setOnClickListener {
-            findNavController().navigate(R.id.introFragment)
+            findNavController().navigate(R.id.sellCardsFragment)
         }
 
 
@@ -131,12 +175,10 @@ class HomeFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        soundManager.pause()
     }
 
     override fun onResume() {
         super.onResume()
-        soundManager.resume()
     }
 
     override fun onDestroy() {
@@ -154,6 +196,7 @@ class HomeFragment : Fragment() {
             view.translationX += 200f
 
             turnBack(view)
+
         }
 
 
@@ -174,4 +217,7 @@ class HomeFragment : Fragment() {
         }
     }
 
+
+
 }
+

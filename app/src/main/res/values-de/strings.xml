@@ -47,8 +47,28 @@
     <string name="new_battle">new battle</string>
     <string name="battle_history">battle history</string>
     <string name="new_multi_battle">new multi battle</string>
-    <string name="choose_a_character">Choose a character</string>
+
+
+    <!-- On Boarding -->
+    <string name="choose_a_character">Wähle ein Charakter</string>
     <string name="on_boarding_one">Hallo und Willkommen in Caelumero!\n\nIch bin Elara und werde dir helfen dich in unserer Welt zurecht zu finden. aber zuerst wäre es schön, wenn du mir einmal verräts, wie du heisst.\n\nBitte gib jetzt deinen Namen in das Feld oben ein\n\n\n</string>
     <string name="on_boarding_two">"%s?! Ein toller Name!! Wähle jetzt noch einen Charakter der zu dir passt. Du kannst deinen Namen und den Charakter später jederzeit unter Profil wieder anpassen.\n\nWähle und bestätige mit Ok\n\n"</string>
     <string name="player_confirm_deck">\"Ich habe mich für das %s Deck entschieden\"</string>
+    <string name="choose_deck_one">Was für ein toller Charaketer!!\n\nDamit es auch gleich losgehen kann, bekommst du von mir ein Starterdeck. Du kannst zwischen einem Luft-, Wasser-, Pflanzen- und Feuerdeck auswählen.\nAlle Decks sind in etwa gleich stark.\nWähle einfach ein Deck, bei dem du denkst, das es zu dir passt.\n\n (Klicke auf einen der vier Buttons oben)\n\n</string>
+    <string name="choose_deck_confirm">Du hast dich für das %s-Deck entschieden.\n\n Ist das richtig?</string>
+    <string name="choose_deck_finish">Eine wirklich gute Wahl %s und ich denke das Deck passt sehr gut zu dir! Jetzt haben wir alles was du brauchst, um mit dem Spiel zu beginnen, also los gehts!!\n\n</string>
+    <string name="first_day_in_Caelumero">\"Erster Tag in Caelumero\"</string>
+    <string name="now_available">jetzt verfügbar</string>
+    <string name="available_in" >verfügbar in</string>
+    <string name="get_daily_free_booster">Tägliches kostenloses Boosterpack</string>
+    <string name="new_cards">Neue Karten!</string>
+    <string name="get_cards">%s neue Karten erhalten</string>
+    <string name="choose_cards_to_sell">Wähle Karte zum Verkauf aus!</string>
+    <string name="space_backpack">Platz im Rucksack: </string>
+    <string name="sell">verkaufen</string>
+    <string name="asking_price">Verkaufswert:</string>
+    <string name="your_balance">Dein Guthaben</string>
+    <string name="you_can_not_sell_your_decks_last_hero">Du kannst den letzten Helden deines Decks nicht verkaufen!</string>
+
+
 </resources>

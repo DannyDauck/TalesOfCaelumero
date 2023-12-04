@@ -6,6 +6,7 @@ import androidx.room.TypeConverters
 import com.example.talesofcaelumora.data.local.Converters
 
 @Entity(tableName = "player_table")
+@TypeConverters(Converters::class)
 data class PlayerLocal(
     @PrimaryKey (autoGenerate = false)
     val uid: String,
@@ -14,6 +15,7 @@ data class PlayerLocal(
     var character: Int,
     var deck: List<String>,
     val titles: List<String>,
+    val currentTitle: String,
     var lastCard: String,
     var hp: Int,
     var exp: Int,
@@ -22,7 +24,8 @@ data class PlayerLocal(
     var maxLand: Int,
     var maxBank: Int,
     var maxDeckSize: Int,
-    var homeArena: Battlefield
+    var homeArena: Battlefield,
+    var balance: Int
 ) {
     constructor(player: Player) : this(
         player.uid,
@@ -31,6 +34,7 @@ data class PlayerLocal(
         player.character,
         player.deck,
         player.titles,
+        player.currentTitle,
         player.lastCard,
         player.hp,
         player.exp,
@@ -39,6 +43,7 @@ data class PlayerLocal(
         player.maxLand,
         player.maxBank,
         player.maxDeckSize,
-        player.homeArena
+        player.homeArena,
+        player.balance
     )
 }

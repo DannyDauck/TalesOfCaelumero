@@ -16,6 +16,12 @@
         <action
             android:id="@+id/action_homeFragment_to_libraryFragment"
             app:destination="@id/libraryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_gettingCardsFragment"
+            app:destination="@id/gettingCardsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_sellCardsFragment"
+            app:destination="@id/sellCardsFragment" />
     </fragment>
     <fragment
         android:id="@+id/splashScreenFragment"
@@ -93,5 +99,21 @@
         <argument
             android:name="character"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_initilaDeckChooseFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/gettingCardsFragment"
+        android:name="com.example.talesofcaelumora.ui.GettingCardsFragment"
+        android:label="fragment_getting_cards"
+        tools:layout="@layout/fragment_getting_cards" >
+        <action
+            android:id="@+id/action_gettingCardsFragment_to_sellCardsFragment"
+            app:destination="@id/sellCardsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sellCardsFragment"
+        android:name="com.example.talesofcaelumora.ui.SellCardsFragment"
+        android:label="SellCardsFragment" />
 </navigation>

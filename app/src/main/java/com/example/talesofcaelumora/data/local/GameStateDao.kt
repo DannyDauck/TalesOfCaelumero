@@ -1,11 +1,16 @@
 package com.example.talesofcaelumora.data.local
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import androidx.room.Upsert
-import com.example.talesofcaelumora.data.datamodel.GameState
 import com.example.talesofcaelumora.data.datamodel.PlayerLocal
+import com.example.talesofcaelumora.data.datamodel.GameState
+
 
 
 @Dao
@@ -14,18 +19,15 @@ interface GameStateDao{
     @Upsert
     suspend fun saveGameState(gameState: GameState)
 
-    @Update
-    suspend fun update(gameState: GameState)
+    @Upsert
+    suspend fun savePlayer(player: PlayerLocal)
 
 
     @Query("SELECT * from game_state_table WHERE id= :uid")
-    fun getGameState(uid: String): GameState?
+    suspend fun getGameState(uid: String): GameState?
 
     @Query("SELECT * from player_table WHERE uid= :uid")
-    fun getPlayer(uid: String): PlayerLocal?
-
-
-
+    suspend fun getPlayer(uid: String): PlayerLocal?
 
     @Query("DELETE from game_state_table WHERE id= :uid")
     suspend fun deleteGameState(uid: String)

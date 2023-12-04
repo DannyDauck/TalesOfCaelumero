@@ -8,7 +8,7 @@
     <gradient
         android:startColor="@color/fire_first"
         android:endColor="@color/fire_sec"
-        android:centerColor="@color/selcted_value_ligth"
+        android:centerColor="#FA00F6"
         android:type="linear"
         android:angle="45"/>
 

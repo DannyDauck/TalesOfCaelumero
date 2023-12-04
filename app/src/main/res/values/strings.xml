@@ -53,5 +53,21 @@
     <string name="on_boarding_one">Hello and welcome to Caelumero!\nI am Elara, and I will help you navigate in our world. But first, it would be nice if you could tell me your name.\n\nPlease enter your name in the field above.\n\n</string>
     <string name="on_boarding_two">%s! A fantastic name!! Now, choose a character that suits you. You can adjust your name and character later at any time under your profile settings.\n\nChoose and confirm with Ok\n\n</string>
     <string name="player_confirm_deck">\n\n\"I choose the %s deck\"\n\n</string>
+    <string name="choose_deck_one">What a great character!!\n\nTo get things started right away, I\'ll give you a starter deck. You can choose between an Air, Water, Plant, and Fire deck.\nAll decks are approximately equally strong.\nJust select a deck that you think suits you.\n\n(Simply click on one of the four buttons above)\n\n</string>
+    <string name="choose_deck_confirm">You have chosen the %s-deck.\n\n Is this right?</string>
+    <string name="choose_deck_finish">An excellent choice %s, and I believe the deck aligns well with your preferences!\n\nNow that we have everything you need to start the game, let\'s get going!\n\n</string>
+    <string name="first_day_in_Caelumero">\"First day in Caelumero\"</string>
+    <string name="now_available">now available</string>
+    <string name="available_in">available in</string>
+    <string name="get_daily_free_booster">Get daily free booster package</string>
+    <string name="new_cards">New cards!</string>
+    <string name="get_cards">Received %s new cards</string>
+    <string name="choose_cards_to_sell">Choose cards to sell!</string>
+    <string name="space_backpack">Space in the backpack: </string>
+    <string name="sell">sell</string>
+    <string name="asking_price">asking price:</string>
+    <string name="your_balance">your balance</string>
+    <string name="you_can_not_sell_your_decks_last_hero">You can not sell your decks last hero!</string>
+
 
 </resources>
