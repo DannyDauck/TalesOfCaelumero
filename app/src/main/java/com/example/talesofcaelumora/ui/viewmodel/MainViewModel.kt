@@ -28,7 +28,10 @@ import java.net.InetAddress
 import java.time.Duration
 import java.time.Instant
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.ZoneOffset
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 class MainViewModel(application: Application): AndroidViewModel(application) {
 
@@ -50,6 +53,9 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     private val _countdownText = MutableLiveData<String>()
     val countdownText: LiveData<String> get() = _countdownText
+
+    private val _dayOfTheWeek = MutableLiveData<String>()
+    val dayOfTheWeek: LiveData<String> get() = _dayOfTheWeek
 
 
     private var _currentBattle = MutableLiveData<Battle>()
@@ -214,9 +220,9 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         val client = NTPUDPClient()
         client.defaultTimeout = 1000
         val timeInMillisSince1900 = client.getTime(timeServerAddress).returnTime
-        //EpochMilli zählt von 1970 und getTime von 1900, deshalb die Rechnung.
+        //EpochMilli zählt von 1970
         return LocalDateTime.ofInstant(
-            Instant.ofEpochMilli(timeInMillisSince1900 + OFFSET_1900_TO_1970),
+            Instant.ofEpochMilli(timeInMillisSince1900),
             ZoneOffset.UTC
         )
     }
@@ -224,11 +230,11 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
             var newPlayer = player.value
             newPlayer!!.lastCard = getNetworkTime().plusDays(1).toString()
-            upsertPlayer(newPlayer!!)
+            upsertPlayer(newPlayer)
             startCountdown()
         }
     }
-    fun getFreeCards(count: Int){
+    fun getFreeCards(count: Int, balance: Int? = null){
         var cardsToAdd = mutableListOf<String>()
         repeat(count){
             val card = getFreeCard()
@@ -236,8 +242,9 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
             newCards.add(card)
         }
 
-        val newPlayer = player.value
-        newPlayer!!.bag = newPlayer.bag.plus(cardsToAdd)
+        val newPlayer = player.value!!
+        if(balance!=null)newPlayer.balance = balance
+        newPlayer.bag = newPlayer.bag.plus(cardsToAdd)
         viewModelScope.launch {
             upsertPlayer(newPlayer!!)
         }
@@ -289,6 +296,119 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
                     }
                 }else return listToGetFrom.random().toCard()
             }else return listToGetFrom.random().toCard()
-        Log.d("ViewModel", "return card")
     }
+    fun clearNewCards(){
+        newCards = mutableListOf()
+    }
+    fun addCards(list: List<Card>){
+        val newPlayer = player.value!!
+        var cardsToAdd = mutableListOf<String>()
+        repeat(list.size){
+            cardsToAdd.add(list[it].id)
+        }
+        newCards.addAll(list)
+        newPlayer.bag = newPlayer.bag.plus(cardsToAdd)
+        viewModelScope.launch {
+            repo.upsertPlayer(newPlayer)
+        }
+    }
+    fun addRandomHero(costs: Int = 0, type: String?){
+        var cardList = cardLibrary.value!!.filter { it.cardType=="Hero" }.shuffled()
+        if(type!=null) cardList = cardList.filter { it.type == type }
+        var random = (1..10).random()
+        if(random==10) {
+            cardList = cardList.filter { it.rarity!="normal" }
+            random = (0..10).random()
+            if (random==10){
+                cardList = cardList.filter { it.rarity=="ultra rare" }
+            }else cardList = cardList.filter { it.rarity=="rare" }
+        }else cardList = cardList.filter { it.rarity=="normal" }
+        val card = cardList.random()
+        newCards.add(card)
+        val newPlayer = player.value!!
+        newPlayer.bag = newPlayer.bag.plus(card.id)
+        newPlayer.balance -= costs
+        viewModelScope.launch{
+            repo.upsertPlayer(newPlayer)
+            repo.upsertFirebasePlayer(newPlayer)
+        }
+    }
+    fun addRandomSupporter(costs: Int){
+        var cardList = cardLibrary.value!!.filter { it.cardType=="Supporter" }.shuffled()
+        var random = (1..10).random()
+        if(random==10) {
+            cardList = cardList.filter { it.rarity!="normal" }
+            random = (1..10).random()
+            if (random==10){
+                cardList = cardList.filter { it.rarity=="ultra rare" }
+            }else cardList = cardList.filter { it.rarity=="rare" }
+        }else cardList = cardList.filter { it.rarity=="normal" }
+        val card = cardList.random().toCard()
+        newCards.add(card)
+        val newPlayer = player.value!!
+        newPlayer.balance -= costs
+        newPlayer.bag = newPlayer.bag.plus(card.id)
+        viewModelScope.launch{
+            repo.upsertPlayer(newPlayer)
+            repo.upsertFirebasePlayer(newPlayer)
+        }
+    }
+    fun addRandomRareOrUltraRare(costs: Int = 0){
+        var random = (1..3).random()
+        var cardList = cardLibrary.value!!
+        if(random==3) cardList = cardList.filter { it.cardType=="Hero" }
+        else cardList = cardList.filter { it.cardType=="Supporter" }
+        random = (1..10).random()
+        if(random==10) cardList = cardList.filter { it.rarity=="ultra rare" }
+        else cardList = cardList.filter { it.rarity=="rare" }
+        val card = cardList.random().toCard()
+        newCards.add(card)
+        val newPlayer = player.value!!
+        newPlayer.balance -= costs
+        newPlayer.bag = newPlayer.bag.plus(card.id)
+        viewModelScope.launch{
+            repo.upsertPlayer(newPlayer)
+            repo.upsertFirebasePlayer(newPlayer)
+        }
+    }
+    fun getRareBooster(costs: Int = 0){
+        getFreeCards(4, player.value!!.balance-costs)
+        viewModelScope.launch {
+            //um sicher zu stellen das die upsertMethode von getFreeCards abgeschlossen ist
+            delay(1500)
+            addRandomRareOrUltraRare()
+        }
+    }
+    fun getDayOfTheWeek(){
+
+        job?.cancel() // Stoppt einen laufenden Countdown, wenn vorhanden
+        job = viewModelScope.launch(Dispatchers.IO) {
+            while (isActive){
+                var date = getNetworkTime()
+                var duration = Duration.between(date.toLocalTime(), LocalTime.MAX)
+                if (duration.isNegative) {
+                    _countdownText.postValue(getApplication<Application>().getString(R.string.now_available))
+                    _dayOfTheWeek.postValue(date.dayOfWeek.name)
+                    break
+                }
+
+                val hours = duration.toHours()
+                val minutes = (duration.toMinutes() % 60).toString().padStart(2, '0')
+                val seconds = (duration.seconds % 60).toString().padStart(2, '0')
+
+                _countdownText.postValue("$hours:$minutes:$seconds")
+                delay(1000)
+                _dayOfTheWeek.postValue(date.dayOfWeek.name)
+            }
+        }
+    }
+    fun getBoosterOfTheDay(type:String){
+        var list = mutableListOf<Card>()
+        repeat(4){
+            list.add(cardLibrary.value!!.filter { it.cardType=="Land" && it.type==type}.random().toCard())
+        }
+        addCards(list)
+        addRandomHero(0, type)
+    }
+
 }

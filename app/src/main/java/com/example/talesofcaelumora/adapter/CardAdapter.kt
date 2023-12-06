@@ -12,6 +12,8 @@ import android.view.animation.TranslateAnimation
 import android.widget.ImageView
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.talesofcaelumora.data.datamodel.Card
@@ -29,6 +31,10 @@ class CardAdapter(
     inner class ListHolder(val bnd: CardItemBinding) : RecyclerView.ViewHolder(bnd.root)
     private var animationList = mutableListOf<Card>()
     private var density = 1f
+
+    private var _update = MutableLiveData<Boolean>(false)
+    val update: LiveData<Boolean>
+        get() = _update
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListHolder {
@@ -201,6 +207,7 @@ class CardAdapter(
                     it.scaleX = 1.0f
                     it.scaleY = 1.0f
                 }
+                _update.value = !_update.value!!
             }
         }
         if (type.contains("untap")&&card.used) {
@@ -236,6 +243,7 @@ class CardAdapter(
                 data.forEach { data -> if(data!=card){
                     data.selected = false
                 } }
+                _update.value = !_update.value!!
                 internUpdate()
             }
         }

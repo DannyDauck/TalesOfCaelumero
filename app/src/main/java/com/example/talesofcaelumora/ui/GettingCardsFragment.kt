@@ -9,6 +9,7 @@ import android.view.animation.TranslateAnimation
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.talesofcaelumora.R
 import com.example.talesofcaelumora.adapter.CardAdapter
 import com.example.talesofcaelumora.data.utils.SoundManager
@@ -70,6 +71,16 @@ class GettingCardsFragment : Fragment() {
 
             }
         }
+        bnd.btnOkGettingCards.setOnClickListener {
+            soundManager.playSound(R.raw.button_click)
+            if (vm.player.value!!.bag.size<=vm.player.value!!.bagMaxSize){
+                vm.clearNewCards()
+                findNavController().navigate(GettingCardsFragmentDirections.actionGettingCardsFragmentToHomeFragment())
+            }else{
+                vm.clearNewCards()
+                findNavController().navigate(GettingCardsFragmentDirections.actionGettingCardsFragmentToSellCardsFragment())
+            }
+        }
     }
 
 
@@ -83,7 +94,6 @@ class GettingCardsFragment : Fragment() {
             view.translationX += 200f
 
             turnBack(view)
-
         }
 
 

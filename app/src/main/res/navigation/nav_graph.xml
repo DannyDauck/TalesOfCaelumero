@@ -22,6 +22,12 @@
         <action
             android:id="@+id/action_homeFragment_to_sellCardsFragment"
             app:destination="@id/sellCardsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_diamondShopFragment"
+            app:destination="@id/diamondShopFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_gameShopFragment"
+            app:destination="@id/gameShopFragment" />
     </fragment>
     <fragment
         android:id="@+id/splashScreenFragment"
@@ -111,9 +117,44 @@
         <action
             android:id="@+id/action_gettingCardsFragment_to_sellCardsFragment"
             app:destination="@id/sellCardsFragment" />
+        <action
+            android:id="@+id/action_gettingCardsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/sellCardsFragment"
         android:name="com.example.talesofcaelumora.ui.SellCardsFragment"
-        android:label="SellCardsFragment" />
+        android:label="SellCardsFragment"
+        tools:layout="@layout/fragment_sell_cards">
+        <action
+            android:id="@+id/action_sellCardsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/diamondShopFragment"
+        android:name="com.example.talesofcaelumora.ui.DiamondShopFragment"
+        android:label="fragment_diamond_shop"
+        tools:layout="@layout/fragment_diamond_shop" >
+        <action
+            android:id="@+id/action_diamondShopFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_diamondShopFragment_to_sellCardsFragment"
+            app:destination="@id/sellCardsFragment" />
+        <action
+            android:id="@+id/action_diamondShopFragment_to_gettingCardsFragment"
+            app:destination="@id/gettingCardsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameShopFragment"
+        android:name="com.example.talesofcaelumora.ui.GameShopFragment"
+        android:label="fragment_game_shop"
+        tools:layout="@layout/fragment_game_shop" >
+        <action
+            android:id="@+id/action_gameShopFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_gameShopFragment_to_gettingCardsFragment"
+            app:destination="@id/gettingCardsFragment" />
+    </fragment>
 </navigation>

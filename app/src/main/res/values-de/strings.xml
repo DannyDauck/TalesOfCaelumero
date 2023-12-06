@@ -26,7 +26,7 @@
     <string name="signin_with_google_account_failed">Einloggen mit Google fehlgeschlagen</string>
     <string name="forward">weiter</string>
     <string name="back">zurück</string>
-    <string name="air">Luft</string>
+    <string name="air">Wind</string>
     <string name="water">Wasser</string>
     <string name="nature">Natur</string>
     <string name="fire">Feuer</string>
@@ -69,6 +69,39 @@
     <string name="asking_price">Verkaufswert:</string>
     <string name="your_balance">Dein Guthaben</string>
     <string name="you_can_not_sell_your_decks_last_hero">Du kannst den letzten Helden deines Decks nicht verkaufen!</string>
-
+    <string name="you_ve_got_to_sell_cards">Du musst noch Karten verkaufen, bis du genug Platz im Rukcsack hast</string>
+    <string name="sell_cards">Karten verkaufen</string>
+    <string name="exchange_diamonds">Diamantenshop</string>
+    <string name="lands">Lands</string>
+    <string name="random_air_land">Zufällige Wind- Landkarte</string>
+    <string name="random_fire_land">Zufäligge Feuer- Landkarte</string>
+    <string name="random_water_land">Zufällige Wasser- Lamndkarte</string>
+    <string name="random_plant_land">Zufällige Natur- Landkarte</string>
+    <string name="single_cards">Einzelkarten</string>
+    <string name="random_supporter_card">Zufällige Supporter- Karte</string>
+    <string name="random_hero_card">Zufällige Helden-Karte</string>
+    <string name="rare_guaranteed_booster">Rare garantiert Booster\n(4 zufällige Karten, 1 Karte rare oder ultra rare)</string>
+    <string name="normales_booster_n_5_zuf_llige_karten">normal booster\n(5 random cards)</string>
+    <string name="random_card_rare_or_ultra_rare">random card rare or ultra rare</string>
+    <string name="booster">Booster</string>
+    <string name="normal_booster_info">contains: 5 x random card</string>
+    <string name="rare_booster_info">Inhalt: 4 x zufällige Karten und 1 zufällige seltene or ultra seltene Karte</string>
+    <string name="exchange_your_diamonds_for_single_cards_or_booster_packages">Tausche deine Diamanten gegen Einzelkarten oder Boosterpakete</string>
+    <string name="spawn_rate_random_rare_ultra_rare">Spawnrate: 54% Supporter selten, 6% Supporter ultra selten, 36% Hero selten, 4% Hero ultra selten</string>
+    <string name="rare_or_ultra_rare_random_card">Seltene oder ultra-seltene zufällige Karte</string>
+    <string name="spawnrate_land_cards">Spawnrate: 25 % Wind, 25 % Feuer, 25 % Wasser, 25 % Natur</string>
+    <string name="landcard_random">Zufällige Landkarte</string>
+    <string name="spawnrate_single_card">Spawnrate: 80 % Landkarten, 12 % Unterstützer normal, 1,2 % Unterstützer selten, 0,1 % Unterstützer ultra-selten, 6 % Held normal, 0,6 % Held selten, 0,06 % Held ultra-selten</string>
+    <string name="purchase_item_confirmation">Möchtest du das item für %s Diamanten kaufen?</string>
+    <string name="not_enough_diamonds">Nicht genug Diamanten</string>
+    <string name="game_shop">Game Shop</string>
+    <string name="booster_of_the_day">Booster des Tages</string>
+    <string name="booster_of_the_day_water">enthält: 4 zufällige Wasser-Länder und 1 zufälligen Wasser Helden</string>
+    <string name="booster_of_the_day_fire">enthält: 4 zufällige Feuer-Länder und 1 zufälligen Feuer Helden</string>
+    <string name="booster_of_the_day_air">enthält: 4 zufällige Wind-Länder und 1 zufälligen Wind Helden</string>
+    <string name="booster_of_the_day_plant">enthält: 4 zufällige Natur-Länder and 1 zufälligen Natur-Helden</string>
+    <string name="increase_your_bag_s_size">Rucksack-Upgrade</string>
+    <string name="increase_bag_size_info">Erhöhe die Kapazität deines Rucksacks um 20 Karten (3 mal verfügbar)</string>
+    <string name="max_reached">Du hast das Maximum schon erreicht</string>
 
 </resources>

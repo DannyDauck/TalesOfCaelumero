@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.animation.TranslateAnimation
 import android.widget.SeekBar
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -81,18 +82,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        bnd.imgFreeCard.shapeAppearanceModel = bnd.imgFreeCard.shapeAppearanceModel.toBuilder()
-            .setBottomRightCorner(CornerFamily.ROUNDED, 80f)
-            .setBottomLeftCorner(CornerFamily.ROUNDED, 30f)
-            .setTopRightCorner(CornerFamily.ROUNDED, 30f)
-            .setTopLeftCorner(CornerFamily.ROUNDED, 80f)
-            .build()
-        bnd.imgFreeCardLayer.shapeAppearanceModel = bnd.imgFreeCard.shapeAppearanceModel.toBuilder()
-            .setBottomRightCorner(CornerFamily.ROUNDED, 80f)
-            .setBottomLeftCorner(CornerFamily.ROUNDED, 30f)
-            .setTopRightCorner(CornerFamily.ROUNDED, 30f)
-            .setTopLeftCorner(CornerFamily.ROUNDED, 80f)
-            .build()
 
         bnd.imgBgNigth.isVisible = night
         bnd.imgBgNigthForeground.isVisible = night
@@ -104,7 +93,7 @@ class HomeFragment : Fragment() {
                 bnd.imgFreeCardLayer.isVisible = false
                 bnd.chipFreeCard.setOnClickListener{
                     vm.setNewLastCard()
-                    vm.getFreeCards(20)
+                    vm.getFreeCards(5)
                     findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToGettingCardsFragment())
                 }
             }else{
@@ -157,17 +146,43 @@ class HomeFragment : Fragment() {
 
 
         bnd.btnSetiings.setOnClickListener {
+            soundManager.playSound(R.raw.button_click)
             bnd.clSettings.isVisible = !bnd.clSettings.isVisible
+            bnd.clMarketplace.isGone = true
         }
         bnd.btnGame.setOnClickListener {
+            soundManager.playSound(R.raw.button_click)
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToBattleFragment())
         }
         bnd.btnLogout.setOnClickListener {
             Firebase.auth.signOut()
+            soundManager.playSound(R.raw.button_click)
             findNavController().navigate(R.id.loginFragment)
         }
         bnd.btnLibrary.setOnClickListener {
-            findNavController().navigate(R.id.sellCardsFragment)
+            soundManager.playSound(R.raw.button_click)
+        }
+
+        bnd.btnMarketplace.setOnClickListener {
+            bnd.newIndicatorMarketplace.isVisible = false
+            bnd.clMarketplace.isVisible = !bnd.clMarketplace.isVisible
+            bnd.clSettings.isGone = true
+        }
+
+        //OnClick Listener für freeCardsChip wird im observer des StartCountdowns gesetzt
+
+        bnd.chipSellCard.setOnClickListener{
+            soundManager.playSound(R.raw.button_click)
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSellCardsFragment())
+        }
+
+        bnd.chipDiamondShop.setOnClickListener {
+            soundManager.playSound(R.raw.button_click)
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDiamondShopFragment())
+        }
+        bnd.chipGoogleShop.setOnClickListener {
+            soundManager.playSound(R.raw.button_click)
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToGameShopFragment())
         }
 
 
@@ -186,7 +201,7 @@ class HomeFragment : Fragment() {
         soundManager.release()
     }
 
-    private fun startTurning(view: View) {
+    fun startTurning(view: View) {
         val translation = TranslateAnimation(0f, 200f, 0f, 0f)
         translation.duration = 10000
 
@@ -216,8 +231,5 @@ class HomeFragment : Fragment() {
             startTurning(view)
         }
     }
-
-
-
 }
 

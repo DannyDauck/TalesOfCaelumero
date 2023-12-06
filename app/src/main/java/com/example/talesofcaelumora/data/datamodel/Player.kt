@@ -187,7 +187,8 @@ class Player(
         R.raw.watertheme,
         "The Spirit Of Water - DarT music "
     ),
-    var balance: Int = 0
+    var balance: Int = 0,
+    var bagIncrease: Int = 0,
     ) {
 
     constructor(map: Map<String, Any>) : this(
@@ -207,7 +208,8 @@ class Player(
         maxBank = (map["maxBank"] as Long).toInt(),
         maxDeckSize = (map["maxDeckSize"] as Long).toInt(),
         homeArena = Battlefield(map["homeArena"] as Map<String, Any>),
-        balance = (map["balance"] as Long).toInt()
+        balance = (map["balance"] as Long).toInt(),
+        bagIncrease = (map["bag_increase"] as Long).toInt()
     )
 
     fun returnDeck(library: List<Card>): MutableList<Card> {

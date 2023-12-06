@@ -76,36 +76,6 @@ class InitialDeckChooseFragment : Fragment() {
         bnd.txtPlayer.isGone = true
         bnd.clConfirm.isVisible = false
 
-        //rundet die Ecken der inneren ImageView ab
-        bnd.imgDeckAirBg.shapeAppearanceModel = bnd.imgDeckAirBg.shapeAppearanceModel.toBuilder()
-            .setBottomRightCorner(CornerFamily.ROUNDED, 60f)
-            .setBottomLeftCorner(CornerFamily.ROUNDED, 30f)
-            .setTopRightCorner(CornerFamily.ROUNDED, 30f)
-            .setTopLeftCorner(CornerFamily.ROUNDED, 60f)
-            .build()
-
-        bnd.imgDeckWaterBg.shapeAppearanceModel =
-            bnd.imgDeckWaterBg.shapeAppearanceModel.toBuilder()
-                .setBottomRightCorner(CornerFamily.ROUNDED, 60f)
-                .setBottomLeftCorner(CornerFamily.ROUNDED, 30f)
-                .setTopRightCorner(CornerFamily.ROUNDED, 30f)
-                .setTopLeftCorner(CornerFamily.ROUNDED, 60f)
-                .build()
-
-        bnd.imgDeckFireBg.shapeAppearanceModel = bnd.imgDeckFireBg.shapeAppearanceModel.toBuilder()
-            .setBottomRightCorner(CornerFamily.ROUNDED, 60f)
-            .setBottomLeftCorner(CornerFamily.ROUNDED, 30f)
-            .setTopRightCorner(CornerFamily.ROUNDED, 30f)
-            .setTopLeftCorner(CornerFamily.ROUNDED, 60f)
-            .build()
-        bnd.imgDeckNatureBg.shapeAppearanceModel =
-            bnd.imgDeckNatureBg.shapeAppearanceModel.toBuilder()
-                .setBottomRightCorner(CornerFamily.ROUNDED, 60f)
-                .setBottomLeftCorner(CornerFamily.ROUNDED, 30f)
-                .setTopRightCorner(CornerFamily.ROUNDED, 30f)
-                .setTopLeftCorner(CornerFamily.ROUNDED, 60f)
-                .build()
-
         bnd.imgPlayerCharacter.setImageResource(character)
 
         slowPrintText(getString(R.string.choose_deck_one))

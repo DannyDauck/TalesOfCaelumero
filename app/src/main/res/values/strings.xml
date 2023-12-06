@@ -68,6 +68,39 @@
     <string name="asking_price">asking price:</string>
     <string name="your_balance">your balance</string>
     <string name="you_can_not_sell_your_decks_last_hero">You can not sell your decks last hero!</string>
-
+    <string name="you_ve_got_to_sell_cards">You need to sell some cards since your backpack doesn\'t have enough space</string>
+    <string name="sell_cards">sell cards</string>
+    <string name="exchange_diamonds">diamond shop</string>
+    <string name="lands">Lands</string>
+    <string name="random_air_land">random air land</string>
+    <string name="random_fire_land">random fire land</string>
+    <string name="random_water_land">random water land</string>
+    <string name="random_plant_land">random nature land</string>
+    <string name="single_cards">Single cards</string>
+    <string name="random_supporter_card">random supporter card</string>
+    <string name="random_hero_card">random hero card</string>
+    <string name="rare_guaranteed_booster">Rare Guaranteed Booster\n(4 cards random 1 card rare or ultra rare)</string>
+    <string name="normales_booster_n_5_zuf_llige_karten">normal booster\n(5 random cards)</string>
+    <string name="random_card_rare_or_ultra_rare">random card rare or ultra rare</string>
+    <string name="booster">Booster</string>
+    <string name="normal_booster_info">contains: 5 x random card</string>
+    <string name="rare_booster_info">contains: 4 x random cards and 1 random rare or ultra rare card</string>
+    <string name="exchange_your_diamonds_for_single_cards_or_booster_packages">exchange your diamonds for single cards or booster packages</string>
+    <string name="spawn_rate_random_rare_ultra_rare">Spawnrate: 54% supporter rare, 6% supporter ultra rare, 36% Hero rare, 4% Hero ultra rare</string>
+    <string name="rare_or_ultra_rare_random_card">Rare or ulta rare random card</string>
+    <string name="spawnrate_land_cards">Spawnrate: 25% air, 25% fire, 25% water, 25% plant</string>
+    <string name="landcard_random">Landcard random</string>
+    <string name="spawnrate_single_card">Spawnrate: 80% land cards, 12% Supporter normal, 1.2% Supporter rare, 0.1% Supporter ultra rare, 6% Hero normal, 0.6% Hero rare, 0.06% Hero ultra rare</string>
+    <string name="purchase_item_confirmation">Do you want to purchase the item for %s diamonds?</string>
+    <string name="not_enough_diamonds">Not enough diamonds</string>
+    <string name="game_shop">game shop</string>
+    <string name="booster_of_the_day">Booster Of The Day</string>
+    <string name="booster_of_the_day_water">contains: 4 random water lands and 1 random water hero</string>
+    <string name="booster_of_the_day_fire">contains: 4 random fire lands and 1 random fire hero</string>
+    <string name="booster_of_the_day_air">contains: 4 random air lands and 1 random air hero</string>
+    <string name="booster_of_the_day_plant">contains: 4 random nature lands and 1 random nature hero</string>
+    <string name="increase_your_bag_s_size">Upgrade bag</string>
+    <string name="increase_bag_size_info">Increase the capacity of your backpack by 20 cards (available 3 times)</string>
+    <string name="max_reached">You\'ve reached the max level</string>
 
 </resources>
