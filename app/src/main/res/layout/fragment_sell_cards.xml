@@ -33,11 +33,11 @@
 
     <ImageView
         android:id="@+id/img_bg_nigth"
-        android:layout_width="750dp"
-        android:layout_height="780dp"
+        android:layout_width="880dp"
+        android:layout_height="880dp"
         android:scaleType="centerCrop"
         android:src="@drawable/clarice_bgl"
-        android:translationX="-105dp"
+        android:translationX="-160dp"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -45,11 +45,11 @@
 
     <ImageView
         android:id="@+id/img_bg_nigth_foreground"
-        android:layout_width="750dp"
-        android:layout_height="780dp"
+        android:layout_width="880dp"
+        android:layout_height="880dp"
         android:scaleType="centerCrop"
         android:src="@drawable/clarice_removebg_preview"
-        android:translationX="-105dp"
+        android:translationX="-160dp"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

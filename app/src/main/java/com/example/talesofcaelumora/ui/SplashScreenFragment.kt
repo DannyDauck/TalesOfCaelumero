@@ -20,7 +20,6 @@ import com.example.talesofcaelumora.data.utils.SoundManager
 import com.example.talesofcaelumora.data.vfxVolume
 import com.example.talesofcaelumora.databinding.FragmentSplashScreenBinding
 import com.example.talesofcaelumora.ui.viewmodel.MainViewModel
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import kotlinx.coroutines.delay
@@ -52,8 +51,9 @@ class SplashScreenFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        vm.getGameState(firebaseAuth.uid.toString())
-        vm.getPlayer(firebaseAuth.uid.toString())
+        vm.getGameState(firebaseAuth.currentUser?.uid.toString())
+        vm.getPlayer(firebaseAuth.currentUser?.uid.toString())
+
         Log.d("SplashScreen", "current Firebase UID: ${firebaseAuth.uid}")
         soundManager = SoundManager.getInstance(requireContext())
         vm.cardLoadingProgress.observe(viewLifecycleOwner) { progress ->
@@ -88,7 +88,8 @@ class SplashScreenFragment : Fragment() {
                         //delay um sicherzustellen das er das Bild fertig lädt
                         lifecycleScope.launch {
                             delay(500)
-                            if(vm.player.value != null){
+                            if(vm.player.value != null && firebaseAuth.currentUser?.uid == vm.player.value!!.uid){
+                                vm.observeBattles(requireContext())
                                 musicVolume = vm.gameState.value!!.musicVolume
                                 vfxVolume = vm.gameState.value!!.vfxVolume
                                 soundManager.setRadioVolume()
@@ -158,14 +159,16 @@ class SplashScreenFragment : Fragment() {
             if(imagesLoaded && libraryLoaded && animationPlayed){
                 lifecycleScope.launch {
                     delay(500)
-                    if(vm.player.value != null){
+                    if(vm.player.value != null && firebaseAuth.currentUser?.uid == vm.player.value!!.uid){
 
                         musicVolume = vm.gameState.value!!.musicVolume
                         vfxVolume = vm.gameState.value!!.vfxVolume
                         soundManager.setRadioVolume()
+                        vm.observeBattles(requireContext())
                         findNavController().navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToHomeFragment())
                     }
                     else{
+                        Log.d("SplashScreen", firebaseAuth.uid.toString())
                         vm.getFirebasePlayer(firebaseAuth.uid!!)
                         lifecycleScope.launch{
                             //Überprüfen ob in der Lokalen Datenbank ein Player
@@ -173,7 +176,7 @@ class SplashScreenFragment : Fragment() {
                             //,wenn ja erstellt es einen Lokalen Spieler mit leerem Gamestate
                             //, wenn nicht beginnt das OnBoarding
                             delay(1500)
-                            if(vm.player.value==null){
+                            if(vm.player.value==null||vm.player.value!!.uid!=firebaseAuth.currentUser!!.uid){
                                 findNavController().navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToIntroFragment())
                             }
                             else if(vm.gameState.value==null){

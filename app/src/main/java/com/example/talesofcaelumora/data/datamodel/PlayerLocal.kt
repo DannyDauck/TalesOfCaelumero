@@ -26,7 +26,8 @@ data class PlayerLocal(
     var maxDeckSize: Int,
     var homeArena: Battlefield,
     var balance: Int,
-    var bagIncrease: Int
+    var bagIncrease: Int,
+    var battles: MutableList<String>
 ) {
     constructor(player: Player) : this(
         player.uid,
@@ -46,6 +47,7 @@ data class PlayerLocal(
         player.maxDeckSize,
         player.homeArena,
         player.balance,
-        player.bagIncrease
+        player.bagIncrease,
+        player.battles
     )
 }

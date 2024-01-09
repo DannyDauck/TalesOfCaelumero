@@ -40,4 +40,5 @@ class Converters {
         val type = object : com.google.gson.reflect.TypeToken<Battlefield>() {}.type
         return Gson().fromJson(battlefieldString, type)
     }
+
 }

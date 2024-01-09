@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.TranslateAnimation
+import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -51,6 +52,7 @@ class GameShopFragment : Fragment() {
 
 
         vm.getDayOfTheWeek()
+        setBagIncreaseDones()
 
         vm.dayOfTheWeek.observe(viewLifecycleOwner) {
             setDayBoosterLayout(it)
@@ -65,12 +67,24 @@ class GameShopFragment : Fragment() {
             bnd.boosterOffers.isVisible = true
             bnd.singleCardOffers.isGone = true
             bnd.othersOffers.isGone = true
+            bnd.txtBooster.setTextColor(ContextCompat.getColor(requireContext(), R.color.smooth_gold))
+            bnd.txtSingleCard.setTextColor(ContextCompat.getColor(requireContext(), R.color.txt_diselected))
+            bnd.txtOthers.setTextColor(ContextCompat.getColor(requireContext(), R.color.txt_diselected))
+            it.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.register_selected))
+            bnd.btnOthers.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.register_disselected))
+            bnd.btnSingleCards.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.register_disselected))
         }
         bnd.btnSingleCards.setOnClickListener {
             soundManager.playSound(R.raw.button_click)
             bnd.boosterOffers.isGone = true
             bnd.singleCardOffers.isVisible = true
             bnd.othersOffers.isGone = true
+            bnd.txtBooster.setTextColor(ContextCompat.getColor(requireContext(), R.color.txt_diselected))
+            bnd.txtSingleCard.setTextColor(ContextCompat.getColor(requireContext(), R.color.smooth_gold))
+            bnd.txtOthers.setTextColor(ContextCompat.getColor(requireContext(), R.color.txt_diselected))
+            it.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.register_selected))
+            bnd.btnOthers.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.register_disselected))
+            bnd.btnBooster.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.register_disselected))
         }
         bnd.btnOthers.setOnClickListener {
             setBagIncreaseDones()
@@ -78,14 +92,30 @@ class GameShopFragment : Fragment() {
             bnd.boosterOffers.isGone = true
             bnd.singleCardOffers.isGone = true
             bnd.othersOffers.isVisible = true
+            bnd.txtBooster.setTextColor(ContextCompat.getColor(requireContext(), R.color.txt_diselected))
+            bnd.txtSingleCard.setTextColor(ContextCompat.getColor(requireContext(), R.color.txt_diselected))
+            bnd.txtOthers.setTextColor(ContextCompat.getColor(requireContext(), R.color.smooth_gold))
+            it.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.register_selected))
+            bnd.btnBooster.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.register_disselected))
+            bnd.btnSingleCards.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.register_disselected))
         }
 
-        vm.player.observe(viewLifecycleOwner){
-            setBagIncreaseDones()
+        bnd.btnBoosterNormal.setOnClickListener {
+            soundManager.playSound(R.raw.button_click)
+            vm.getFreeCards(5)
+            findNavController().navigate(GameShopFragmentDirections.actionGameShopFragmentToGettingCardsFragment())
         }
-
-
-
+        bnd.btnRareBooster.setOnClickListener {
+            soundManager.playSound(R.raw.button_click)
+            vm.getRareBooster()
+            lifecycleScope.launch {
+                delay(1200)
+                findNavController().navigate(GameShopFragmentDirections.actionGameShopFragmentToGettingCardsFragment())
+            }
+       }
+        bnd.btnBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     fun setDayBoosterLayout(day: String) {
@@ -168,9 +198,10 @@ class GameShopFragment : Fragment() {
     }
 
     private fun setBagIncreaseDones(){
-        soundManager.playSound(R.raw.button_click)
+
         Log.d("GameShopFragment", vm.player.value!!.bagIncrease.toString() + vm.player.value!!.name.toString())
         bnd.btnIncreaseBag.setOnClickListener {
+            soundManager.playSound(R.raw.button_click)
             var player = vm.player.value!!
             player.bagMaxSize += 20
             player.bagIncrease += 1

@@ -4,13 +4,9 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
-import android.widget.Toast
 import androidx.core.view.isVisible
-import com.example.talesofcaelumora.adapter.CardAdapter
 import com.example.talesofcaelumora.data.utils.BattleCallback
 import com.example.talesofcaelumora.databinding.FragmentBattleBinding
-import com.example.talesofcaelumora.ui.viewmodel.MainViewModel
-import kotlinx.coroutines.delay
 
 class Battle(
     var id: String,
@@ -18,8 +14,8 @@ class Battle(
     var lastMove: String,
     var playerOne: String,
     var playerTwo: String,
-    val playerOneCharacter: Int,
-    val playerTwoCharacter: Int,
+    var playerOneCharacter: Int,
+    var playerTwoCharacter: Int,
     var playerOneName: String,
     var playerTwoName: String,
     var playerOneStack: MutableList<Card>,
@@ -32,19 +28,54 @@ class Battle(
     var playerTwoGraveyard: MutableList<Card>,
     var playerOneLands: MutableList<Card>,
     var playerTwoLands: MutableList<Card>,
-    val playerOneMaxHp: Int,
+    var playerOneMaxHp: Int,
     var playerOneCurrentHp: Int,
-    val playerTwoMaxHp: Int,
+    var playerTwoMaxHp: Int,
     var playerTwoCurrentHp: Int,
     var playerOneMaxBank: Int,
     var playerTwoMaxBank: Int,
     var playerOneMaxLand: Int,
     var playerTwoMaxLand: Int,
-    val playerOneLevel: Int,
-    val playerTwoLevel: Int,
-    val context: Context
+    var playerOneLevel: Int,
+    var playerTwoLevel: Int,
+    val context: Context,
+    var round: Int = 0
 
     ) {
+
+    constructor(map: Map<String, Any>, context: Context): this(
+        id = map["id"] as String,
+        battlefield = Battlefield(map["battlefield"] as Map<String, Any>),
+        lastMove = map["lastMove"] as String,
+        playerOne = map["playerOne"] as String,
+        playerTwo = map["playerTwo"] as String,
+        playerOneCharacter = (map["playerOneCharacter"] as Long).toInt(),
+        playerTwoCharacter = (map["playerTwoCharacter"] as Long).toInt(),
+        playerOneName = map["playerOneName"] as String,
+        playerTwoName = map["playerTwoName"] as String,
+        playerOneStack = toCardStack(map["playerOneStack"] as List<Map<String,Any>>),
+        playerTwoStack = toCardStack( map["playerTwoStack"] as List<Map<String, Any>>),
+        playerOneHand = toCardStack( map["playerOneHand"] as List<Map<String,Any>>),
+        playerTwoHand = toCardStack( map["playerTwoHand"] as List<Map<String,Any>>),
+        playerOneBank = toCardStack( map["playerOneBank"] as List<Map<String,Any>>),
+        playerTwoBank = toCardStack( map["playerTwoBank"] as List<Map<String,Any>>),
+        playerOneGraveyard = toCardStack( map["playerOneGraveyard"] as List<Map<String,Any>>),
+        playerTwoGraveyard = toCardStack( map["playerTwoGraveyard"] as List<Map<String,Any>>),
+        playerOneLands = toCardStack( map["playerOneLands"] as List<Map<String,Any>>),
+        playerTwoLands = toCardStack( map["playerTwoLands"] as List<Map<String,Any>>),
+        playerOneMaxHp = (map["playerOneMaxHp"] as Long).toInt(),
+        playerOneCurrentHp = (map["playerOneCurrentHp"] as Long).toInt(),
+        playerTwoMaxHp = (map["playerTwoMaxHp"] as Long).toInt(),
+        playerTwoCurrentHp = (map["playerTwoCurrentHp"] as Long).toInt(),
+        playerOneMaxBank = (map["playerOneMaxBank"] as Long).toInt(),
+        playerTwoMaxBank = (map["playerTwoMaxBank"] as Long).toInt(),
+        playerOneMaxLand = (map["playerOneMaxLand"] as Long).toInt(),
+        playerTwoMaxLand = (map["playerTwoMaxLand"] as Long).toInt(),
+        playerOneLevel = (map["playerOneLevel"] as Long).toInt(),
+        playerTwoLevel = (map["playerTwoLevel"] as Long).toInt(),
+        round = (map["round"] as Long).toInt(),
+        context = context
+    )
 
     constructor(
         playerOnePlayer: Player,
@@ -87,11 +118,10 @@ class Battle(
     )
 
     //wenn true ist der derzeiteige Spieler playerOne, wenn false playerTwo
-    val currentPlayer = true
-    var round = 0
+
     private lateinit var bnd: FragmentBattleBinding
     private lateinit var battleCallback: BattleCallback
-    var battleStarted = false
+    var battleStarted = round>1
 
     fun setUpBattleField(
         binding: FragmentBattleBinding,
@@ -250,6 +280,100 @@ class Battle(
         }
         return damage
     }
+}
+fun Battle.battleToMap(): Map<String,Any>{
+    return mapOf(
+        "id" to id,
+        "battlefield" to battlefield,
+        "lastMove" to lastMove,
+        "playerOne" to playerOne,
+        "playerTwo" to playerTwo,
+        "playerOneCharacter" to playerOneCharacter,
+        "playerTwoCharacter" to playerTwoCharacter,
+        "playerOneName" to playerOneName,
+        "playerTwoName" to playerTwoName,
+        "playerOneStack" to playerOneStack,
+        "playerTwoStack" to playerTwoStack,
+        "playerOneHand" to playerOneHand,
+        "playerTwoHand" to playerTwoHand,
+        "playerOneBank" to playerOneBank,
+        "playerTwoBank" to playerTwoBank,
+        "playerOneGraveyard" to playerOneGraveyard,
+        "playerTwoGraveyard" to playerTwoGraveyard,
+        "playerOneLands" to playerOneLands,
+        "playerTwoLands" to playerTwoLands,
+        "playerOneMaxHp" to playerOneMaxHp,
+        "playerOneCurrentHp" to playerOneCurrentHp,
+        "playerTwoMaxHp" to playerTwoMaxHp,
+        "playerTwoCurrentHp" to playerTwoCurrentHp,
+        "playerOneMaxBank" to playerOneMaxBank,
+        "playerTwoMaxBank" to playerTwoMaxBank,
+        "playerOneMaxLand" to playerOneMaxLand,
+        "playerTwoMaxLand" to playerTwoMaxLand,
+        "playerOneLevel" to playerOneLevel,
+        "playerTwoLevel" to playerTwoLevel,
+        "round" to round
+    )
 
 
 }
+
+fun toCardStack(list: List<Map<String, Any>>): MutableList<Card>{
+    var mutableList = mutableListOf<Card>()
+    if(list.isNotEmpty())list.forEach {
+        mutableList.add(Card(it, true))
+    }
+    return mutableList
+}
+
+fun Battle.flipBattle() {
+    // Werte zwischenspeichern
+    val tempPlayerOne = this.playerOne
+    val tempPlayerOneCharacter = this.playerOneCharacter
+    val tempPlayerOneName = this.playerOneName
+    val tempPlayerOneStack = this.playerOneStack
+    val tempPlayerOneHand = this.playerOneHand
+    val tempPlayerOneBank = this.playerOneBank
+    val tempPlayerOneGraveyard = this.playerOneGraveyard
+    val tempPlayerOneLands = this.playerOneLands
+    val tempPlayerOneMaxHp = this.playerOneMaxHp
+    val tempPlayerOneCurrentHp = this.playerOneCurrentHp
+    val tempPlayerOneMaxBank = this.playerOneMaxBank
+    val tempPlayerOneMaxLand = this.playerOneMaxLand
+    val tempPlayerOneLevel = this.playerOneLevel
+
+    // Werte austauschen
+    this.playerOne = this.playerTwo
+    this.playerOneCharacter = this.playerTwoCharacter
+    this.playerOneName = this.playerTwoName
+    this.playerOneStack = this.playerTwoStack
+    this.playerOneHand = this.playerTwoHand
+    this.playerOneBank = this.playerTwoBank
+    this.playerOneGraveyard = this.playerTwoGraveyard
+    this.playerOneLands = this.playerTwoLands
+    this.playerOneMaxHp = this.playerTwoMaxHp
+    this.playerOneCurrentHp = this.playerTwoCurrentHp
+    this.playerOneMaxBank = this.playerTwoMaxBank
+    this.playerOneMaxLand = this.playerTwoMaxLand
+    this.playerOneLevel = this.playerTwoLevel
+
+    // Setze die Werte von playerTwo auf die temporär gespeicherten Werte von playerOne
+    this.playerTwo = tempPlayerOne
+    this.playerTwoCharacter = tempPlayerOneCharacter
+    this.playerTwoName = tempPlayerOneName
+    this.playerTwoStack = tempPlayerOneStack
+    this.playerTwoHand = tempPlayerOneHand
+    this.playerTwoBank = tempPlayerOneBank
+    this.playerTwoGraveyard = tempPlayerOneGraveyard
+    this.playerTwoLands = tempPlayerOneLands
+    this.playerTwoMaxHp = tempPlayerOneMaxHp
+    this.playerTwoCurrentHp = tempPlayerOneCurrentHp
+    this.playerTwoMaxBank = tempPlayerOneMaxBank
+    this.playerTwoMaxLand = tempPlayerOneMaxLand
+    this.playerTwoLevel = tempPlayerOneLevel
+
+    round++
+    battleStarted = true
+}
+
+

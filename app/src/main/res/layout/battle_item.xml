@@ -136,19 +136,7 @@
         style="@style/player_is_not_on_turn" />
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/alfa_slab_one"
-        android:text="vs."
-        android:layout_marginTop="2dp"
-        android:layout_marginLeft="2dp"
-        android:gravity="center"
-        android:textSize="16dp"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_battleField" />
+
     <TextView
         android:id="@+id/vs"
         android:layout_width="wrap_content"

@@ -254,6 +254,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/btn_end_round"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -267,13 +268,13 @@
                 android:layout_height="32dp"
                 android:layout_marginBottom="4dp"
                 android:layout_weight="1"
-                android:src="@drawable/home_ico"
+                android:src="@drawable/baseline_logout_24"
                 app:tint="@color/smooth_gold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/home"
+                android:text="@string/end_round"
                 android:textColor="@color/smooth_gold"
                 android:textSize="12sp" />
         </LinearLayout>

@@ -51,7 +51,7 @@
 
     <!-- On Boarding -->
     <string name="choose_a_character">Wähle ein Charakter</string>
-    <string name="on_boarding_one">Hallo und Willkommen in Caelumero!\n\nIch bin Elara und werde dir helfen dich in unserer Welt zurecht zu finden. aber zuerst wäre es schön, wenn du mir einmal verräts, wie du heisst.\n\nBitte gib jetzt deinen Namen in das Feld oben ein\n\n\n</string>
+    <string name="on_boarding_one">Hallo und Willkommen in Caelumero!\n\nIch bin Elara und werde dir helfen dich in unserer Welt zurechtzufinden. aber zuerst wäre es schön, wenn du mir einmal verräts, wie du heißt.\n\nBitte gib jetzt deinen Namen in das Feld oben ein\n\n\n</string>
     <string name="on_boarding_two">"%s?! Ein toller Name!! Wähle jetzt noch einen Charakter der zu dir passt. Du kannst deinen Namen und den Charakter später jederzeit unter Profil wieder anpassen.\n\nWähle und bestätige mit Ok\n\n"</string>
     <string name="player_confirm_deck">\"Ich habe mich für das %s Deck entschieden\"</string>
     <string name="choose_deck_one">Was für ein toller Charaketer!!\n\nDamit es auch gleich losgehen kann, bekommst du von mir ein Starterdeck. Du kannst zwischen einem Luft-, Wasser-, Pflanzen- und Feuerdeck auswählen.\nAlle Decks sind in etwa gleich stark.\nWähle einfach ein Deck, bei dem du denkst, das es zu dir passt.\n\n (Klicke auf einen der vier Buttons oben)\n\n</string>
@@ -103,5 +103,15 @@
     <string name="increase_your_bag_s_size">Rucksack-Upgrade</string>
     <string name="increase_bag_size_info">Erhöhe die Kapazität deines Rucksacks um 20 Karten (3 mal verfügbar)</string>
     <string name="max_reached">Du hast das Maximum schon erreicht</string>
+    <string name="language">de</string>
+    <string name="at">um</string>
+    <string name="yesterday">Gestern</string>
+    <string name="you">Du</string>
+    <string name="today">Heute</string>
+    <string name="message">Schreibe eine Nachricht ..</string>
+    <string name="profilsettings">Profil</string>
+    <string name="bag_size">Bag size</string>
+    <string name="deck_size">Deck size</string>
+    <string name="hero_bank_size">Hero bank size</string>
 
 </resources>

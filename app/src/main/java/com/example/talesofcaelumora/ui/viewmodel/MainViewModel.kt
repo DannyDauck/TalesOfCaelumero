@@ -1,6 +1,7 @@
 package com.example.talesofcaelumora.ui.viewmodel
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -8,13 +9,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.talesofcaelumora.R
 import com.example.talesofcaelumora.data.AppRepository
-import com.example.talesofcaelumora.data.OFFSET_1900_TO_1970
 import com.example.talesofcaelumora.data.datamodel.Battle
 import com.example.talesofcaelumora.data.datamodel.Card
+import com.example.talesofcaelumora.data.datamodel.ChatItem
 import com.example.talesofcaelumora.data.datamodel.GameState
 import com.example.talesofcaelumora.data.datamodel.Player
-import com.example.talesofcaelumora.data.datamodel.PlayerLocal
-import com.example.talesofcaelumora.data.datamodel.convertPlayerLocalToPlayer
 import com.example.talesofcaelumora.data.remote.DateTimeApiService
 import com.example.talesofcaelumora.data.remote.GameDataFirebaseService
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +21,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import okhttp3.Dispatcher
+import kotlinx.coroutines.withContext
 import org.apache.commons.net.ntp.NTPUDPClient
 import java.net.InetAddress
 import java.time.Duration
@@ -30,8 +29,6 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneOffset
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
 
 class MainViewModel(application: Application): AndroidViewModel(application) {
 
@@ -41,7 +38,6 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     val dateTime = repo.dateTime
     val cardLibrary = repo.cardLibrary
 
-
     private var job: Job? = null
 
     val gameState: LiveData<GameState>
@@ -50,6 +46,9 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     val player : LiveData<Player>
         get() = repo.player
+
+    val battles: LiveData<List<Battle>>
+        get() = repo.battles
 
     private val _countdownText = MutableLiveData<String>()
     val countdownText: LiveData<String> get() = _countdownText
@@ -87,6 +86,12 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         SUCCESS,
         ERROR
     }
+
+
+    //Chat
+    val chatMessages: LiveData<List<ChatItem>>
+        get() = repo.chat
+    var chatSize = 0
 
     init {
         // Ladevorgang für DateTime starten
@@ -170,6 +175,16 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
             repo.getPlayer(player.uid)
         }
     }
+
+    fun addBattle(uid: String){
+        viewModelScope.launch{
+            val playerUpdate = player.value
+            if(!playerUpdate!!.battles.contains(uid)&&uid!="")playerUpdate!!.battles.add(uid)
+            repo.upsertFirebasePlayer(playerUpdate)
+            Log.d("MainViewModel", "Battles aktualisiert")
+            repo.getPlayer(playerUpdate.uid)
+        }
+    }
     fun setVolume(){
         //diese Funktion braucht nur einmal beim schließen der App aufgerufen werden, da
         //sich die App im Normalfall der Globals bedient, die im SplashScreen auf entsprechende Werte
@@ -214,17 +229,18 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
             }else _countdownText.postValue(getApplication<Application>().getString(R.string.now_available))
         }
     }
-    fun getNetworkTime(): LocalDateTime {
-
-        val timeServerAddress = InetAddress.getByName("time.google.com")
-        val client = NTPUDPClient()
-        client.defaultTimeout = 1000
-        val timeInMillisSince1900 = client.getTime(timeServerAddress).returnTime
-        //EpochMilli zählt von 1970
-        return LocalDateTime.ofInstant(
-            Instant.ofEpochMilli(timeInMillisSince1900),
-            ZoneOffset.UTC
-        )
+    suspend fun getNetworkTime(): LocalDateTime {
+        return withContext(Dispatchers.IO) {
+            val timeServerAddress = InetAddress.getByName("time.google.com")
+            val client = NTPUDPClient()
+            client.defaultTimeout = 1000
+            val timeInMillisSince1900 = client.getTime(timeServerAddress).returnTime
+            //EpochMilli zählt von 1970
+            LocalDateTime.ofInstant(
+                Instant.ofEpochMilli(timeInMillisSince1900),
+                ZoneOffset.UTC
+            )
+        }
     }
     fun setNewLastCard(){
         viewModelScope.launch(Dispatchers.IO) {
@@ -358,10 +374,14 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         var cardList = cardLibrary.value!!
         if(random==3) cardList = cardList.filter { it.cardType=="Hero" }
         else cardList = cardList.filter { it.cardType=="Supporter" }
+        Log.d("MainViewModel", random.toString() + cardList.toString())
         random = (1..10).random()
         if(random==10) cardList = cardList.filter { it.rarity=="ultra rare" }
         else cardList = cardList.filter { it.rarity=="rare" }
+        Log.d("MainViewModel", random.toString() + cardList.toString())
         val card = cardList.random().toCard()
+        Log.d("MainViewModel", random.toString() + cardList.toString())
+        Log.d("MainViewModel", card.toString())
         newCards.add(card)
         val newPlayer = player.value!!
         newPlayer.balance -= costs
@@ -375,7 +395,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         getFreeCards(4, player.value!!.balance-costs)
         viewModelScope.launch {
             //um sicher zu stellen das die upsertMethode von getFreeCards abgeschlossen ist
-            delay(1500)
+            delay(1000)
             addRandomRareOrUltraRare()
         }
     }
@@ -409,6 +429,40 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         }
         addCards(list)
         addRandomHero(0, type)
+    }
+    fun sendChatMessageToGlobalChat(messageText: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            val message = ChatItem(messageText, player.value!!, getNetworkTime(), getApplication<Application>().getString(R.string.language))
+            repo.sendMessageToGlobalChat(message)
+        }
+    }
+    fun observeChat(language: String){
+        viewModelScope.launch {
+            repo.observeChat(language)
+        }
+    }
+
+    fun observeBattles(context: Context){
+        viewModelScope.launch {
+            repo.getBattles(context)
+        }
+    }
+    fun setLastChatSize(){
+        chatSize = chatMessages.value?.size ?: 0
+    }
+    fun pushBattle(battle: Battle, context: Context){
+        viewModelScope.launch {
+            repo.upsertBattle(battle)
+            Log.d("MainViewModel", "batleId = ${battle.id}")
+            addBattle(battle.id)
+            delay(1000)
+            observeBattles(context)
+        }
+    }
+    fun getMultiBattle(context: Context){
+        viewModelScope.launch {
+            _currentBattle.value = repo.getMultibattle(context)
+        }
     }
 
 }

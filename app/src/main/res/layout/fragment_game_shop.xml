@@ -206,16 +206,18 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:fontFamily="@font/aclonica"
-                        android:text="120"
+                        android:text="4.99"
                         android:textColor="@color/black"
                         android:textSize="24sp" />
 
-                    <ImageView
+                    <TextView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:layout_gravity="center_vertical"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/diamond" />
+                        android:textAlignment="center"
+                        android:text="€"
+                        android:fontFamily="@font/aclonica"
+                        android:textColor="@color/black"
+                        android:textSize="24sp"/>
                 </LinearLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -321,16 +323,18 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:fontFamily="@font/aclonica"
-                        android:text="450"
+                        android:text="14.99"
                         android:textColor="@color/black"
                         android:textSize="24sp" />
 
-                    <ImageView
+                    <TextView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:layout_gravity="center_vertical"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/diamond" />
+                        android:textAlignment="center"
+                        android:text="€"
+                        android:fontFamily="@font/aclonica"
+                        android:textColor="@color/black"
+                        android:textSize="24sp"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -444,25 +448,25 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/txt_normal_booster_contain_info"
-                    app:layout_constraintTop_toBottomOf="@id/txt_normal_booster_contain_info">
+                    >
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:fontFamily="@font/aclonica"
-                        android:text="450"
+                        android:text="3.99"
                         android:textColor="@color/black"
                         android:textSize="24sp" />
 
-                    <ImageView
+                    <TextView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:layout_gravity="center_vertical"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/diamond" />
+                        android:textAlignment="center"
+                        android:text="€"
+                        android:fontFamily="@font/aclonica"
+                        android:textColor="@color/black"
+                        android:textSize="24sp"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -697,25 +701,25 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/txt_normal_booster_contain_info"
-                    app:layout_constraintTop_toBottomOf="@id/txt_normal_booster_contain_info">
+                    >
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:fontFamily="@font/aclonica"
-                        android:text="450"
+                        android:text="2.99"
                         android:textColor="@color/black"
                         android:textSize="24sp" />
 
-                    <ImageView
+                    <TextView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:layout_gravity="center_vertical"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/diamond" />
+                        android:textAlignment="center"
+                        android:text="€"
+                        android:fontFamily="@font/aclonica"
+                        android:textColor="@color/black"
+                        android:textSize="24sp"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -752,7 +756,7 @@
             android:layout_marginEnd="2dp"
             android:layout_weight="1"
             android:background="@drawable/card_air_hero"
-            android:backgroundTint="#dddddddd">
+            android:backgroundTint="@color/register_selected">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -768,6 +772,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/txtBooster"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -788,7 +793,7 @@
             android:layout_marginEnd="2dp"
             android:layout_weight="1"
             android:background="@drawable/card_air_hero"
-            android:backgroundTint="#99dddddd">
+            android:backgroundTint="@color/register_disselected">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -804,6 +809,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/txtSingleCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -840,6 +846,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/txtOthers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"

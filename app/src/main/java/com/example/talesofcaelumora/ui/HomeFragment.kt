@@ -1,9 +1,7 @@
 package com.example.talesofcaelumora.ui
 
 import android.app.AlertDialog
-import android.media.MediaPlayer
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,29 +10,21 @@ import android.widget.SeekBar
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.talesofcaelumora.R
-import com.example.talesofcaelumora.data.OFFSET_1900_TO_1970
 import com.example.talesofcaelumora.data.musicVolume
 import com.example.talesofcaelumora.data.utils.SoundManager
 import com.example.talesofcaelumora.data.vfxVolume
 import com.example.talesofcaelumora.databinding.FragmentHomeBinding
 import com.example.talesofcaelumora.ui.viewmodel.MainViewModel
-import com.google.android.material.shape.CornerFamily
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.apache.commons.net.ntp.NTPUDPClient
-import java.net.InetAddress
-import java.time.Instant
-import java.time.LocalDateTime
 import java.time.LocalTime
-import java.time.ZoneOffset
-import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 
 class HomeFragment : Fragment() {
@@ -86,6 +76,7 @@ class HomeFragment : Fragment() {
         bnd.imgBgNigth.isVisible = night
         bnd.imgBgNigthForeground.isVisible = night
         vm.startCountdown()
+        if(vm.chatMessages.value.isNullOrEmpty())vm.observeChat(requireContext().getString(R.string.language))
         vm.countdownText.observe(viewLifecycleOwner){
             bnd.txtFreeCardCounter.text = it
             bnd.txtFreeCardCounterShadow.text = it
@@ -101,6 +92,18 @@ class HomeFragment : Fragment() {
                 bnd.imgFreeCardLayer.isVisible = true
             }
         }
+        vm.battles.observe(viewLifecycleOwner){
+            if(it.isNotEmpty()){
+                var battlesToPlay = it.filter { battle -> battle.playerOne == vm.player.value!!.uid }.size
+                if(battlesToPlay>0){
+                    bnd.newIndicatorBattle.text = battlesToPlay.toString()
+                    bnd.newIndicatorBattle.isVisible = true
+                }else bnd.newIndicatorBattle.isVisible = false
+            }
+        }
+
+
+
 
         if (night) startTurning(bnd.imgBgNigth) else startTurning(bnd.imgBg)
         val theme = R.raw.main_theme
@@ -152,21 +155,35 @@ class HomeFragment : Fragment() {
         }
         bnd.btnGame.setOnClickListener {
             soundManager.playSound(R.raw.button_click)
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToBattleFragment())
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToBattleListFragment())
         }
         bnd.btnLogout.setOnClickListener {
             Firebase.auth.signOut()
             soundManager.playSound(R.raw.button_click)
+            viewModelStore.clear()
             findNavController().navigate(R.id.loginFragment)
         }
         bnd.btnLibrary.setOnClickListener {
             soundManager.playSound(R.raw.button_click)
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProfilFragment())
         }
 
         bnd.btnMarketplace.setOnClickListener {
             bnd.newIndicatorMarketplace.isVisible = false
             bnd.clMarketplace.isVisible = !bnd.clMarketplace.isVisible
             bnd.clSettings.isGone = true
+        }
+
+        bnd.btnChat.setOnClickListener {
+            soundManager.playSound(R.raw.button_click)
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToGlobalChatFragment())
+        }
+
+        vm.chatMessages.observe(viewLifecycleOwner){
+            if(it.size-vm.chatSize!=0){
+                bnd.newIndicatorChat.text = (it.size-vm.chatSize).toString()
+                bnd.newIndicatorChat.isVisible = true
+            }else bnd.newIndicatorChat.isVisible = false
         }
 
         //OnClick Listener für freeCardsChip wird im observer des StartCountdowns gesetzt

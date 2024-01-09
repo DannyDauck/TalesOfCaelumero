@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    >
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/temple_of_waterbenders"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/img_select_layer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:background="#88888888"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/img_char"
+        android:layout_width="150dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:rotationY="180"
+        android:scaleType="centerCrop"
+        android:src="@drawable/male_character_water"
+        android:translationX="-60dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/img_char_flip"
+        android:layout_width="150dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/male_character_water"
+        android:translationX="60dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/txt_player_name_shadow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="14dp"
+        android:fontFamily="@font/aclonica"
+        android:text="Name"
+        android:textColor="@color/black"
+        android:textSize="24dp"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toEndOf="@id/img_char"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/img_char_flip"/>
+
+    <com.example.talesofcaelumora.data.utils.GradientText
+        android:id="@+id/txt_player_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/aclonica"
+        android:text="Name"
+        android:textAlignment="textEnd"
+        android:textColor="@color/white"
+        android:textSize="24dp"
+        app:endColor="@color/white"
+        app:layout_constraintStart_toEndOf="@id/img_char"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/img_char_flip"
+        app:middleColor="@color/smooth_gold"
+        app:startColor="@color/white" />
+
+    <TextView
+        android:id="@+id/txt_player_title_shadow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="14dp"
+        android:fontFamily="@font/aclonica"
+        android:text="Title"
+        android:textAlignment="textEnd"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        app:layout_constraintStart_toEndOf="@id/img_char"
+        app:layout_constraintTop_toBottomOf="@id/txt_player_name"
+        app:layout_constraintEnd_toStartOf="@id/img_char_flip"/>
+
+    <TextView
+        android:id="@+id/txt_player_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/aclonica"
+        android:text="Title"
+        android:textAlignment="textEnd"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        app:layout_constraintStart_toEndOf="@id/img_char"
+        app:layout_constraintTop_toBottomOf="@id/txt_player_name"
+        app:layout_constraintEnd_toStartOf="@id/img_char_flip"/>
+
+    <TextView
+        android:id="@+id/txt_player_level_shadow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="14dp"
+        android:fontFamily="@font/aclonica"
+        android:text="Level"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toEndOf="@id/img_char"
+        app:layout_constraintTop_toBottomOf="@id/txt_player_title"
+        app:layout_constraintEnd_toStartOf="@id/img_char_flip"/>
+
+    <TextView
+        android:id="@+id/txt_player_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/aclonica"
+        android:text="Level"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toEndOf="@id/img_char"
+        app:layout_constraintTop_toBottomOf="@id/txt_player_title"
+        app:layout_constraintEnd_toStartOf="@id/img_char_flip"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginBottom="2dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

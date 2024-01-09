@@ -8,7 +8,6 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +17,7 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.TranslateAnimation
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -25,13 +25,11 @@ import com.example.talesofcaelumora.R
 import com.example.talesofcaelumora.adapter.CardAdapter
 import com.example.talesofcaelumora.data.datamodel.Battle
 import com.example.talesofcaelumora.data.datamodel.Card
-import com.example.talesofcaelumora.ui.viewmodel.MainViewModel
-import com.example.talesofcaelumora.data.datamodel.battlefields
-import com.example.talesofcaelumora.data.datamodel.examplePlayerDanny
-import com.example.talesofcaelumora.data.datamodel.examplePlayerElara
+import com.example.talesofcaelumora.data.datamodel.flipBattle
 import com.example.talesofcaelumora.data.utils.BattleCallback
 import com.example.talesofcaelumora.data.utils.SoundManager
 import com.example.talesofcaelumora.databinding.FragmentBattleBinding
+import com.example.talesofcaelumora.ui.viewmodel.MainViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
@@ -60,7 +58,7 @@ class BattleFragment : Fragment(), BattleCallback {
         super.onCreate(savedInstanceState)
         arguments?.let {
             //Battle Id beim eröffnen des Battles abfragen
-            battleId = it.getString("battle").toString()
+            battleId = it.getString("battleId").toString()
         }
 
     }
@@ -179,18 +177,11 @@ class BattleFragment : Fragment(), BattleCallback {
         //<editor-fold desc="First settings when start">
         if (viewModel.cardLibrary.value != null && viewModel.cardLibrary.value!!.isNotEmpty()) {
             Log.d("BattleFragment", viewModel.cardLibrary.value.toString())
-            viewModel.getDateTime()
-            exampleBattle = Battle(
-                examplePlayerDanny,
-                examplePlayerElara,
-                battlefields.random(),
-                viewModel.dateTime.value!!.datetime.substring(0,16),
-                requireContext(),
-                viewModel.cardLibrary.value!!
+            if(battleId!="multibattle"){
+                exampleBattle = viewModel.battles.value!!.filter { it.id == battleId }.first()
+            }else exampleBattle = viewModel.currentBattle.value!!
 
-            )
 
-            setUpExampleBattle()
 
             viewModel.currentCard.observe(viewLifecycleOwner) {
                 if (it != null) {
@@ -272,6 +263,7 @@ class BattleFragment : Fragment(), BattleCallback {
         bnd.rvHorizontal.adapter = rvHorizontal
         bnd.rvSingleCard.adapter = rvSingle
 
+        exampleBattle.setBattleCallback(this)
         exampleBattle.setUpBattleField(bnd)
 
 
@@ -326,7 +318,7 @@ class BattleFragment : Fragment(), BattleCallback {
             if (bnd.clBattleground.rotation == 0f && bnd.txtGridRecyclerHeader.text != "Wähle einen Gegner" && bnd.txtGridRecyclerHeader.text != "Wähle ein Gegner" && bnd.txtGridRecyclerHeader.text != "Friedhof") {
                 //Hero
                 if (viewModel.currentCard.value!!.cardType == "Hero") {
-                    if (exampleBattle.round < 2) {
+                    if (exampleBattle.round > 2) {
                         if (!viewModel.currentCard.value!!.used) {
                             if (checkAbilityCosts()) {
                                 doAction = true
@@ -377,7 +369,11 @@ class BattleFragment : Fragment(), BattleCallback {
         //</editor-fold>
 
         //<editor-fold desc="Media Player">
-        val battlefield = viewModel.currentBattle.value!!.battlefield
+        val battlefield = exampleBattle.battlefield
+        exampleBattle.setBattleCallback(this)
+        viewModel.setCurrentBattle(exampleBattle)
+        updateUI()
+        updateLifebars()
 
         //Backgroundmusic
         soundManager.startRadio(battlefield.music)
@@ -527,6 +523,13 @@ class BattleFragment : Fragment(), BattleCallback {
         }
         //</editor-fold>
 
+        bnd.btnEndRound.setOnClickListener {
+            exampleBattle.flipBattle()
+            updateUI()
+            updateLifebars()
+            viewModel.pushBattle(exampleBattle, requireContext())
+            findNavController().navigate(BattleFragmentDirections.actionBattleFragmentToHomeFragment())
+        }
         startMarqueeText()
 
     }
@@ -695,22 +698,27 @@ class BattleFragment : Fragment(), BattleCallback {
     }
 
     fun getPlayerHand() {
-        exampleBattle.playerOneStack.shuffle()
-        lifecycleScope.launch {
-            repeat(5 - exampleBattle.playerOneHand.size) {
+        if(exampleBattle.round<2){
+            exampleBattle.playerOneStack.shuffle()
+            lifecycleScope.launch {
+                repeat(5 - exampleBattle.playerOneHand.size) {
 
-                delay(1000)
-                exampleBattle.getCard(exampleBattle.playerOneStack, exampleBattle.playerOneHand)
-                rvHorizontal.update(exampleBattle.playerOneHand)
-                soundManager.playSound(R.raw.card_flip)
-                rvHorizontal.startAnimation(
-                    listOf(exampleBattle.playerOneHand.last()),
-                    resources.displayMetrics.density
-                )
+                    delay(1000)
+                    Log.d("Battle", "Stack = " + exampleBattle.playerOneStack.toString())
+                    Log.d("Battle", "Hand = " + exampleBattle.playerOneHand.toString())
+                    exampleBattle.getCard(exampleBattle.playerOneStack, exampleBattle.playerOneHand ?: mutableListOf<Card>())
+                    rvHorizontal.update(exampleBattle.playerOneHand)
+                    soundManager.playSound(R.raw.card_flip)
+                    rvHorizontal.startAnimation(
+                        listOf(exampleBattle.playerOneHand.last()),
+                        resources.displayMetrics.density
+                    )
+                }
+                delay(2000)
+                if (exampleBattle.round < 2) checkFirstPlayerHandForHeroes()
             }
-            delay(2000)
-            if (exampleBattle.round < 2) checkFirstPlayerHandForHeroes()
         }
+
     }
 
     fun checkFirstPlayerHandForHeroes() {

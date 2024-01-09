@@ -30,6 +30,7 @@ import com.google.android.material.shape.CornerFamily
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.net.InetAddress
@@ -197,6 +198,7 @@ class InitialDeckChooseFragment : Fragment() {
                             gameState.achievements =
                                 gameState.achievements.plus(getString(R.string.first_day_in_Caelumero))
                             viewModel.upsertGameState(gameState)
+
                             var player = Player(
                                 firebaseAuth.currentUser!!.uid,
                                 name,
@@ -210,7 +212,7 @@ class InitialDeckChooseFragment : Fragment() {
                                 },
                                 listOf("Rooky"),
                                 "Rooky",
-                                getNetworkTime().toString(),
+                                "2023-12-01T16:27:38.044",
                                 150,
                                 0,
                                 when (string) {
@@ -228,13 +230,15 @@ class InitialDeckChooseFragment : Fragment() {
                             )
                             viewModel.upsertPlayer(player)
                             viewModel.upsertFirebasePLayer(player)
-                            findNavController().navigate(InitialDeckChooseFragmentDirections.actionInitilaDeckChooseFragmentToHomeFragment())
+                            lifecycleScope.launch {
+                                delay(1000)
+                                viewModel.getPlayer(firebaseAuth.currentUser!!.uid)
+                                delay(2000)
+                                findNavController().navigate(InitialDeckChooseFragmentDirections.actionInitilaDeckChooseFragmentToHomeFragment())
+                            }
 
                         }
-
                     }
-
-
                 }
             }
         }
@@ -315,22 +319,7 @@ class InitialDeckChooseFragment : Fragment() {
                 }
             }
             handler.postDelayed(runnable, 100)
-
-
         }
     }
-
-    fun getNetworkTime(): LocalDateTime {
-        val timeServerAddress = InetAddress.getByName("time.google.com")
-        val client = NTPUDPClient()
-        client.defaultTimeout = 1000
-        val timeInMillisSince1900 = client.getTime(timeServerAddress).returnTime
-        //EpochMilli zählt von 1970 und getTime von 1900, deshalb die Rechnung.
-        return LocalDateTime.ofInstant(
-            Instant.ofEpochMilli(timeInMillisSince1900 - OFFSET_1900_TO_1970),
-            ZoneOffset.UTC
-        )
-    }
-
 
 }

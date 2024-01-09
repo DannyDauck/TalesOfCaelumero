@@ -2,34 +2,20 @@ package com.example.talesofcaelumora
 
 
 import android.Manifest
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.TaskStackBuilder
-import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import androidx.lifecycle.lifecycleScope
-import com.example.talesofcaelumora.data.AppRepository
+import androidx.core.view.ViewCompat
 import com.example.talesofcaelumora.data.datamodel.AlarmItem
-import com.example.talesofcaelumora.data.datamodel.GameState
 import com.example.talesofcaelumora.data.local.GameStateDatabase
+import com.example.talesofcaelumora.data.utils.InsetsWithKeyboardCallback
 import com.example.talesofcaelumora.data.utils.NotificationAlarmScheduler
 import com.example.talesofcaelumora.data.utils.SoundManager
-import com.example.talesofcaelumora.ui.viewmodel.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
 
@@ -48,6 +34,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         scheduler = NotificationAlarmScheduler(this)
+
+        val root = findViewById<ConstraintLayout>(R.id.content_id)
+
+        val insetsWithKeyboardCallback = InsetsWithKeyboardCallback(window)
+        ViewCompat.setOnApplyWindowInsetsListener(root, insetsWithKeyboardCallback)
+
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.POST_NOTIFICATIONS

@@ -4,7 +4,9 @@ import android.content.Context
 import android.graphics.LinearGradient
 import android.graphics.Shader
 import android.util.AttributeSet
+import androidx.annotation.ColorRes
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import com.example.talesofcaelumora.R
 
 class GradientText : AppCompatTextView {
@@ -49,5 +51,30 @@ class GradientText : AppCompatTextView {
             ), null, Shader.TileMode.CLAMP
         )
         paint.shader = textShader
+    }
+
+    fun setGradientColors(@ColorRes startColorRes: Int, @ColorRes middleColorRes: Int, @ColorRes endColorRes: Int) {
+
+        val startColor = ContextCompat.getColor(context, startColorRes)
+        val middleColor = ContextCompat.getColor(context, middleColorRes)
+        val endColor = ContextCompat.getColor(context, endColorRes)
+
+        this.startColor = startColor
+        this.middleColor = middleColor
+        this.endColor = endColor
+
+        updateGradient()
+    }
+
+    private fun updateGradient() {
+        val textShader: Shader = LinearGradient(
+            0f, 0f, paint.measureText(text.toString()), textSize, intArrayOf(
+                startColor,
+                middleColor,
+                endColor
+            ), null, Shader.TileMode.CLAMP
+        )
+        paint.shader = textShader
+        invalidate()
     }
 }

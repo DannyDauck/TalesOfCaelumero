@@ -4,6 +4,7 @@ import android.media.MediaPlayer
 import com.example.talesofcaelumora.R
 
 //media player values
+var chatScrollSpeed = 0.02f
 var musicVolume = 0.8f
 var vfxVolume = 1f
 val songList = listOf(R.raw.main_theme, R.raw.forest_battle, R.raw.watertheme, R.raw.fire_theme)

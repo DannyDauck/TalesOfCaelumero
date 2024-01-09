@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.navigation.findNavController
@@ -14,8 +15,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.talesofcaelumora.R
 import com.example.talesofcaelumora.data.datamodel.Battle
-import com.example.talesofcaelumora.data.datamodel.Card
 import com.example.talesofcaelumora.databinding.BattleItemBinding
+import com.example.talesofcaelumora.ui.BattleListFragmentDirections
 import java.io.File
 import java.time.Duration
 import java.time.LocalDateTime
@@ -25,7 +26,7 @@ class BattleAdapter(
     private var data: List<Battle>,
     private var playerUID: String,
     private val context: Context,
-    private val initTime: LocalDateTime,
+    private var initTime: LocalDateTime,
 ) :
     RecyclerView.Adapter<BattleAdapter.BattleViewHolder>() {
 
@@ -96,6 +97,7 @@ class BattleAdapter(
 
                     val countdownText = String.format("%02d:%02d:%02d", hours, minutes, seconds)
                     holder.bnd.txtBattleCounter.text = countdownText
+                    holder.bnd.txtBattleCounterShadow.text = countdownText
                 }
 
                 override fun onFinish() {
@@ -114,7 +116,9 @@ class BattleAdapter(
             countDownTimer.start()
         }
         holder.bnd.root.setOnClickListener{
-            //holder.itemView.findNavController().navigate()
+            if(battle.playerOne==playerUID)
+            holder.itemView.findNavController().navigate(BattleListFragmentDirections.actionBattleListFragmentToBattleFragment(battle.id))
+            else Toast.makeText(context, "Wait until your oppenent has finished his turn", Toast.LENGTH_SHORT).show()
         }
 
 
@@ -125,8 +129,19 @@ class BattleAdapter(
     }
 
     private fun parseDateTime(dateTimeString: String): LocalDateTime {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-        return LocalDateTime.parse(dateTimeString, formatter)
+        //um keinen Fehler zu verursachen wenn statt NTPS eine LocalDateTime übergeben wird
+        val date = dateTimeString.replace("T", " ")
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd' 'HH:mm:ss.SSS")
+        return LocalDateTime.parse(date, formatter)
+    }
+
+    fun update(list: List<Battle>){
+        data = list
+        notifyDataSetChanged()
+    }
+    fun setTime(newTime: String){
+        initTime = parseDateTime(newTime)
+        notifyDataSetChanged()
     }
 
 }

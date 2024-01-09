@@ -1,10 +1,13 @@
 package com.example.talesofcaelumora.data
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.talesofcaelumora.data.datamodel.Battle
 import com.example.talesofcaelumora.data.datamodel.Card
+import com.example.talesofcaelumora.data.datamodel.ChatItem
 import com.example.talesofcaelumora.data.datamodel.GameState
 import com.example.talesofcaelumora.data.datamodel.Player
 import com.example.talesofcaelumora.data.datamodel.PlayerLocal
@@ -14,8 +17,6 @@ import com.example.talesofcaelumora.data.local.GameStateDatabase
 import com.example.talesofcaelumora.data.remote.DateTimeApiService
 import com.example.talesofcaelumora.data.remote.GameDataFirebaseService
 import kotlinx.coroutines.delay
-import java.lang.Exception
-import java.time.LocalDateTime
 
 const val TAG = "Repro"
 
@@ -49,6 +50,13 @@ class AppRepository(
     private val _cardLoadingProgress = MutableLiveData<List<Int>>(listOf(gameDataFirebaseService.loaded,gameDataFirebaseService.progress))
     val cardLoadingProgress: LiveData<List<Int>>
         get() = _cardLoadingProgress
+
+    val chat: LiveData<List<ChatItem>>
+        get() = gameDataFirebaseService.chat
+
+    val battles: LiveData<List<Battle>>
+        get() = gameDataFirebaseService.battles
+
 
     //TODO Löschen nach Präsentation
     suspend fun getDateTime(){
@@ -109,5 +117,21 @@ class AppRepository(
     suspend fun setSoundmangerVolume(){
         _gameState.value!!.musicVolume = musicVolume
         _gameState.value!!.vfxVolume = vfxVolume
+    }
+    suspend fun sendMessageToGlobalChat(message: ChatItem){
+        gameDataFirebaseService.sendMessageInGlobalChat(message)
+    }
+    suspend fun observeChat(language: String){
+        gameDataFirebaseService.observeChat(language)
+    }
+
+    suspend fun getBattles(context: Context){
+        gameDataFirebaseService.getBattles(player.value!!.uid, context)
+    }
+    suspend fun upsertBattle(battle: Battle){
+        gameDataFirebaseService.pushBattle(battle)
+    }
+    suspend fun getMultibattle(context: Context): Battle?{
+        return gameDataFirebaseService.getMultiBattle(context)
     }
 }

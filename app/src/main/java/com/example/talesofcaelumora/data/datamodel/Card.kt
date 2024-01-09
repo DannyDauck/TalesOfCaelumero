@@ -1,8 +1,5 @@
 package com.example.talesofcaelumora.data.datamodel
 
-import com.example.talesofcaelumora.R
-import com.google.firebase.firestore.PropertyName
-
 //muss eine data class sein weil ansonsten die copy Funktion des GameDataApiService
 //nicht funktioniert, die automatisch die FirestoreId zuweist
 
@@ -35,6 +32,7 @@ data class Card(
 ) {
 
     constructor(map: Map<String, Any>) : this(
+
         id = map["id"] as String,
         cardName = map["card_name"] as String,
         cardType = map["card_type"] as String,
@@ -63,6 +61,37 @@ data class Card(
         used = false,
     )
 
+    constructor(map: Map<String, Any>,fromFirebase: Boolean) : this(
+
+        id = map["id"] as String,
+        cardName = map["cardName"] as String,
+        cardType = map["cardType"] as String,
+        rarity = map["rarity"] as String,
+        releaseDate = map["releaseDate"] as String,
+
+        type = map["type"] as String,
+        imgSrc = map["imgSrc"] as String,
+        hp = (map["hp"] as Long).toInt(),
+
+        firstAbilityName = map["firstAbilityName"] as String,
+        firstAbilityType = map["firstAbilityType"] as String,
+        firstAbilityPoints = (map["firstAbilityPoints"] as Long).toInt(),
+        firstAbilityCosts = (map["firstAbilityCosts"] as List<*>).map { it as String },
+        firstAbilityDescription = map["firstAbilityDescription"] as String,
+
+        secAbilityName = map["secAbilityName"] as String,
+        secAbilityType = map["secAbilityType"] as String,
+        secAbilityPoints = (map["secAbilityPoints"] as Long).toInt(),
+        secAbilityCosts = (map["secAbilityCosts"] as List<*>).map { it as String },
+        secAbilityDescription = map["secAbilityDescription"] as String,
+
+        selected = false,
+        currentHp = (map["currentHp"] as Long).toInt(),
+        protected = false,
+        used = false,
+    )
+
+
     fun toCard(): Card {
         // Create a new instance of Card and copy all properties
         return Card(
@@ -90,33 +119,36 @@ data class Card(
             used = this.used
         )
     }
-        fun flipAbility(): Card {
-            return Card(
-                id = this.id,
-                cardName = this.cardName,
-                cardType = this.cardType,
-                rarity = this.rarity,
-                releaseDate = this.releaseDate,
-                type = this.type,
-                imgSrc = this.imgSrc,
-                hp = this.hp,
-                firstAbilityName = this.secAbilityName,
-                firstAbilityType = this.secAbilityType,
-                firstAbilityPoints = this.secAbilityPoints,
-                firstAbilityCosts = this.secAbilityCosts.toList(),
-                firstAbilityDescription = this.secAbilityDescription,
-                secAbilityName = this.firstAbilityName,
-                secAbilityType = this.firstAbilityType,
-                secAbilityPoints = this.firstAbilityPoints,
-                secAbilityCosts = this.firstAbilityCosts.toList(),
-                secAbilityDescription = this.firstAbilityDescription,
-                selected = this.selected,
-                currentHp = this.currentHp,
-                protected = this.protected,
-                used = this.used
-            )
+
+    fun flipAbility(): Card {
+        return Card(
+            id = this.id,
+            cardName = this.cardName,
+            cardType = this.cardType,
+            rarity = this.rarity,
+            releaseDate = this.releaseDate,
+            type = this.type,
+            imgSrc = this.imgSrc,
+            hp = this.hp,
+            firstAbilityName = this.secAbilityName,
+            firstAbilityType = this.secAbilityType,
+            firstAbilityPoints = this.secAbilityPoints,
+            firstAbilityCosts = this.secAbilityCosts.toList(),
+            firstAbilityDescription = this.secAbilityDescription,
+            secAbilityName = this.firstAbilityName,
+            secAbilityType = this.firstAbilityType,
+            secAbilityPoints = this.firstAbilityPoints,
+            secAbilityCosts = this.firstAbilityCosts.toList(),
+            secAbilityDescription = this.firstAbilityDescription,
+            selected = this.selected,
+            currentHp = this.currentHp,
+            protected = this.protected,
+            used = this.used
+        )
 
     }
 }
+
+
 
 

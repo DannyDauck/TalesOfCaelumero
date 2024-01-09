@@ -23,4 +23,6 @@
     <color name="nothing">#00F0F0F0</color>
     <color name="middle_health">#FF9800</color>
     <color name="txt_diselected">#757575</color>
+    <color name="register_disselected">#99dddddd</color>
+    <color name="register_selected">#dddddddd</color>
 </resources>

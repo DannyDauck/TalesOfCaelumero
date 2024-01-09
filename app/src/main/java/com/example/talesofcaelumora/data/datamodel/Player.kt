@@ -2,7 +2,6 @@ package com.example.talesofcaelumora.data.datamodel
 
 import android.util.Log
 import com.example.talesofcaelumora.R
-import java.lang.Exception
 
 
 //<editor-fold desc="Initial decks">
@@ -189,6 +188,7 @@ class Player(
     ),
     var balance: Int = 0,
     var bagIncrease: Int = 0,
+    var battles: MutableList<String> = mutableListOf()
     ) {
 
     constructor(map: Map<String, Any>) : this(
@@ -209,7 +209,8 @@ class Player(
         maxDeckSize = (map["maxDeckSize"] as Long).toInt(),
         homeArena = Battlefield(map["homeArena"] as Map<String, Any>),
         balance = (map["balance"] as Long).toInt(),
-        bagIncrease = (map["bag_increase"] as Long).toInt()
+        bagIncrease = (map["bagIncrease"] as Long).toInt(),
+        battles = (map["battles"] as List<*>).map { it as String }.toMutableList()
     )
 
     fun returnDeck(library: List<Card>): MutableList<Card> {
@@ -250,20 +251,22 @@ fun convertPlayerLocalToPlayer(playerEntity: PlayerLocal): Player {
         maxBank = playerEntity.maxBank,
         maxDeckSize = playerEntity.maxDeckSize,
         homeArena = playerEntity.homeArena,
-        balance = playerEntity.balance
+        balance = playerEntity.balance,
+        bagIncrease = playerEntity.bagIncrease,
+        battles = playerEntity.battles
     )
 }
 
 
 var examplePlayerDanny = Player(
-    "ExamplePLayerDanny",
+    "multibattle",
     "Danny",
     1,
     R.drawable.male_character_water
 )
 
 var examplePlayerElara = Player(
-    "ExcamplePlayerElara",
+    "multibattle",
     "Elara",
     1,
     R.drawable.female_character_cutted

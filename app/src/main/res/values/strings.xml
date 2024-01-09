@@ -102,5 +102,16 @@
     <string name="increase_your_bag_s_size">Upgrade bag</string>
     <string name="increase_bag_size_info">Increase the capacity of your backpack by 20 cards (available 3 times)</string>
     <string name="max_reached">You\'ve reached the max level</string>
+    <string name="language">en</string>
+    <string name="at">at</string>
+    <string name="yesterday">yesterday</string>
+    <string name="you">you</string>
+    <string name="today">today</string>
+    <string name="message">Write a message ..</string>
+    <string name="profilsettings">Profil</string>
+    <string name="bag_size">Bag size</string>
+    <string name="deck_size">Deck size</string>
+    <string name="hero_bank_size">Hero bank size</string>
+    <string name="end_round">End round</string>
 
 </resources>

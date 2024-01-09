@@ -33,11 +33,11 @@
 
     <ImageView
         android:id="@+id/img_bg_nigth"
-        android:layout_width="750dp"
-        android:layout_height="780dp"
+        android:layout_width="880dp"
+        android:layout_height="880dp"
         android:scaleType="centerCrop"
         android:src="@drawable/clarice_bgl"
-        android:translationX="-105dp"
+        android:translationX="-160dp"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -45,11 +45,11 @@
 
     <ImageView
         android:id="@+id/img_bg_nigth_foreground"
-        android:layout_width="750dp"
-        android:layout_height="780dp"
+        android:layout_width="880dp"
+        android:layout_height="880dp"
         android:scaleType="centerCrop"
         android:src="@drawable/clarice_removebg_preview"
-        android:translationX="-105dp"
+        android:translationX="-160dp"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -64,7 +64,6 @@
         android:scaleType="centerCrop"
         android:src="@drawable/logo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -507,6 +506,15 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
+        android:id="@+id/btn_chat"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/outline_chat_24"
+        app:layout_constraintBottom_toTopOf="@+id/btn_marketplace"
+        app:layout_constraintEnd_toEndOf="@+id/btn_game" />
+
+    <ImageView
         android:id="@+id/btn_marketplace"
         android:layout_width="75dp"
         android:layout_height="75dp"
@@ -543,6 +551,24 @@
         android:src="@drawable/outline_videogame_asset_24"
         app:layout_constraintBottom_toTopOf="@+id/btn_setiings"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/new_indicator_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/card_fire_bg_rare"
+        android:fontFamily="@font/alfa_slab_one"
+        android:paddingStart="8dp"
+        android:paddingTop="2dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="2dp"
+        android:text="1"
+        android:textColor="@color/white"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="@+id/btn_chat"
+        app:layout_constraintTop_toTopOf="@+id/btn_chat" />
 
     <TextView
         android:id="@+id/new_indicator_marketplace"
