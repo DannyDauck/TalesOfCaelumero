@@ -1,9 +1,11 @@
+<p>
+<img src="img/img.png" alt=""/>
+</p>
+
 # Tales Of Caelumero
 ### Danny Dauck
 
-<p>
-<img src="img/img.jpeg" alt=""/>
-</p>
+
 <summary> <b> About </b> </summary>
 <br>
 Tales of Caelumero ist die Abschlussarbeit des Kotlin-Moduls meiner schulischen Ausbildung zum Junior Mobile Developer.
