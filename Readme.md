@@ -34,6 +34,12 @@ Einige Fragmente sind noch nicht fertig gestellt, wie z.B. das Fragment zum bear
   Sie wird vorallem im BattleFragment mehrfach verwendet.
 
   Weiter RecyclerViews stellen z.B. ein SpielerItem oder ein BattleItem dar.
+
+  <div>
+    <img src="img/battlefield.png" alt="" height=300/>
+    <img src="img/battlescreen.png" alt="" height=300/>
+    <img src="img/singlecard.png" alt="" height=300/>
+  </div>
   
 </details>
 
@@ -97,11 +103,15 @@ Belohnung InGame-Währung.
 
 <details>
   <summary><b> Besonderheiten der App</b></summary>
-  
+
   # InGame-Shop
 
   Der User hat im Spiel die Möglichkeit überschüssige Karten gegen InGame-Währung zu verkaufen und im InGame-Shop dafür spezielle Booster oder
   einzelne Karten zu kaufen
+  
+  <img src="img/ingameshop.png" alt="" height=300/>
+
+  
 
  # PlayStore-Shop
 
@@ -109,13 +119,19 @@ Belohnung InGame-Währung.
  integriert und funkltionieren auch, bis jetzt kostenlos.
  Das Billing-System ist noch nicht eingebunden, da die App noch nicht bei Google registriert ist und wird in zukunft auch eingestzt werden.
 
+<img src="img/playstoreshop.png" alt="" height=300/>
 
  # Anpassungsfähiger Hintergrund
 
  Der Hintergrund im HomeScreen und einigen anderen Fragmenten erzeugt durch 2 überlagernde Elemente einen 3D-Effekt, ähnlich wie bei einem
  Parallax-Turning-Screen.
 
- Er passt das Image je nach Zeit in der sich der User einlogged an
+ Er passt das Image je nach Zeit in der sich der User einlogged an.
+
+ <div>
+   <img src="img/homescreen.png" alt="" height=300/>
+   <img src="img/secondhomescreen.png" alt="" height=300/>
+ </div>
 
  # Global Chat
 
@@ -124,6 +140,7 @@ Belohnung InGame-Währung.
  In der Firebase-Datenbank wird immer die letzte geschriebene Nachricht gespeichert und lokal im Spiel hinzugefügt, wenn die Sprache
  mit der Sprache des Users übereinstimmt. Da es sich um einen globalen Chat handelt, ist auch immer nur letzte geschriebene Nachricht relevant.
 
+<img src="img/chatscreen.png" alt="" height=300/>
  
 </details>
 
@@ -135,7 +152,7 @@ Belohnung InGame-Währung.
   Alle im Spiel enthaltenen Songs sind von mir und meinem Bruder selbst.
 
   Sie wurden im HomeRecording mit CakeWalk aufgenommen und bearbeitet
-  
+
 </details>
 
 ---
