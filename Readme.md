@@ -1,9 +1,17 @@
-<p>
-<img src="img/img.png" alt=""/>
-</p>
+
 
 # Tales Of Caelumero
 ### Danny Dauck
+
+<p>
+  <div>
+    <img src="img/homescreen.png" alt="" height=300/>
+    <img src="img/secondhomescreen.png" alt="" height=300/>
+    <img src="img/battlefield.png" alt="" height=300/>
+    <img src="img/chatscreen.png" alt="" height=300/>
+    <img src="img/ingameshop.png" alt="" height=300/>
+  </div>
+</p>
 
 
 <summary> <b> About </b> </summary>
